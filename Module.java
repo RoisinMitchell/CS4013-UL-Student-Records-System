@@ -1,12 +1,17 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Module {
     String code;
     int credits;
     int qualityHours;
-    HashMap<String, Double> gradeBound; //What ever data structure we want??
+    HashMap<String, Double> gradeScale; //What ever data structure we want??
     public Module(FileReader e){
-     //   FileReader;
+        ArrayList<String> moduleDetails = e.getArrayList();
+        this.gradeScale = e.getGradeScale();
+        this.code = moduleDetails.get(0);
+        this.credits = Integer.parseInt(moduleDetails.get(1));
+        this.qualityHours = Integer.parseInt(moduleDetails.get(2));
     }
     public String getCode(){
         return " ";
@@ -21,15 +26,19 @@ public class Module {
         return credits;
     }
     public int getQualityHours(){
-        return 2;
+        return qualityHours;
     }
     public void setQualityHours(int qualityHours){
+        this.qualityHours = qualityHours; 
+    }
+    public HashMap<String, Double> getGradeScale(){
+        return gradeScale;
+    }
+    public void setGradeScale(HashMap<String,Double> gradeScale){
         
     }
-    public HashMap<String, Double> getGradeBound(){
-        return gradeBound;
-    }
-    public void setGradeBound(HashMap<String,Double> gradeBound){
-        
+    public String toString(){
+        String output = code + " " + credits + " " + qualityHours;
+        return output;
     }
 }
