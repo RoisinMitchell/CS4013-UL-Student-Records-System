@@ -24,13 +24,4 @@ public class Grade {
 
     public void convertGradeToSetQPV(String gradeSymbol){
     } 
-
-
-=======
-
-public class Grade {
-    private double QPV;
-    private String gradeSymbol; // A1, B2...
-
-
 }
