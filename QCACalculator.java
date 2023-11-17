@@ -5,4 +5,6 @@ public class QCACalculator {
     Can Calculate QCS (QPV * Credits)
     Can calculate QCA
      */
+
+     
 }
