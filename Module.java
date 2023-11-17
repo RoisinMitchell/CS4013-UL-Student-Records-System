@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Module {
-    String code;
-    String name;
-    int credits;
-    int qualityHours;
+    private String code;
+    private String name;
+    private int credits;
+    private int qualityHours;
     HashMap<String, Double> gradeScale; //What ever data structure we want??
     public Module(String code,String name,int credits,int qualityHours){
         this.code = code;
@@ -13,22 +13,22 @@ public class Module {
         this.credits = credits;
         this.qualityHours = qualityHours;
     }
-    public String getCode(){
+    public String getModuleCode(){
         return code;
     }
-    public void setCode(String code){
+    public void setModduleCode(String code){
         this.code= code;
     }
-    public void setName(String name){
+    public void setModuleName(String name){
         this.name = name;
     }
-    public String getName(){
+    public String getModuleName(){
         return name;
     }
-    public void setCredits(int credits){
+    public void setModuleCredits(int credits){
         this.credits = credits;
     }
-    public int getCredits(){
+    public int getModuleCredits(){
         return credits;
     }
     public int getQualityHours(){
