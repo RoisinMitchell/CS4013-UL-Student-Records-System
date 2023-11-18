@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Module {
@@ -29,6 +28,9 @@ public class Module {
         this.credits = credits;
     }
     public int getModuleCredits(){
+        return credits;
+    }
+    public int getModuleCreditsByCode(String code){
         return credits;
     }
     public int getQualityHours(){
