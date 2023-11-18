@@ -1,13 +1,30 @@
-
 import java.util.HashMap;
 
 public class Grade {
-    private double QPV; // 
-    private String gradeSymbol; // A1, B2...
+    private String studentID;
+    private String moduleCode;
+    private String courseCode;
+    private String grade;
+    
     private HashMap<String, Double> hashMapGrade;
 
+    public Grade(String studentID, String moduleCode, String courseCode, String grade){
+        this.studentID = studentID;
+        this.moduleCode = moduleCode;
+        this.courseCode = courseCode;
+        this.grade = grade;
+        hashMapGrade = getTheGradeTable();
+    }
 
-    public void getTheGradeTable(){
+    public String getGradeByID(String studentID){
+        return this.grade;
+    }
+
+    public String getModuleCodeByID(String studentID){
+        return this.moduleCode;
+    }
+
+    public HashMap<String, Double> getTheGradeTable(){
         hashMapGrade = new HashMap<String, Double>();
         hashMapGrade.put("A1", 4.00);
         hashMapGrade.put("A2", 3.60);
@@ -20,8 +37,20 @@ public class Grade {
         hashMapGrade.put("D1", 1.60);
         hashMapGrade.put("F", 0.00);
         hashMapGrade.put("NG", 0.00);
+        return hashMapGrade;
     }
 
-    public void convertGradeToSetQPV(String gradeSymbol){
+    public double getQPV(String gradeSymbol){
+        // return QPV, e.g. 4.00
+        double QPV = hashMapGrade.get(gradeSymbol);
+        return QPV;
     } 
+
+    public String getStudentID(){
+        return studentID;
+    }
+
+    public String toString(){
+        return this.studentID + "," + this.moduleCode + "," + this.courseCode + "," + this.grade;
+    }
 }

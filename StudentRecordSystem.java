@@ -1,5 +1,4 @@
 import java.io.*;
-import java.io.FileReader;
 import java.util.ArrayList;
 
 public class StudentRecordSystem{
@@ -7,6 +6,7 @@ public class StudentRecordSystem{
     private ArrayList<Module> modules; // Database of modules
     private ArrayList<Student> students; // Database of students
     private ArrayList<Course> courses; // Database of courses
+    private ArrayList<Grade> grades; // Database of grades
 
 
     public StudentRecordSystem(){
@@ -92,6 +92,30 @@ public class StudentRecordSystem{
         }
     }
 
+    /*
+    Initialises the database of grades stored in the csv
+    Grade data is read on one line comma separated (StudentID, moduleCode, CourseCode, grade)
+    e.g. 22334728, CS4013, LM051, A1
+     */
+    public void setGrades(String fileName) throws IOException {
+        ArrayList<String> gradesList = fileToArrayList(fileName);
+
+        // Iterating over the list of students
+        for(String studentGrades : gradesList) {
+            //Splitting the line of student data at every comma, stored in an array
+            String[] gradeDetails = studentGrades.split(",");
+
+            // Creating variables to be used when instantiate a Course object
+            String StudentID = gradeDetails[0].trim();
+            String moduleCode = gradeDetails[1].trim();
+            String courseCode = gradeDetails[2].trim();
+            String grade = gradeDetails[3].trim();
+
+            // Instantiating a Grade object and storing in array list
+            Grade gradeObj = new Grade(StudentID, moduleCode, courseCode, grade);
+            grades.add(gradeObj);
+        }
+    }
 
     // Method converts a csv file into an array list, where each line of the csv is at an index of the array list
     public ArrayList<String> fileToArrayList(String fileName) throws IOException {
@@ -120,6 +144,10 @@ public class StudentRecordSystem{
 
     public ArrayList<Course> getCourses(){
         return this.courses;
+    }
+
+    public ArrayList<Grade> getGrades(){
+        return this.grades;
     }
 
     public Module getModule(String moduleCode){
