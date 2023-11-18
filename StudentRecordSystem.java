@@ -9,12 +9,14 @@ public class StudentRecordSystem{
     private ArrayList<Module> modules; // Database of modules
     private ArrayList<Student> students; // Database of students
     private ArrayList<Course> courses; // Database of courses
+    private ArrayList<Grade> grades; // Database of grades
 
 
     public StudentRecordSystem(){
         modules = new ArrayList<Module>();
         students = new ArrayList<Student>();
         courses = new ArrayList<Course>();
+        grades = new ArrayList<Grade>();
     }
 
     /*
@@ -64,36 +66,54 @@ public class StudentRecordSystem{
     }
 
     /*
-    Initialises a database of courses stored in the csv
-    Course data is read on one line comma separated (Code, Name, DurationInYears, Credits, Module1, Module2, Module3...)
-    e.g. LM121, Computer Science, 4, 120, CS4004, CS4013, CS4141, ET4021, CS4023
+    Initialises a database of grades stored in the csv
+    grade data is read on one line comma separated (studentID, moduleCode, courseCode, grade)
+    e.g. 22334728, CS4013, LM051, A1
      */
     public void setCourses(String fileName) throws IOException{
-        ArrayList<String> courseList = fileToArrayList(fileName);
+        ArrayList<String> gradeList = fileToArrayList(fileName);
 
-        // Iterating over the lines of course data in the file
-        for(String courseLine : courseList){
+        // Iterating over the lines of grade data in the file
+        for(String gradeLine : gradeList){
             //Splitting the line of course data at every comma, stored in an array
-            String[] courseDetails = courseLine.split(",");
+            String[] gradeDetails = gradeLine.split(",");
 
             // Creating variables to be used when instantiate a Course object
-            String code = courseDetails[0].trim();
-            String name = courseDetails[1].trim();
-            int duration = Integer.parseInt(courseDetails[2].trim());
-            int credits = Integer.parseInt(courseDetails[3].trim());
+            String studentID = gradeDetails[0].trim();
+            String moduleCode = gradeDetails[1].trim();
+            String courseCode = gradeDetails[2].trim();
+            String grade = gradeDetails[3].trim();
 
-            ArrayList<Module> moduleList = new ArrayList<Module>();
-            // Iterating over the remaining data in the array courseDetails (all the module codes associated to the course)
-            for(int i = 4; i < (courseDetails.length-1); i++){
-                // Retrieving the module information from the RecordSystem and adding the module
-                moduleList.add(getModule(courseDetails[i].trim()));
-            }
-            // Instantiating a Course object and storing in array list
-            Course courseObj = new Course(code, name, duration, credits, moduleList);
-            courses.add(courseObj);
+            // Instantiating a Grade object and storing in array list
+            Grade gradeObj = new Grade(studentID, moduleCode, courseCode, grade);
+            grades.add(gradeObj);
         }
     }
 
+    /*
+    Initialises the database of students stored in the csv
+    Student data is read on one line comma separated (ID, name, address, course)
+    e.g. 21193762, Roisin Mitchell, 31 Limerick, LM051
+     */
+    public void setGrades(String fileName) throws IOException {
+        ArrayList<String> studentList = fileToArrayList(fileName);
+
+        // Iterating over the list of students
+        for(String student : studentList){
+            //Splitting the line of student data at every comma, stored in an array
+            String[] studentDetails = student.split(",");
+
+            // Creating variables to be used when instantiate a Course object
+            String id = studentDetails[0].trim();
+            String name = studentDetails[1].trim();
+            String address = studentDetails[2].trim();
+            String course = studentDetails[3].trim();
+
+            // Instantiating a Course object and storing in array list
+            Student studentObj = new Student(id, name, address, course);
+            students.add(studentObj);
+        }
+    }
 
     // Method converts a csv file into an array list, where each line of the csv is at an index of the array list
     public ArrayList<String> fileToArrayList(String fileName) throws IOException {
@@ -133,4 +153,5 @@ public class StudentRecordSystem{
         }
         throw new RuntimeException("not a module"); //change to throw exception "module not in records"
     }
+}
 
