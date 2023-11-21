@@ -2,10 +2,10 @@ import java.util.ArrayList;
 
 public class Transcript {
 
-    String id;
-    String name;
-    String address;
-    double QCA;
+    private String id;
+    private String name;
+    private String address;
+    private double QCA;
     ArrayList<Grade> grades;
 
     public Transcript(Student student, ArrayList<Grade> grades) {
@@ -21,7 +21,7 @@ public class Transcript {
         for(Grade grade : grades){
             out += grade.toString();
         }
-        return id + " ," + name + " ," + address; // Complete with qca and grades
+        return id + " ," + name + " ," + address + "\n"; // Complete with qca and grades
     }
 
 }
