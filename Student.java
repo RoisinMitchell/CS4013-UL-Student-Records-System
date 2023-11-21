@@ -40,6 +40,13 @@ public class Student {
     public void setTranscript(ArrayList<Grade> grades){
         // 1. create a transcript object and load the varibales and grades into it
     }
+    public String getCourse(){
+        return course;
+    }
+    
+    public int getCurrentYearOfStudy(){
+        return this.currentYearOfStudy;
+    }
 
     public void setTranscripts(Transcript transcript){
         this.transcripts.add(transcript);
