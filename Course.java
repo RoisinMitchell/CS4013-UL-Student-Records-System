@@ -25,4 +25,8 @@ public class Course {
         return out;
 
     }
+
+    public String getCourseCode(){
+        return this.courseCode;
+    }
 }
