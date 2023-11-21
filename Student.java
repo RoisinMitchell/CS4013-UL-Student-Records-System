@@ -40,8 +40,13 @@ public class Student {
     }
 
     public void setTranscript(ArrayList<Grade> grades){
-        // 1. create a transcript object and load the varibales and grades into it
+        Transcript transcript = new Transcript();// still be done
+        transcripts.add(transcript);
+
     }
+
+
+    
     public String getCourse(){
         return course;
     }

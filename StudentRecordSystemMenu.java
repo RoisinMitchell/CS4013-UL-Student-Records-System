@@ -29,7 +29,7 @@ public class StudentRecordSystemMenu {
                 //system.addGrades(Command);
             }
             else if(command.equals("2")){
-
+                
                 
                 System.out.println("This works");
 
