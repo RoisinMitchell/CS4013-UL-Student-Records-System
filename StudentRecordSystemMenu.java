@@ -15,6 +15,7 @@ public class StudentRecordSystemMenu {
         };
         // further setup
     }
+
     public void run() throws IOException{
         boolean running = true;
         while(running){
@@ -24,6 +25,7 @@ public class StudentRecordSystemMenu {
             if(command.equals("1")){
                 System.out.println("Type Filename");
                 command = in.nextLine();
+                system.setGrades(command);
                 //system.addGrades(Command);
             }
             else if(command.equals("2")){
