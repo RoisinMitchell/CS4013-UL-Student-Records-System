@@ -1,56 +1,32 @@
 import java.util.HashMap;
 
+
 public class Grade {
-    private String studentID;
-    private String moduleCode;
-    private String courseCode;
-    private String grade;
-    
-    private HashMap<String, Double> hashMapGrade;
+    private String gradeLetter; // A1, B2...
+    private double percentGrade; // 81%, 60%...
+    private HashMap<String, Double> gradeScale; // A1 - 80...
 
-    public Grade(String studentID, String moduleCode, String courseCode, String grade){
-        this.studentID = studentID;
-        this.moduleCode = moduleCode;
-        this.courseCode = courseCode;
-        this.grade = grade;
-        hashMapGrade = getTheGradeTable();
+
+    // Automatic grade scale
+    public Grade(double percentGrade){
+        this.percentGrade = percentGrade;
+        this.gradeLetter = convertPercentToGrade(percentGrade);
+
+     // 1. Add an automatic gradeScale to the constructor
     }
 
-    public String getGradeByID(String studentID){
-        return this.grade;
+    public Grade(HashMap<String, Double> gradeScale, double percentGrade){
+        this.gradeScale = gradeScale;
+        this.percentGrade = percentGrade;
+        this.gradeLetter = convertPercentToGrade(percentGrade);
     }
 
-    public String getModuleCodeByID(String studentID){
-        return this.moduleCode;
-    }
-
-    public HashMap<String, Double> getTheGradeTable(){
-        hashMapGrade = new HashMap<String, Double>();
-        hashMapGrade.put("A1", 4.00);
-        hashMapGrade.put("A2", 3.60);
-        hashMapGrade.put("B1", 3.20);
-        hashMapGrade.put("B2", 3.00);
-        hashMapGrade.put("B3", 2.80);
-        hashMapGrade.put("C1", 2.60);
-        hashMapGrade.put("C2", 2.40);
-        hashMapGrade.put("C3", 2.00);
-        hashMapGrade.put("D1", 1.60);
-        hashMapGrade.put("F", 0.00);
-        hashMapGrade.put("NG", 0.00);
-        return hashMapGrade;
-    }
-
-    public double getQPV(String gradeSymbol){
-        // return QPV, e.g. 4.00
-        double QPV = hashMapGrade.get(gradeSymbol);
-        return QPV;
-    } 
-
-    public String getStudentID(){
-        return studentID;
+    // 2. Create method to convert percentGrade to gradeLetter
+    public String convertPercentToGrade(double percentGrade){
+        return "";
     }
 
     public String toString(){
-        return this.studentID + "," + this.moduleCode + "," + this.courseCode + "," + this.grade;
+        return this.gradeLetter;
     }
 }
