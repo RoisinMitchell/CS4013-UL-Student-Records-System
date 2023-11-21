@@ -9,31 +9,39 @@ public class Transcript {
     private String academicYear;
     private double QCA;
     private HashMap<Module,Grade> studentGrades; 
-
+    public Transcript(){}
+        
+    
     public Transcript(Student student, String semester, String academicYear) {
         this.student = student;
         this.semester = semester;
         this.academicYear = academicYear;
-        this.studentGrades = new HashMap<Module,Grade>();
-        
+        this.studentGrades = student.getGrade();
+        setQCA(studentGrades);
     }
 
     // Setting grades on the transcript one by one
 
 
     // 1. Set QCA with the calculator using the list of grades in this class
-    public void setQCA(){
+    public void setQCA(HashMap<Module,Grade> studentGrades){
         
+        QCACalculator qca = new QCACalculator(HashMap<Module,Grade> studentGrades);
+        this.QCA = qca.getQCA();
         
+    }
 
-        
+
+
+    public HashMap<Module,Grade> getStudentGrades(){
+        return studentGrades;
     }
 
 
 
 
 
-    public void setGrade(Module module,Grade grade) throws RecordSystemException{
+    public void setGrades(Module module,Grade grade) throws RecordSystemException{
         if (studentGrades.containsKey(module)){
             throw new RecordSystemException("Module already has a grade for student" + student.getStudentID());
         }
@@ -44,7 +52,7 @@ public class Transcript {
 
     public String toString(){
         String out = student.toString() + ", " + semester + ", " + academicYear;
-        for(HashMap<Module,Grade> grade : studentGrades){
+        for(HashMap<Module,Grade> grade : ){
             out += ", " + grade.toString();
         }
         return out;
