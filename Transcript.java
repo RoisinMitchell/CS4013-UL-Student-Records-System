@@ -28,6 +28,11 @@ public class Transcript {
 
         
     }
+
+
+
+
+
     public void setGrade(Module module,Grade grade) throws RecordSystemException{
         if (studentGrades.containsKey(module)){
             throw new RecordSystemException("Module already has a grade for student" + student.getStudentID());
@@ -39,7 +44,7 @@ public class Transcript {
 
     public String toString(){
         String out = student.toString() + ", " + semester + ", " + academicYear;
-        for(Grade grade : gradesList){
+        for(HashMap<Module,Grade> grade : studentGrades){
             out += ", " + grade.toString();
         }
         return out;

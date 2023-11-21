@@ -160,7 +160,7 @@ public class StudentRecordSystem{
         String moduleCode = moduleDetails[0];
         String semester = moduleDetails[1];
         String academicYear = moduleDetails[2];
-
+        Module module = getModule(moduleCode);
         for(String studentGrade : moduleGrades) {
 
             //Splitting the line of student data at every comma and stored in an array
@@ -177,7 +177,7 @@ public class StudentRecordSystem{
             //Locating the student in the record system
             Student student = getStudent(studentId);
             // Setting grade on the student object
-            student.setGrade(grade);
+            student.setGrade(module, grade);
         }
     }
 
