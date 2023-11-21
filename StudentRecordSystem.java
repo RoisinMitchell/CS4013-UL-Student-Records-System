@@ -1,18 +1,20 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StudentRecordSystem{
 
     private ArrayList<Module> modules; // Database of modules
     private ArrayList<Student> students; // Database of students
     private ArrayList<Course> courses; // Database of courses
-    private ArrayList<Grade> grades; // Database of grades
+    private ArrayList<Transcript> transcripts; // Database of transcripts
 
 
     public StudentRecordSystem(){
         modules = new ArrayList<Module>();
         students = new ArrayList<Student>();
         courses = new ArrayList<Course>();
+        transcripts = new ArrayList<Transcript>();
     }
 
     /*
@@ -32,7 +34,6 @@ public class StudentRecordSystem{
 
             Module moduleObj = new Module(code, name, credits, qualityHours);
             modules.add(moduleObj);
-
         }
     }
 
@@ -92,48 +93,6 @@ public class StudentRecordSystem{
         }
     }
 
-    /*
-    Initialises the database of grades stored in the csv
-    Grade data is read on one line comma separated (StudentID, moduleCode, CourseCode, grade)
-    e.g. 22334728, CS4013, LM051, A1
-     */
-    public void setGrades(String fileName) throws IOException {
-        ArrayList<String> gradesList = fileToArrayList(fileName);
-
-        // Iterating over the list of students
-        for(String studentGrades : gradesList) {
-            //Splitting the line of student data at every comma, stored in an array
-            String[] gradeDetails = studentGrades.split(",");
-
-            // Creating variables to be used when instantiate a Course object
-            String StudentID = gradeDetails[0].trim();
-            String moduleCode = gradeDetails[1].trim();
-            String courseCode = gradeDetails[2].trim();
-            String grade = gradeDetails[3].trim();
-
-            // Instantiating a Grade object and storing in array list
-            Grade gradeObj = new Grade(StudentID, moduleCode, courseCode, grade);
-            grades.add(gradeObj);
-        }
-    }
-
-    // Method converts a csv file into an array list, where each line of the csv is at an index of the array list
-    public ArrayList<String> fileToArrayList(String fileName) throws IOException {
-        // Try read the file in
-        try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            ArrayList<String> lines = new ArrayList<String>();
-
-            // Iterating over each line in the file until there is no line left
-            while ((line = buffer.readLine()) != null) {
-                // Adding the line to an array list
-                lines.add(line);
-            }
-            return lines;
-        }
-    }
-
-
     public ArrayList<Module> getModules(){
         return this.modules;
     }
@@ -146,9 +105,6 @@ public class StudentRecordSystem{
         return this.courses;
     }
 
-    public ArrayList<Grade> getGrades(){
-        return this.grades;
-    }
 
     public Module getModule(String moduleCode){
         for(Module module : modules){
@@ -157,7 +113,91 @@ public class StudentRecordSystem{
                 return module;
             }
         }
-        throw new RuntimeException("not a module"); //change to throw exception "module not in records"
+        throw new RuntimeException("Module not found:"); //change to throw exception "module not in records"
     }
+
+
+    public Student getStudent(String studentID){
+        for(Student student : students){
+            boolean match = student.getStudentID().equals(studentID);
+
+            if(match){
+                return student;
+            }
+        }
+        throw  new RecordSystemException("Student not found.");
+    }
+
+
+    public Course getCourse(String courseCode){
+        for(Course course: courses){
+            boolean match = course.getCourseCode().equals(courseCode);
+
+            if(match){
+                return course;
+            }
+        }
+        throw  new RecordSystemException("Course not found.");
+    }
+
+
+
+    /*
+    Menu Option (Add module grades)
+
+    The first line of the csv is Module details for which the grades belong to
+    e.g. CS4023, Sem1, 23/24
+
+    Every line after this will contain student ID and percentage achieved in the module
+    e.g. 21193762, 89
+
+     */
+    public void setGrades(String fileName) throws IOException {
+        ArrayList<String> moduleGrades = fileToArrayList(fileName);
+
+        // Parsing the first index in the array list as it contains the module details
+        String[] moduleDetails = moduleGrades.get(0).split(",");
+        String moduleCode = moduleDetails[0];
+        String semester = moduleDetails[1];
+        String academicYear = moduleDetails[2];
+
+        for(String studentGrade : moduleGrades) {
+
+            //Splitting the line of student data at every comma and stored in an array
+            String[] gradeDetails = studentGrade.split(",");
+            String studentId = gradeDetails[0].trim();
+            double percentGrade = Double.parseDouble(gradeDetails[1].trim());
+
+            // Getting the grade scale from the module
+            HashMap<String, Double> gradeScale = getModule(moduleCode).getGradeScale();
+
+            // Passing the grade scale to the grade class to be used in conversion
+            Grade grade = new Grade(gradeScale, percentGrade);
+
+            //Locating the student in the record system
+            Student student = getStudent(studentId);
+            // Setting grade on the student object
+            student.setGrade(grade);
+        }
+    }
+
+
+    // Method converts a csv file into an array list, where each line of the csv is at an index of the array list
+    public ArrayList<String> fileToArrayList(String fileName) throws IOException {
+        // Try read the file in
+        try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            ArrayList<String> lines = new ArrayList<String>();
+
+            // Iterating over each line in the file until there is no lines left
+            while ((line = buffer.readLine()) != null) {
+                // Adding the line to an array list
+                lines.add(line);
+            }
+            return lines;
+        }
+    }
+
+
 }
 
