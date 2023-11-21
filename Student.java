@@ -49,6 +49,15 @@ public class Student {
         // ID, name, address, course
         return this.studentID + "," + this.studentName + "," + this.address + "," + this.course;
     }
-
+    public boolean equals(Object other){
+        if(other == null) return false;
+        return (((Student) this).getStudentID() == ((Student) other).getStudentID() &&
+        ((Student) this).getName() == ((Student) other).getName() &&
+        ((Student) this).getCourse() == ((Student) other).getCourse() &&
+        ((Student) this).getAddress() == ((Student) other).getAddress() &&
+        ((Student) this).getCurrentYearOfStudy() == ((Student) other).getCurrentYearOfStudy()
+        );
+    }
+    
 
 }
