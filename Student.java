@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Student {
@@ -6,6 +7,9 @@ public class Student {
     private String course;
     private String address;
     private int currentYearOfStudy;
+    private ArrayList<Grade> currentGrades;
+
+    private ArrayList<Transcript> transcripts;
 
 
     // Constructor to specify a student who has just enrolled (First Year)
@@ -15,15 +19,6 @@ public class Student {
         this.address = address;
         this.course = course;
         this.currentYearOfStudy = 1;
-    }
-
-    // Constructor to specify the students current year of study (Current Student)
-    public Student(String ID, String name, String address, String course,int currentYearOfStudy){
-        this.studentID = ID;
-        this.studentName = name;
-        this.address = address;
-        this.course = course;
-        this.currentYearOfStudy = currentYearOfStudy;
     }
 
     public String getStudentID(){
@@ -38,12 +33,16 @@ public class Student {
         return this.address;
     }
 
-    public String getCourse(){
-        return this.course;
+    public void setGrade(Grade grade){
+        this.currentGrades.add(grade);
     }
 
-    public int getCurrentYearOfStudy(){
-        return this.currentYearOfStudy;
+    public void setTranscript(ArrayList<Grade> grades){
+        // 1. create a transcript object and load the varibales and grades into it
+    }
+
+    public void setTranscripts(Transcript transcript){
+        this.transcripts.add(transcript);
     }
 
     public String toString(){
