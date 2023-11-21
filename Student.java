@@ -1,14 +1,13 @@
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 public class Student {
     private String studentID;
     private String studentName;
     private String course;
     private String address;
     private int currentYearOfStudy;
-    private ArrayList<Grade> currentGrades;
-
+    private HashMap<Module, Grade> currentGrades;
     private ArrayList<Transcript> transcripts;
 
 
@@ -33,8 +32,11 @@ public class Student {
         return this.address;
     }
 
-    public void setGrade(Grade grade){
-        this.currentGrades.add(grade);
+    public void setGrade(Module module, Grade grade){
+        this.currentGrades.put(module, grade);
+    }
+    public HashMap<Module, Grade> getGrade(){
+        return this.currentGrades;
     }
 
     public void setTranscript(ArrayList<Grade> grades){
