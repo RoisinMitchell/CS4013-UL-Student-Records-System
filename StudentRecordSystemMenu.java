@@ -27,17 +27,22 @@ public class StudentRecordSystemMenu {
                 //system.addGrades(Command);
             }
             else if(command.equals("2")){
+
                 
                 System.out.println("This works");
-                
+
+
             }
             else if(command.equals("3")){
+
                 System.out.println("This works");
             
             }else if(command.equals("4")){
+
                 System.out.println("Type Filename");
                
             }else if(command.equals("5")){
+                
                 System.out.println("Exiting");
                 running = false;
             }else{

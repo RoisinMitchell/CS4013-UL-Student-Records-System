@@ -43,7 +43,7 @@ public class Student {
     public String getCourse(){
         return course;
     }
-    }
+    
     public int getCurrentYearOfStudy(){
         return this.currentYearOfStudy;
     }
