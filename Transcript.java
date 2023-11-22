@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Iterator;
+
 public class Transcript {
 
     private Student student;
@@ -9,6 +9,9 @@ public class Transcript {
     private String academicYear;
     private double QCA;
     private HashMap<Module,Grade> studentGrades; 
+    private String output = "";
+
+
     public Transcript(){}
         
     
@@ -17,21 +20,22 @@ public class Transcript {
         this.semester = semester;
         this.academicYear = academicYear;
         this.studentGrades = student.getGrade();
-        setQCA(studentGrades);
+        //setQCA(studentGrades);
     }
 
     // Setting grades on the transcript one by one
 
 
     // 1. Set QCA with the calculator using the list of grades in this class
-    public void setQCA(HashMap<Module,Grade> studentGrades){
+    /*public void setQCA(HashMap<Module,Grade> studentGrades){
         
         QCACalculator qca = new QCACalculator(HashMap<Module,Grade> studentGrades);
         this.QCA = qca.getQCA();
         
-    }
+    } */
 
 
+// interface perhapsdauahdquh implement qca maybe ?????
 
     public HashMap<Module,Grade> getStudentGrades(){
         return studentGrades;
@@ -51,10 +55,12 @@ public class Transcript {
     
 
     public String toString(){
+       
+
         String out = student.toString() + ", " + semester + ", " + academicYear;
-        for(HashMap<Module,Grade> grade : ){
-            out += ", " + grade.toString();
-        }
+
+        studentGrades.forEach((module, grade) -> output += module.getModuleName() + ((String) grade.toString()));
+        out += output;
         return out;
     }
 

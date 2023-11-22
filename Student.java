@@ -7,6 +7,7 @@ public class Student {
     private String course;
     private String address;
     private int currentYearOfStudy;
+    private int semseter;
     private HashMap<Module, Grade> currentGrades;
     private ArrayList<Transcript> transcripts;
 
@@ -39,12 +40,16 @@ public class Student {
         return this.currentGrades;
     }
 
-    public void setTranscript(ArrayList<Grade> grades){
-        Transcript transcript = new Transcript();// still be done
+    public void setTranscript(HashMap<Module, Grade> currentGrades){
+        Transcript transcript = new Transcript(studentID, );// still be done
         transcripts.add(transcript);
 
     }
 
+    public Transcript getTranscript(){
+        return transcripts.get(0);
+        
+    }
 
     
     public String getCourse(){

@@ -6,7 +6,7 @@ public class QCACalculator {
      * Knows module credits
      * Can Calculate QCS (QPV * Credits)
      * Can calculate QCA
-     */
+     
 
     StudentRecordSystem recordSystem = new StudentRecordSystem();
     private ArrayList<Grade> gradesList = recordSystem.getGrades();
@@ -46,5 +46,5 @@ public class QCACalculator {
         // sumation of QCS/sumation of(AH-NQH)
         return 1.0;
     }
-
+ */
 }
