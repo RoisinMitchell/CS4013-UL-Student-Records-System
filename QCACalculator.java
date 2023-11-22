@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class QCACalculator {
-    /*
+    
      * Knows QPV
      * Knows module credits
      * Can Calculate QCS (QPV * Credits)
@@ -46,5 +46,5 @@ public class QCACalculator {
         // sumation of QCS/sumation of(AH-NQH)
         return 1.0;
     }
- */
+ 
 }
