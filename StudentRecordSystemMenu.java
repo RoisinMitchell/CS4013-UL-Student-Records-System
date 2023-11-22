@@ -20,7 +20,7 @@ public class StudentRecordSystemMenu {
         boolean running = true;
         while(running){
             
-            System.out.println("1)Add Student Grades\n2)Transcripts\n3)Review \n4)Add Students\n5)Quit" );
+            System.out.println("1)Add Student Grades\n2)Transcripts\n3)Hold Review \n4)Add Students\n5)Quit" );
             String command = in.nextLine();
             if(command.equals("1")){
                 System.out.println("Type Filename");
