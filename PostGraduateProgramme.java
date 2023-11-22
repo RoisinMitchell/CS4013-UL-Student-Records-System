@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class PostGraduateProgramme implements Programme{
-    private String programeCode;
-    private String programeName;
+    private String programmeCode;
+    private String programmeName;
     private int duration;
     private int requiredCredits;
     private ArrayList<Module> moduleList;
@@ -11,14 +11,14 @@ public class PostGraduateProgramme implements Programme{
 
 
     
-    public PostGraduateProgramme(String programeCode, String programeName, int duration, int requiredCredits, ArrayList<Module> moduleList, ArrayList<Student> students){
-        this.programeCode = programeCode;
-        this.programeName = programeName;
+    public PostGraduateProgramme(String programmeCode, String programmeName, int duration, int requiredCredits, ArrayList<Module> moduleList, ArrayList<Student> students){
+        this.programmeCode = programmeCode;
+        this.programmeName = programmeName;
         this.duration = duration;
         this.requiredCredits = requiredCredits;
         this.moduleList = moduleList;
         for (int i = 0; i< students.size(); i++ ){
-            if((students.get(i)).getCourse() == programeCode){
+            if((students.get(i)).getProgramme() == programmeCode){
                 students.add(students.get(i));
             }
         }
@@ -34,7 +34,7 @@ public class PostGraduateProgramme implements Programme{
     public void enrollStudents(ArrayList<Student> students){
 
     }
-    @Override
+
     public ArrayList<Student> getStudents(){
         return students;
     }

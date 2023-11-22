@@ -27,6 +27,15 @@ public class Department {
 
     }
 
+    public ArrayList<Transcript> getPostGradTranscripts(){
+        return postGradTranscripts;
+    }
+
+    public ArrayList<Transcript> getUnderGradTranscripts(){
+        return underGradTranscripts;
+    }
+
+
     /*
     //Sets a variable on the transcript that shows if a student needs to repeat any module
     private void requestRepeatModule(Transcript transcript){

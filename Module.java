@@ -5,8 +5,9 @@ public class Module {
     private String name;
     private int credits;
     private int qualityHours;
-    //private Department department
-    HashMap<String, Double> gradeScale; //What ever data structure we want??
+
+    HashMap<String, Double> gradeScale;
+
     public Module(String code,String name,int credits,int qualityHours){
         this.code = code;
         this.name = name;

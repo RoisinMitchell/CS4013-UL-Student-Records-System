@@ -8,6 +8,4 @@ public interface Programme {
 
     void enrollStudents(ArrayList<Student> students);
 
-    ArrayList<Student> getStudents();
-
 }

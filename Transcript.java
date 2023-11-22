@@ -21,7 +21,7 @@ public class Transcript {
         this.semester = semester;
         this.academicYear = academicYear;
         // gets the hashmap from student
-        this.studentGrades = student.getGrade();
+        this.studentGrades = student.getGrades();
         this.QCA = setQCA(studentGrades);
     }
 
@@ -60,8 +60,8 @@ public class Transcript {
         return student;
     }
 
+
     public String toString(){
-       
 
         String out = student.toString() + ", " + semester + ", " + academicYear;
 
