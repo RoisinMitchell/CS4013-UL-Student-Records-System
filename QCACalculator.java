@@ -49,6 +49,7 @@ public class QCACalculator {
         return summationQCS;
     }
 
+
     // semester QCA = summation(QCS)/summation(AH-NQH)
     public double calculateQCA(){
         return calculateQCS()/30;

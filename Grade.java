@@ -13,7 +13,6 @@ public class Grade {
         this.percentGrade = percentGrade;
         this.gradeLetter = convertPercentToGrade(percentGrade);
 
-        // 1. Add an automatic gradeScale to the constructor
         getGradeScale();
     }
 
@@ -21,10 +20,6 @@ public class Grade {
         this.gradeScale = gradeScale;
         this.percentGrade = percentGrade;
         this.gradeLetter = convertPercentToGrade(percentGrade);
-    }
-
-    public String getGradeLetter(){
-        return gradeLetter;
     }
 
     public HashMap<String, Double> getGradeScale(){
@@ -44,11 +39,6 @@ public class Grade {
     }
 
 
-    public double convertGradeToQPV(String gradeLetter){
-        return 4.0;
-    }
-
-    // 2. Create method to convert percentGrade to gradeLetter
     public String convertPercentToGrade(double percentGrade){
         String gradeLetter = "";
         HashMap<String, Double> gradeScaleMap = getGradeScale();
@@ -57,8 +47,11 @@ public class Grade {
                 gradeLetter = entry.getKey();
             }
         }
-    
         return gradeLetter;
+    }
+
+    public String getGradeLetter(){
+        return this.gradeLetter;
     }
 
     public String toString(){
