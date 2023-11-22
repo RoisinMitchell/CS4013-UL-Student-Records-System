@@ -14,25 +14,27 @@ public class Transcript {
 
     public Transcript(){}
         
-    
+    /// CALCULATES QCA, constructs transcripts
+
     public Transcript(Student student, String semester, String academicYear) {
         this.student = student;
         this.semester = semester;
         this.academicYear = academicYear;
+        // gets the hashmap from student
         this.studentGrades = student.getGrade();
-        //setQCA(studentGrades);
+        this.QCA = setQCA(studentGrades);
     }
 
     // Setting grades on the transcript one by one
 
 
     // 1. Set QCA with the calculator using the list of grades in this class
-    /*public void setQCA(HashMap<Module,Grade> studentGrades){
+    public double setQCA(HashMap<Module,Grade> studentGrades){
         
-        QCACalculator qca = new QCACalculator(HashMap<Module,Grade> studentGrades);
-        this.QCA = qca.getQCA();
-        
-    } */
+        QCACalculator qca = new QCACalculator(studentGrades);
+        double QCA = qca.calculateQCA();
+        return QCA;
+    } 
 
 
 // interface perhapsdauahdquh implement qca maybe ?????
@@ -54,6 +56,10 @@ public class Transcript {
 // qca needs credits and grade
     
 
+    public Student getStudent(){
+        return student;
+    }
+
     public String toString(){
        
 
@@ -61,6 +67,7 @@ public class Transcript {
 
         studentGrades.forEach((module, grade) -> output += module.getModuleName() + ((String) grade.toString()));
         out += output;
+        out += "\n QCA = " + QCA;
         return out;
     }
 
