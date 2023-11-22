@@ -1,18 +1,33 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Department {
 
     private ArrayList<PostGraduateProgramme> postGradProgrammes;
     private ArrayList<UnderGraduateProgramme> underGradProgrammes;
 
-    public void holdReview(ArrayList<Transcript> transcripts){
-        /*
-        if module fail - requestRepeatModule(transcript);
-        if enough modules failed - requestRepeatSemester(transcript);
-        After setting the progression on the bottom of transcript write all transcripts to csv
-         */
+    private ArrayList<Transcript> postGradTranscripts;
+    private ArrayList<Transcript> underGradTranscripts;
+
+    public void holdReview(ArrayList<Transcript> transcripts) {
+
+        ArrayList<Student> postGradList = postGradProgrammes.getStudents();
+
+        for (Student student : postGradList) {
+            Transcript transcript = new Transcript(student, "Sem1", "23/24");
+            postGradTranscripts.add(transcript);
+        }
+
+        ArrayList<Student> underGradList = underGradProgrammes.getStudents();
+
+        for (Student student : underGradList) {
+            Transcript transcript = new Transcript(student, "Sem1", "23/24");
+            underGradTranscripts.add(transcript);
+        }
+
     }
 
+    /*
     //Sets a variable on the transcript that shows if a student needs to repeat any module
     private void requestRepeatModule(Transcript transcript){
         transcript.setRepeatModule();
@@ -23,4 +38,6 @@ public class Department {
         transcript.setRepeatYear();
     }
 
-}
+     */
+
+        }
