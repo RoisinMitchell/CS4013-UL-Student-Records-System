@@ -1,10 +1,7 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class QCACalculator {
-    
 
-    StudentRecordSystem recordSystem = new StudentRecordSystem();
     private Grade grade;
     private Module module;
     private HashMap<Module,Grade> studentGrades;
@@ -15,7 +12,7 @@ public class QCACalculator {
         getTheGradeTable();
     }
 
-    public HashMap<String, Double> getTheGradeTable(){
+    private HashMap<String, Double> getTheGradeTable(){
         hashMapGrade = new HashMap<String, Double>();
         hashMapGrade.put("A1", 4.00);
         hashMapGrade.put("A2", 3.60);
@@ -31,17 +28,17 @@ public class QCACalculator {
         return hashMapGrade;
     }
 
-    public int getCredits(){
+    private int getCredits(){
         return module.getModuleCredits();
     }
 
-    public int getQualityHours(){
+    private int getQualityHours(){
         return module.getQualityHours();
     }
 
 
     // QCS = QPV * Credits
-    public double calculateQCS(){
+    private double calculateQCS(){
         double summationQCS = 0.0;
         for (Grade grade: studentGrades.values()){
             summationQCS += hashMapGrade.get(grade.getGradeLetter()) * getCredits();
