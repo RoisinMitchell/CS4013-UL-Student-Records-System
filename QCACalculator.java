@@ -6,13 +6,14 @@ public class QCACalculator {
 
     private Grade grade;
     private Module module;
+    private Student student;
     private HashMap<Module,Grade> studentGrades;
     private HashMap<String, Double> hashMapGrade; // A1 - 4.0...
 
-    public QCACalculator(HashMap<Module,Grade> studentGrades){
+    public QCACalculator(HashMap<Module,Grade> studentGrades, Student student){
         this.studentGrades = studentGrades;
+        this.student = student;
         getTheGradeTable();
-
     }
 
     private HashMap<String, Double> getTheGradeTable(){
