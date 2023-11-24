@@ -1,58 +1,36 @@
 import java.util.HashMap;
 
 public class Module {
-    private String code;
-    private String name;
+    private String moduleCode;
+    private String moduleName;
     private int credits;
     private int qualityHours;
 
-    HashMap<String, Double> gradeScale;
+    private int gradeScheme;
 
-    public Module(String code,String name,int credits,int qualityHours){
-        this.code = code;
-        this.name = name;
+
+    public Module(String moduleCode,String moduleName,int credits,int qualityHours){
+        this.moduleCode = moduleCode;
+        this.moduleName = moduleName;
         this.credits = credits;
         this.qualityHours = qualityHours;
+        this.gradeScheme = 0;
     }
-    
-    
-    // constructor for if we decide to implement departments
-    
-    public Module(String code, String name, int credits, int qualityHours, String department){
-        this.code = code;
-        this.name = name;
+
+    public Module(String moduleCode,String moduleName,int credits,int qualityHours, int gradeScheme){
+        this.moduleCode = moduleCode;
+        this.moduleName = moduleName;
         this.credits = credits;
         this.qualityHours = qualityHours;
-        //this.department = department;
-        // gradeScale = department.getGradeScale 
-    }
-
-    public void setModuleCode(String code){
-        this.code= code;
-    }
-
-    public void setModuleName(String name){
-        this.name = name;
-    }
-
-    public void setModuleCredits(int credits){
-        this.credits = credits;
-    }
-
-    public void setQualityHours(int qualityHours){
-        this.qualityHours = qualityHours;
-    }
-
-    public void setGradeScale(HashMap<String,Double> gradeScale){
-        this.gradeScale = gradeScale;
+        this.gradeScheme = gradeScheme;
     }
 
     public String getModuleCode(){
-        return code;
+        return moduleCode;
     }
 
     public String getModuleName(){
-        return name;
+        return moduleName;
     }
 
     public int getModuleCredits(){
@@ -63,20 +41,12 @@ public class Module {
         return qualityHours;
     }
 
-    public HashMap<String, Double> getGradeScale(){
-        return gradeScale;
+    public int getGradeScheme(){
+        return gradeScheme;
     }
-
 
     public String toString(){
-        return this.code + "," + this.name +"," + this.credits + "," + this.qualityHours;
+        return this.moduleCode+ "," + this.moduleName +"," + this.credits + "," + this.qualityHours;
     }
-    
-    public boolean equals(Object other){
-        if(other == null) return false;
-        return (((Module) this).getModuleCode() == ((Module) other).getModuleCode() &&
-        ((Module) this).getModuleName() == ((Module) other).getModuleName() &&
-        ((Module) this).getModuleCredits() == ((Module) other).getModuleCredits() &&
-        ((Module) this).getQualityHours() == ((Module) other).getQualityHours());
-    }
+
 }
