@@ -1,4 +1,6 @@
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class QCACalculator {
 
@@ -10,6 +12,7 @@ public class QCACalculator {
     public QCACalculator(HashMap<Module,Grade> studentGrades){
         this.studentGrades = studentGrades;
         getTheGradeTable();
+
     }
 
     private HashMap<String, Double> getTheGradeTable(){
@@ -40,8 +43,10 @@ public class QCACalculator {
     // QCS = QPV * Credits
     private double calculateQCS(){
         double summationQCS = 0.0;
-        for (Grade grade: studentGrades.values()){
-            summationQCS += hashMapGrade.get(grade.getGradeLetter()) * getCredits();
+        for (Map.Entry<Module, Grade> entry: studentGrades.entrySet()) {
+            Module module = entry.getKey();
+            Grade grade = entry.getValue();
+            summationQCS += hashMapGrade.get(grade.getGradeLetter()) * module.getModuleCredits();
         }
         return summationQCS;
     }
