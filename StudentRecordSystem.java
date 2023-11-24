@@ -89,7 +89,7 @@ public class StudentRecordSystem{
 
             ArrayList<Module> moduleList = new ArrayList<Module>();
             // Iterating over the remaining data in the array courseDetails (all the module codes associated to the course)
-            for(int i = 4; i < (programmeDetails.length); i++){
+            for(int i = 5; i < (programmeDetails.length); i++){
                 // Retrieving the module information from the RecordSystem and adding the module
                 moduleList.add(getModule(programmeDetails[i].trim()));
             }
@@ -124,10 +124,10 @@ e.g. 21193762, 89
 
         // Parsing the first index in the array list as it contains the module details
         String[] moduleDetails = moduleGrades.get(0).split(",");
-        String moduleCode = moduleDetails[0];
-        String semester = moduleDetails[1];
-        String academicYear = moduleDetails[2];
-        Module module = getModule(moduleCode);
+        String moduleCode = moduleDetails[0].trim();
+        String semester = moduleDetails[1].trim();
+        String academicYear = moduleDetails[2].trim();
+        Module module = getModule(moduleCode.trim());
 
         for(String studentGrade : moduleGrades) {
             //Splitting the line of student data at every comma and stored in an array
@@ -137,7 +137,7 @@ e.g. 21193762, 89
 
             // Getting the grade scale from the module
 
-            int gradeScheme = getModule(moduleCode).getGradeScheme();
+            int gradeScheme = getModule(moduleCode.trim()).getGradeScheme();
 
             // Passing the grade scale to the grade class to be used in conversion
             Grade grade = new Grade(percentGrade, gradeScheme);
@@ -190,16 +190,9 @@ e.g. 21193762, 89
 
         ArrayList<Transcript> semesterTranscripts = new ArrayList<>();
 
-        /*
-        Functionality to trigger a Transcript to be generated for the student:
-        -Uses semesterGrades from the Student
-        -Calculates semester QCA
-        -Calculates cumulative QCA
-
-        Functionality to write the Transcripts to a csv file:
-        (We could make a csv writer class possibly)
-
-         */
+        for(Student student : students){
+            Transcript transcript = new Transcript(student, "Sem1", "20/21");
+        }
 
         return semesterTranscripts;
     }
@@ -219,7 +212,8 @@ e.g. 21193762, 89
 
     public Module getModule(String moduleCode){
         for(Module module : modules){
-            boolean match = module.getModuleCode().equals(moduleCode);
+            boolean match = module.getModuleCode().equalsIgnoreCase(moduleCode);
+            System.out.println( module.getModuleCode()+  "\n" + moduleCode);
             if(match){
                 return module;
             }
@@ -230,7 +224,7 @@ e.g. 21193762, 89
 
     public Student getStudent(String studentID){
         for(Student student : students){
-            boolean match = student.getStudentID().equals(studentID);
+            boolean match = student.getStudentID().equalsIgnoreCase(studentID);
 
             if(match){
                 return student;

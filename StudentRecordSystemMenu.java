@@ -5,17 +5,26 @@ public class StudentRecordSystemMenu {
     
     private Scanner in;
 
-    private StudentRecordSystem system;
+    private StudentRecordSystem recordSystem;
 
     private ArrayList<Transcript> transcript;
 
     public StudentRecordSystemMenu(){
         in = new Scanner(System.in);
-        system = new StudentRecordSystem();
+
+        recordSystem = new StudentRecordSystem();
+
         try {
-        system.setModules("Modules.csv");
-        system.setProgrammes("Programmes.csv");
-        system.setStudents("Students.csv");
+
+        
+        recordSystem.setModules("Modules.csv");
+
+        recordSystem.setStudents("Students.csv");
+
+        recordSystem.setProgrammes("Programmes.csv");
+
+
+        
         } catch (IOException e){
             System.out.println("Something Failed up");
         };
@@ -34,7 +43,7 @@ public class StudentRecordSystemMenu {
             if(command.equals("1")){
                 System.out.println("Input Filename E.g ModuleGrade.csv");
                 command = in.nextLine();
-                system.setGrades(command);
+                recordSystem.setGrades(command);
                 
             }else if(command.equals("2")){
                 System.out.println("Making Transcripts");
@@ -49,10 +58,11 @@ public class StudentRecordSystemMenu {
 
                 }else if (command.equals("2")){
 
-                    Department department = new Department();
-                    department.holdReview(transcript, system.getPostGraduateProgrammes());
-                    department.getPostGradTranscripts();
-                    System.out.println(department.getPostGradTranscripts());
+            
+                    ArrayList<Transcript> transcripts = recordSystem.holdReview();
+                    for(Transcript transcript: transcripts){
+                        System.out.println(transcript.toString());
+                    }
 
 
                 }else if (command.equals("3")){
