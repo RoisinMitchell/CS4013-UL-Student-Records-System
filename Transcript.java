@@ -8,53 +8,43 @@ public class Transcript {
     private String semester;
     private String academicYear;
     private double QCA;
-    private HashMap<Module,Grade> studentGrades; 
+    private HashMap<Module,Grade> grades;
     private String output = "";
 
 
-    public Transcript(){}
-        
-    /// CALCULATES QCA, constructs transcripts
+
+    public Transcript(Student student, String semester, String academicYear, double QCA, HashMap<Module,Grade> grades) {
+        this.student = student;
+        this.semester = semester;
+        this.academicYear = academicYear;
+        this.grades = grades;
+        this.QCA = QCA;
+    }
 
     public Transcript(Student student, String semester, String academicYear) {
         this.student = student;
         this.semester = semester;
         this.academicYear = academicYear;
         // gets the hashmap from student
-        this.studentGrades = student.getGrades();
-        this.QCA = setQCA(studentGrades);
+        this.grades = student.getGrades();
+        this.QCA = setQCA(grades);
     }
 
-    // Setting grades on the transcript one by one
-
-
-    // 1. Set QCA with the calculator using the list of grades in this class
-    public double setQCA(HashMap<Module,Grade> studentGrades){
-        
+    private double setQCA(HashMap<Module,Grade> studentGrades){
         QCACalculator qca = new QCACalculator(studentGrades);
-        double QCA = qca.calculateQCA();
-        return QCA;
+        return qca.calculateQCA();
     } 
 
-
-// interface perhapsdauahdquh implement qca maybe ?????
-
-    public HashMap<Module,Grade> getStudentGrades(){
-        return studentGrades;
+    public HashMap<Module,Grade> getGrades(){
+        return grades;
     }
-
-
-
-
 
     public void setGrades(Module module,Grade grade) throws RecordSystemException{
-        if (studentGrades.containsKey(module)){
-            throw new RecordSystemException("Module already has a grade for student" + student.getStudentID());
+        if (grades.containsKey(module)){
+            throw new RecordSystemException("Module already has a grade for student " + student.getStudentID());
         }
-        studentGrades.put(module,grade);
+        grades.put(module,grade);
     }
-// qca needs credits and grade
-    
 
     public Student getStudent(){
         return student;
@@ -62,10 +52,9 @@ public class Transcript {
 
 
     public String toString(){
-
         String out = student.toString() + ", " + semester + ", " + academicYear;
 
-        studentGrades.forEach((module, grade) -> output += module.getModuleName() + ((String) grade.toString()));
+        grades.forEach((module, grade) -> output += module.getModuleName() + ((String) grade.toString()));
         out += output;
         out += "\n QCA = " + QCA;
         return out;
