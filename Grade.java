@@ -47,10 +47,59 @@ public class Grade {
         return conversionChart;
     }
 
+    private HashMap<String, Double> getConversionChart1(int gradeScheme){
+
+        // Functionality to pick from 3 different gradeScale Conversion table
+        // If statements to chose 1, 2, or 3
+        // gradeScheme will come from the Module
+        conversionChart = new HashMap<String, Double>();
+        conversionChart.put("A1", 90.0);
+        conversionChart.put("A2", 82.0);
+        conversionChart.put("B1", 74.0);
+        conversionChart.put("B2", 70.0);
+        conversionChart.put("B3", 66.0);
+        conversionChart.put("C1", 62.0);
+        conversionChart.put("C2", 58.0);
+        conversionChart.put("C3", 50.0);
+        conversionChart.put("D1", 45.0);
+        conversionChart.put("D2", 40.0);
+        conversionChart.put("F", 0.0);
+        return conversionChart;
+    }
+
+    private HashMap<String, Double> getConversionChart2(int gradeScheme){
+
+        // Functionality to pick from 3 different gradeScale Conversion table
+        // If statements to chose 0, 1, or 2
+        // gradeScheme will come from the Module
+        conversionChart = new HashMap<String, Double>();
+        conversionChart.put("A1", 70.0);
+        conversionChart.put("A2", 62.0);
+        conversionChart.put("B1", 54.0);
+        conversionChart.put("B2", 50.0);
+        conversionChart.put("B3", 46.0);
+        conversionChart.put("C1", 42.0);
+        conversionChart.put("C2", 38.0);
+        conversionChart.put("C3", 30.0);
+        conversionChart.put("D1", 25.0);
+        conversionChart.put("D2", 20.0);
+        conversionChart.put("F", 0.0);
+        return conversionChart;
+
+    }
+
 
     private String convertPercentToGrade(double percentGrade, int gradeScheme){
         String gradeLetter = "";
-        HashMap<String, Double> gradeSchemeMap = getConversionChart(gradeScheme);
+        HashMap<String, Double> gradeSchemeMap = new HashMap<String, Double>();
+        if(gradeScheme == 0){
+            gradeSchemeMap = getConversionChart(gradeScheme);
+        } else if(gradeScheme == 1){
+            gradeSchemeMap = getConversionChart1(gradeScheme);
+        } else{
+            gradeSchemeMap = getConversionChart2(gradeScheme);
+        }
+
         for (Map.Entry<String, Double> entry: gradeSchemeMap.entrySet()){
             if (percentGrade >= entry.getValue()) {
                 gradeLetter = entry.getKey();
