@@ -1,8 +1,14 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 public class StudentRecordSystemMenu {
+    
     private Scanner in;
+
     private StudentRecordSystem system;
+
+    private ArrayList<Transcript> transcript;
+
     public StudentRecordSystemMenu(){
         in = new Scanner(System.in);
         system = new StudentRecordSystem();
@@ -17,62 +23,54 @@ public class StudentRecordSystemMenu {
     }
 
     public void run() throws IOException{
+        
         boolean running = true;
+        
         while(running){
+            System.out.println("1) Add Grades 2) Review 3) Quit");
             
-            System.out.println("1)Add Student Grades\n2)Transcripts\n3)Hold Review \n4)Add Students\n5)Quit" );
             String command = in.nextLine();
+            
             if(command.equals("1")){
-                System.out.println("Type Filename");
+                System.out.println("Input Filename E.g ModuleGrade.csv");
                 command = in.nextLine();
                 system.setGrades(command);
-                System.out.println("Thank you");
-                //system.addGrades(Command);
-            }
-            else if(command.equals("2")){
                 
-                System.out.println("1) Individual Student\n 2) All Students");
+            }else if(command.equals("2")){
+                System.out.println("Making Transcripts");
                 
-
-
-            }
-            else if(command.equals("3")){
-
-                System.out.println("This works");
-            
-            }else if(command.equals("4")){
-
-                System.out.println("1) Individual Student\n 2) Mutiply Students");
+                System.out.println("1) Individual Transcript 2) All Transcripts 3) Quit");
 
                 command = in.nextLine();
 
                 if(command.equals("1")){
-                    // NEEDS MORE WORK
-                    System.out.println("id, name, address, currentYear");
+                    
+                    System.out.println("NOT YET IMPLEMENTED");
+
+                }else if (command.equals("2")){
+
+                    Department department = new Department();
+                    department.holdReview(transcript, system.getPostGraduateProgrammes());
+                    department.getPostGradTranscripts();
+                    System.out.println(department.getPostGradTranscripts());
+
+
+                }else if (command.equals("3")){
+                    running = false;
+                }else {
+                    System.out.println("Invalid input");
                 }
-                else if(command.equals("2")){
+            
 
-                    System.out.println("filename");
-
-                    command = in.nextLine();
-                    
-                     /*    try{
-                           // system.addStudents(command); // NEEDS WAY TO ADD STUDENTS NOT JUST REPLACE ALL OF EM
-                        } catch (IOException e){
-                            System.out.println("Invalid file name");
-                        } */
-                    }
-                    
+            }else if(command.equals("3")){
                 
-               
-            }else if(command.equals("5")){
-                
-                System.out.println("Exiting");
+                System.out.println("Quiting");
                 running = false;
             }else{
-               System.out.println("Invaild Command");
-            }
 
+                System.out.println("Invaild command");
+            }
+           
         }
     }
 
