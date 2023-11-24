@@ -9,7 +9,7 @@ public class Transcript {
     private String academicYear;
     private double QCA;
     private HashMap<Module,Grade> grades;
-    private String output = "";
+    private String output;
 
 
 
@@ -19,6 +19,7 @@ public class Transcript {
         this.academicYear = academicYear;
         this.grades = grades;
         this.QCA = QCA;
+        this.output = "";
     }
 
     public Transcript(Student student, String semester, String academicYear) {
@@ -31,7 +32,7 @@ public class Transcript {
     }
 
     private double setQCA(HashMap<Module,Grade> studentGrades){
-        QCACalculator qca = new QCACalculator(studentGrades);
+        QCACalculator qca = new QCACalculator(studentGrades, student);
         return qca.calculateQCA();
     } 
 
@@ -52,11 +53,10 @@ public class Transcript {
 
 
     public String toString(){
-        String out = student.toString() + ", " + semester + ", " + academicYear;
+        String out = student.toString() + ", " + this.semester + ", " + this.academicYear;
 
-        grades.forEach((module, grade) -> output += module.getModuleName() + ((String) grade.toString()));
+        grades.forEach((module, grade) -> output += module.toString() + ((String) grade.toString()));
         out += output;
-        out += "\n QCA = " + QCA;
         return out;
     }
 
