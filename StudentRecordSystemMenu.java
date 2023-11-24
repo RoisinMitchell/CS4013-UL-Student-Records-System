@@ -64,7 +64,7 @@ public class StudentRecordSystemMenu {
             
                     ArrayList<Transcript> transcripts = recordSystem.holdReview();
                     for(Transcript transcript: transcripts){
-                        System.out.println(transcript.toString());
+                        System.out.println(transcript.toString() + "");
                     }
 
 

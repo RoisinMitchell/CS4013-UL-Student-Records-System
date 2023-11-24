@@ -194,6 +194,7 @@ e.g. 21193762, 89
 
         for(Student student : students){
             Transcript transcript = new Transcript(student, "Sem1", "20/21");
+            semesterTranscripts.add(transcript);
         }
 
         return semesterTranscripts;
