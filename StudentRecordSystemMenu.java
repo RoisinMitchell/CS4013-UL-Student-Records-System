@@ -8,7 +8,7 @@ public class StudentRecordSystemMenu {
         system = new StudentRecordSystem();
         try {
         system.setModules("Modules.csv");
-        system.setCourses("Courses.csv");
+        system.setProgrammes("Programmes.csv");
         system.setStudents("Students.csv");
         } catch (IOException e){
             System.out.println("Something Failed up");
