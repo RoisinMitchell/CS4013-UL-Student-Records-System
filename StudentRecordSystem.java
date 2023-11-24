@@ -129,6 +129,8 @@ e.g. 21193762, 89
         String academicYear = moduleDetails[2].trim();
         Module module = getModule(moduleCode.trim());
 
+        moduleGrades.remove(0); 
+
         for(String studentGrade : moduleGrades) {
             //Splitting the line of student data at every comma and stored in an array
             String[] gradeDetails = studentGrade.split(",");
@@ -213,7 +215,6 @@ e.g. 21193762, 89
     public Module getModule(String moduleCode){
         for(Module module : modules){
             boolean match = module.getModuleCode().equalsIgnoreCase(moduleCode);
-            System.out.println( module.getModuleCode()+  "\n" + moduleCode);
             if(match){
                 return module;
             }
@@ -225,7 +226,6 @@ e.g. 21193762, 89
     public Student getStudent(String studentID){
         for(Student student : students){
             boolean match = student.getStudentID().equalsIgnoreCase(studentID);
-
             if(match){
                 return student;
             }

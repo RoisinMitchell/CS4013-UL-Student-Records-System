@@ -17,16 +17,19 @@ public class StudentRecordSystemMenu {
         try {
 
         
+        
         recordSystem.setModules("Modules.csv");
+
+        recordSystem.setProgrammes("Programmes.csv");
 
         recordSystem.setStudents("Students.csv");
 
-        recordSystem.setProgrammes("Programmes.csv");
 
 
         
         } catch (IOException e){
             System.out.println("Something Failed up");
+            
         };
         // further setup
     }
