@@ -44,7 +44,7 @@ public class StudentRecordSystem{
 
     /*
     Student data is read on one line comma separated (ID, name, address, course)
-    e.g. 21193762, Roisin Mitchell, 31 Limerick, LM051
+    e.g. 21193762, Roisin Mitchell, 31 Limerick, LM121
      */
     public void setStudents(String fileName) throws IOException {
         CsvReader studentsCsv = new CsvReader(fileName);
@@ -89,9 +89,10 @@ public class StudentRecordSystem{
 
             ArrayList<Module> moduleList = new ArrayList<Module>();
             // Iterating over the remaining data in the array courseDetails (all the module codes associated to the course)
-            for(int i = 5; i < (programmeDetails.length); i++){
+            for(int i = 5; i < programmeDetails.length; i++){
                 // Retrieving the module information from the RecordSystem and adding the module
-                moduleList.add(getModule(programmeDetails[i].trim()));
+                Module module = getModule(programmeDetails[i].trim());
+                moduleList.add(module);
             }
 
             Programme programme;
@@ -193,7 +194,7 @@ e.g. 21193762, 89
         ArrayList<Transcript> semesterTranscripts = new ArrayList<>();
 
         for(Student student : students){
-            Transcript transcript = new Transcript(student, "1", "23/24");
+            Transcript transcript = new Transcript(student, "1", "23/24");  // Why is semester and year a string you are entering here??
             semesterTranscripts.add(transcript);
         }
 

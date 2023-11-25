@@ -38,8 +38,7 @@ public class StudentRecordSystemMenu {
             // in case something goes wrong in the booting of the database
             System.out.println("Falied to Load Database");
             running = false;
-            
-        };
+        }
         // further setup
     }
 
@@ -124,10 +123,11 @@ public class StudentRecordSystemMenu {
             else if (command.equals("test")){
 
                 //FOR TESTING SET GRADES
-                    recordSystem.setGrades("ModuleGrade.csv");
-                    recordSystem.setGrades("ModuleGrade2.csv");
-                    recordSystem.setGrades("ModuleGrade3.csv");
-                    recordSystem.setGrades("ModuleGrade4.csv");
+                    recordSystem.setGrades("CS4012-Grades.csv");
+                    recordSystem.setGrades("CS4043-Grades.csv");
+                    recordSystem.setGrades("CS4141-Grades.csv");
+                    recordSystem.setGrades("CS4182-Grades.csv");
+                    recordSystem.setGrades("CS4221-Grades.csv");
 
                     ArrayList<Transcript> test = recordSystem.holdReview();
 
