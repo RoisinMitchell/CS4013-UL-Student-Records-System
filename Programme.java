@@ -46,7 +46,7 @@ public class Programme {
     }
     public String toString(){
         
-        String output = this.programmeCode + this.programmeName + this.duration;
+        String output = this.programmeCode +", " + this.programmeName;
         return output;
     }
 

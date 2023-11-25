@@ -68,6 +68,6 @@ public class Student {
 
     public String toString(){
         // ID, name, address, course
-        return this.studentID + "," + this.studentName + "," + this.address + "," + this.programme;
+        return this.studentID + ", " + this.studentName + ", " + this.address + ", " + this.programme;
     }
 }
