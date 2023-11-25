@@ -46,7 +46,7 @@ public class Module {
     }
 
     public String toString(){
-        return this.moduleCode+ "," + this.moduleName +"," + this.credits + "," + this.qualityHours;
+        return this.moduleCode+ ", " + this.moduleName +", " + this.credits + ", " + this.qualityHours;
     }
 
 }

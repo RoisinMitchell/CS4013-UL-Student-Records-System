@@ -193,7 +193,7 @@ e.g. 21193762, 89
         ArrayList<Transcript> semesterTranscripts = new ArrayList<>();
 
         for(Student student : students){
-            Transcript transcript = new Transcript(student, "Sem1", "20/21");
+            Transcript transcript = new Transcript(student, "1", "23/24");
             semesterTranscripts.add(transcript);
         }
 
