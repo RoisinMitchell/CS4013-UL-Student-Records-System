@@ -44,5 +44,10 @@ public class Programme {
     public int getCredits(){
         return this.credits;
     }
+    public String toString(){
+        
+        String output = this.programmeCode + this.programmeName + this.duration;
+        return output;
+    }
 
 }

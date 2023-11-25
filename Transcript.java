@@ -19,7 +19,7 @@ public class Transcript {
         this.academicYear = academicYear;
         this.grades = grades;
         this.QCA = QCA;
-        this.output = "";
+        
     }
 
     public Transcript(Student student, String semester, String academicYear) {
@@ -50,13 +50,15 @@ public class Transcript {
     public Student getStudent(){
         return student;
     }
-
+    public void format(){
+        grades.forEach((module, grade) -> output += module.toString() + ", "+ ((String) grade.toString()));
+    }
 
     public String toString(){
-        String out = student.toString() + ", " + this.semester + ", " + this.academicYear;
+        String out = student.toString() + ", " + this.semester + ", " + this.academicYear + ", " + this.QCA;
 
-        grades.forEach((module, grade) -> output += module.toString() + ((String) grade.toString()));
-        out += output;
+        format();
+        out += ", " + output;
         return out;
     }
 
