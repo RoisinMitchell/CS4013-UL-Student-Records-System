@@ -6,5 +6,6 @@ public class BachelorProgramme extends Programme{
         super(modules, programmeCode, programmeName, duration, credits);
         //this.hasThesis = hasThesis;
     }
+    
 }
 

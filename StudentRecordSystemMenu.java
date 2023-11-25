@@ -55,17 +55,31 @@ public class StudentRecordSystemMenu {
 
                 command = in.nextLine();
 
+                ArrayList<Transcript> transcripts = recordSystem.holdReview();
+                    
+
+
                 if(command.equals("1")){
                     
-                    System.out.println("NOT YET IMPLEMENTED");
+                    System.out.println("Student id e.g");
+
+                    command = in.nextLine();
+
+
+                        for(Transcript transcript: transcripts){
+                        
+                            if((transcript.getStudent()).getStudentID().equals(command) ){
+                                System.out.println(transcript);
+                            }
+                            
+                        }
 
                 }else if (command.equals("2")){
 
-            
-                    ArrayList<Transcript> transcripts = recordSystem.holdReview();
                     for(Transcript transcript: transcripts){
                         System.out.println(transcript.toString() + "");
                     }
+                    
 
 
                 }else if (command.equals("3")){
