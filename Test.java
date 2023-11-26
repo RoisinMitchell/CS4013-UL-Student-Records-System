@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Test {
     public static void main(String[] args) throws IOException {
@@ -22,10 +23,11 @@ public class Test {
         for(Student student : students){
             System.out.println(student.toString());
         }
-
+        /*
         for(Transcript transcript : transcripts){
             System.out.println(transcript.toString()+"\n");
         }
+         */
 
         system.setGrades("CS4012-Grades.csv");
         system.setGrades("CS4043-Grades.csv");
@@ -36,9 +38,11 @@ public class Test {
         ArrayList<Transcript> transcriptsNew = system.holdReview();
 
         for(Transcript transcript : transcriptsNew){
-            System.out.println(transcript.toString() + "\n");
+            System.out.println("------------\nNEW TRANSCRIPT\n" + transcript.toString() + "\n");
         }
 
+// Testing QCA calculator......
+        HashMap<Module, Grade> grades = new HashMap<>();
 
     }
 }

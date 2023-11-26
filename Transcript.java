@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 public class Transcript {
@@ -8,64 +8,51 @@ public class Transcript {
     private Student student;
     private String semester;
     private String academicYear;
-    private double QCA;
-    private HashMap<Module,Grade> grades;
+    private double semesterQCA;
+    private double cumulativeQCA;
+    private LinkedHashMap<Module,Grade> grades;
+    private boolean progression;
 
-    public Transcript(Student student, String semester, String academicYear, double QCA, HashMap<Module,Grade> grades) {
+    public Transcript(Student student, String semester, String academicYear, double semesterQCA, LinkedHashMap<Module,Grade> grades) {
         this.student = student;
         this.semester = semester;
         this.academicYear = academicYear;
         this.grades = grades;
-        this.QCA = QCA;
+        this.semesterQCA = semesterQCA;
     }
 
     public Transcript(Student student, String semester, String academicYear) {
         this.student = student;
         this.semester = semester;
         this.academicYear = academicYear;
-        // gets the hashmap from student
+
+        // Get the grades from the student object
         this.grades = student.getGrades();
-        this.QCA = setQCA(grades);
-    }
 
-    private double setQCA(HashMap<Module,Grade> studentGrades){
-        QCACalculator qca = new QCACalculator(studentGrades, student);
-        return qca.calculateSemesterQCA();
-    } 
-
-    public HashMap<Module,Grade> getGrades(){
-        return grades;
-    }
-
-    public void setGrades(Module module,Grade grade) throws RecordSystemException{
-        if (grades.containsKey(module)){
-            throw new RecordSystemException("Module already has a grade for student " + student.getStudentID());
-        }
-        grades.put(module,grade);
+        QCACalculator qca = new QCACalculator(this.grades, this.student);
+        this.semesterQCA = qca.calculateSemesterQCA();
+        this.cumulativeQCA = qca.calculateCumulativeQCA();
     }
 
     public Student getStudent(){
         return student;
     }
-    public double getQCA(){
-        return this.QCA;
+
+    public double getSemesterQCA(){
+        return this.semesterQCA;
     }
 
-
-    public String formatHashMap(String output){
-     /*  grades.forEach((module, grade) -> output += module.toString() + ", "+ ((String) grade.toString()) + "\n");
-        return output;  */
-     //   https://sentry.io/answers/iterate-hashmap-java/ GOT THIS CODE FROM HERE
-        for ( Entry<Module, Grade> map : grades.entrySet()){
-            output += (map.getKey()).toString() + ", " + map.getValue().toString() + ", ";
-        }
-        return output;
+    public double getCumulativeQCA(){
+        return this.cumulativeQCA;
     }
 
+// 2827379, 1, 22/23, 3.82, 3.23, MA4402, A1, CS4013, A2, CS4006, C2, CS4023, A2, CS4076, B2
     public String toString(){
-        String out = student.toString() + ", " + this.semester + ", " + this.academicYear + ", ";
-        out = formatHashMap(out);
-        out += ", QCA = "+ this.QCA;
+        String out = student.getStudentID() + ", " + this.semester + ", " + this.academicYear +  ", " + this.semesterQCA + ", " + this.cumulativeQCA + ", ";
+
+        for ( Entry<Module, Grade> map : grades.entrySet()){
+            out += (map.getKey()).getModuleCode() + ", " + map.getValue().getGradeLetter() + ", ";
+        }
         return out;
     }
 }

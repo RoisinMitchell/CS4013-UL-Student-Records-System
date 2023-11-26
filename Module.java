@@ -8,15 +8,6 @@ public class Module {
 
     private int gradeScheme;
 
-
-    public Module(String moduleCode,String moduleName,int credits,int qualityHours){
-        this.moduleCode = moduleCode;
-        this.moduleName = moduleName;
-        this.credits = credits;
-        this.qualityHours = qualityHours;
-        this.gradeScheme = 0;
-    }
-
     public Module(String moduleCode,String moduleName,int credits,int qualityHours, int gradeScheme){
         this.moduleCode = moduleCode;
         this.moduleName = moduleName;
@@ -46,7 +37,7 @@ public class Module {
     }
 
     public String toString(){
-        return this.moduleCode+ ", " + this.moduleName +", " + this.credits + ", " + this.qualityHours;
+        return this.moduleCode;
     }
 
 }

@@ -1,10 +1,11 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 // The idea behind this class is that it is like the operating system of the whole student record system.
-// it is where the functionality of the Menu option are held. It is also the place where we communicate with our records stored in csv files.
-// The records are necessary for simulating a scenario where some students will graduate
+// It is where the functionality of the Menu option are held. It is also the place where we communicate with our records stored in csv files.
+// The records are necessary for simulating a scenario where students will progress
 
 public class StudentRecordSystem{
 
@@ -13,24 +14,24 @@ public class StudentRecordSystem{
     private ArrayList<Programme> programmes;
     private ArrayList<Transcript> transcripts;
 
-
     public StudentRecordSystem(){
-        this.modules = new ArrayList<Module>();
-        this.students = new ArrayList<Student>();
-        this.programmes = new ArrayList<Programme>();
-        this.transcripts = new ArrayList<Transcript>();
+        this.modules = new ArrayList<>();
+        this.students = new ArrayList<>();
+        this.programmes = new ArrayList<>();
+        this.transcripts = new ArrayList<>();
     }
 
     public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile) throws IOException {
         setModules(moduleFile);
         setProgrammes(programmeFile);
         setStudents(studentFile);
-        setTranscripts(transcriptFile);
+        //setTranscripts(transcriptFile);
     }
 
     /*
-    Module data is read on one line comma separated (Module Code, Name, Credits, Quality Hours)
-    e.g. CS4013, Object Oriented Development, 6, 30
+    Module data is read on one line comma separated (Module Code, Name, Credits, Quality Hours, Grade Scheme(0-2))
+    The grade scheme is an offset for the percent to grade calculation that represents the different grade bands in different modules
+    e.g. CS4013, Object Oriented Development, 6, 30, 0
      */
     private void setModules(String fileName) throws IOException {
         CsvReader modulesCsv = new CsvReader(fileName);
@@ -43,8 +44,9 @@ public class StudentRecordSystem{
             String name = moduleDetails[1].trim();
             int credits = Integer.parseInt(moduleDetails[2].trim());
             int qualityHours = Integer.parseInt(moduleDetails[3].trim());
+            int gradeScheme = Integer.parseInt(moduleDetails[4].trim());
 
-            Module moduleObj = new Module(code, name, credits, qualityHours);
+            Module moduleObj = new Module(code, name, credits, qualityHours, gradeScheme);
             this.modules.add(moduleObj);
         }
     }
@@ -94,7 +96,7 @@ public class StudentRecordSystem{
             int duration = Integer.parseInt(programmeDetails[3].trim());
             int credits = Integer.parseInt(programmeDetails[4].trim());
 
-            ArrayList<Module> moduleList = new ArrayList<Module>();
+            ArrayList<Module> moduleList = new ArrayList<>();
             // Iterating over the remaining data in the array courseDetails (all the module codes associated to the course)
             for(int i = 5; i < programmeDetails.length; i++){
                 // Retrieving the module information from the RecordSystem and adding the module
@@ -145,8 +147,7 @@ e.g. 21193762, 89
             String studentId = gradeDetails[0].trim();
             double percentGrade = Double.parseDouble(gradeDetails[1].trim());
 
-            // Getting the grade scale from the module
-
+            // Getting the grade scheme from the module
             int gradeScheme = getModule(moduleCode.trim()).getGradeScheme();
 
             // Passing the grade scale to the grade class to be used in conversion
@@ -157,10 +158,11 @@ e.g. 21193762, 89
             // Setting grade on the student object
             student.setGrade(module, grade);
         }
-
     }
 
-    //2827379, 1, 22/23, 3.82, MA4402, A1, CS4013, A2, CS4006, C2, CS4023, A2, CS4076, B2
+    // A single transcript record is read in line by line with the following details:
+    // (ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade...)
+    // e.g. 2827379, 1, 22/23, 3.82, 3.82, MA4402, A1, CS4013, A2, CS4006, C2, CS4023, A2, CS4076, B2
     private void setTranscripts(String fileName) throws IOException {
         CsvReader transcriptsCsv = new CsvReader(fileName);
         ArrayList<String> transcriptStrings = transcriptsCsv.toArrayList();
@@ -173,7 +175,7 @@ e.g. 21193762, 89
             String academicYear = transcriptDetails[2].trim();
             double QCA = Double.parseDouble(transcriptDetails[3].trim());
 
-            HashMap<Module, Grade> grades = new HashMap<>();
+            LinkedHashMap<Module, Grade> grades = new LinkedHashMap<>();
 
             for (int i = 4; i < transcriptDetails.length; i++) {
                 Module module = getModule(transcriptDetails[i].trim());
@@ -188,7 +190,6 @@ e.g. 21193762, 89
         }
     }
 
-
     /* The holdReview method will be an option on the menu.
     It will signify the end of the semester grading period and
     should trigger the review of every student.
@@ -196,14 +197,12 @@ e.g. 21193762, 89
     those transcripts either to screen or to csv file (or both).
      */
     public ArrayList<Transcript> holdReview(){
-
         ArrayList<Transcript> semesterTranscripts = new ArrayList<>();
 
         for(Student student : students){
             Transcript transcript = new Transcript(student, "1", "23/24");  // Why is semester and year a string you are entering here??
             semesterTranscripts.add(transcript);
         }
-
         return semesterTranscripts;
     }
 
@@ -223,7 +222,6 @@ e.g. 21193762, 89
         return  this.transcripts;
     }
 
-
     public Module getModule(String moduleCode){
         for(Module module : modules){
             boolean match = module.getModuleCode().equalsIgnoreCase(moduleCode);
@@ -233,7 +231,6 @@ e.g. 21193762, 89
         }
         throw new RecordSystemException("Module not found: " + moduleCode);
     }
-
 
     public Student getStudent(String studentID){
         for(Student student : students){
