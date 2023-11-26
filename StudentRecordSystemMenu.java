@@ -10,50 +10,27 @@ public class StudentRecordSystemMenu {
     private ArrayList<Transcript> transcript;
     private boolean running;
 
-
     public StudentRecordSystemMenu(){
-        
         // scanner
         in = new Scanner(System.in);
-
         running = true;
-
-        // record system object
         recordSystem = new StudentRecordSystem();
 
         try {
+            recordSystem.setRecords("Modules.csv", "Programmes.csv", "Students.csv", "Transcripts.csv");
 
-        // loading of the "database"
-        
-        recordSystem.setModules("Modules.csv");
-
-        recordSystem.setProgrammes("Programmes.csv");
-
-        recordSystem.setStudents("Students.csv");
-
-        recordSystem.setTranscripts("Transcripts.csv");
-
-        
         } catch (IOException e){
-            // in case something goes wrong in the booting of the database
-            System.out.println("Falied to Load Database");
+            System.out.println("Failed to load files. Check if the files exist or check that the file follows the conventions");
             running = false;
         }
         // further setup
     }
 
     public void run() throws IOException{
-        
-        
         while(this.running){
             System.out.println("1) Add Grades 2) Review 3) Quit");
             
             String command = in.nextLine();
-            
-           
-
-
-
 
             if(command.equals("1")){
                 System.out.println("Input Filename E.g ModuleGrade.csv");
@@ -63,58 +40,39 @@ public class StudentRecordSystemMenu {
             }else if(command.equals("2")){
                 System.out.println("Making Transcripts");
                 
-                System.out.println("1) Individual Transcript 2) All Transcripts 3) Back 4) Quit");
+                System.out.println("1) Individual Transcript\n2) All Transcripts\n3) Back \n4) Quit");
 
                 command = in.nextLine();
-
                 ArrayList<Transcript> transcripts = recordSystem.holdReview();
-                
                 boolean secondMenu = true;
 
                 while (secondMenu){
-               
                 if(command.equals("1")){
-                    
                     System.out.println("Student id e.g");
-
 
                     String student = in.nextLine();
 
-                    
-                        for(Transcript transcript: transcripts){
-                        
-                            if((transcript.getStudent()).getStudentID().equals(student) ){
-                                System.out.println("Student id, Name, Address, CourseCode, Course Name, Course Length, Semster, Year, QCA, Module Code, Module Name, Credits, Hours, Grade");
-                                System.out.println(transcript);
-                            }
-                            
+                    for(Transcript transcript: transcripts){
+                        if((transcript.getStudent()).getStudentID().equals(student) ){
+                            System.out.println("Student id, Name, Address, CourseCode, Course Name, Course Length, Semester, Year, QCA, Module Code, Module Name, Credits, Hours, Grade");
+                            System.out.println(transcript);
                         }
-
+                    }
                 }else if (command.equals("2")){
-                    System.out.println("Student id, Name, Address, CourseCode, Course Name, Course Length, Semster, Year, QCA, Module Code, Module Name, Credits, Hours, Grade");
+                    System.out.println("Student id, Name, Address, CourseCode, Course Name, Course Length, Semester, Year, QCA, Module Code, Module Name, Credits, Hours, Grade");
                     for(Transcript transcript: transcripts){
                         System.out.println(transcript.toString() + "");
                     }
-                    
-
-
                 }else if (command.equals("3")){
-                    
-                    
                     secondMenu = false;
                     System.out.println("Add Grades");
 
-
                 }else if(command.equals("4")){
-
-                   
                     this.running = false;
                     secondMenu = false;
                     System.out.println("Quiting");
-                }
-                
-                
-                else {
+
+                } else {
                     System.out.println("Invalid input");
                 }
             }
@@ -137,21 +95,17 @@ public class StudentRecordSystemMenu {
                                 
                                 System.out.println(transcript);
                             }
-                            
-                        }                    
+                     }
+
                     running = false;
 
-         
-                }else if(command.equals("3")){
-                
+            }else if(command.equals("3")){
                 System.out.println("Quiting");
                 this.running = false;
-            }else{
 
-                System.out.println("Invaild command");
+            }else{
+                System.out.println("Invalid command");
             }
-           
         }
     }
-
 } 
