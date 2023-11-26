@@ -4,9 +4,11 @@ import java.util.Set;
 
 public class QCACalculator {
 
-    private Grade grade;
-    private Module module;
     private Student student;
+    private int moduleCredits;
+    private double cumulativeQCS;
+    private double semesterQCA;
+    private double cumulativeQCA;
     private HashMap<Module,Grade> studentGrades;
     private HashMap<String, Double> hashMapGrade; // A1 - 4.0...
 
@@ -27,35 +29,58 @@ public class QCACalculator {
         hashMapGrade.put("C2", 2.40);
         hashMapGrade.put("C3", 2.00);
         hashMapGrade.put("D1", 1.60);
+        hashMapGrade.put("D2", 1.20);
         hashMapGrade.put("F", 0.00);
         hashMapGrade.put("NG", 0.00);
         return hashMapGrade;
     }
 
-    private int getCredits(){
-        return module.getModuleCredits();
-    }
-
+    /* 
     private int getQualityHours(){
         return module.getQualityHours();
-    }
+    }*/
 
 
-    // QCS = QPV * Credits
-    private double calculateQCS(){
-        double summationQCS = 0.0;
+    // QCS(semester QCS) = QPV * Credits
+    private double calculateSemesterQCS(){
+        double semesterQCS = 0.0;
         for (Map.Entry<Module, Grade> entry: studentGrades.entrySet()) {
             Module module = entry.getKey();
             Grade grade = entry.getValue();
-            summationQCS += hashMapGrade.get(grade.getGradeLetter()) * module.getModuleCredits();
+            semesterQCS += hashMapGrade.get(grade.getGradeLetter()) * module.getModuleCredits();
+            this.moduleCredits = module.getModuleCredits();
         }
-        return summationQCS;
+        cumulativeQCS += semesterQCS;
+        return semesterQCS;
     }
 
+    public int calculateSemesterAH(){
+        return 30;
+    }
+
+    public int calculateCumulativeAH(){
+        Set<Map.Entry<Module, Grade>> entrySets =  studentGrades.entrySet();
+        int moduleNumber = entrySets.size();
+        int cumulativeAH = moduleNumber * this.moduleCredits;
+        return cumulativeAH;
+    }
 
     // semester QCA = summation(QCS)/summation(AH-NQH)
-    public double calculateQCA(){
-        return calculateQCS()/30;
+    public double calculateSemesterQCA(){
+        this.semesterQCA = calculateSemesterQCS()/calculateSemesterAH();
+        return this.semesterQCA;
+    }
+
+    public double calculateCumulativeQCA(){
+        this.cumulativeQCA = cumulativeQCS/calculateCumulativeAH();
+        return this.cumulativeQCA;
     }
  
+    public double getSemesterQCA(){
+        return this.semesterQCA;
+    }
+
+    public double getCumulativeQCA(){
+        return this.cumulativeQCA;
+    }
 }

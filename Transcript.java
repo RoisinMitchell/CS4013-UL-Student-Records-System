@@ -34,7 +34,7 @@ public class Transcript {
 
     private double setQCA(HashMap<Module,Grade> studentGrades){
         QCACalculator qca = new QCACalculator(studentGrades, student);
-        return qca.calculateQCA();
+        return qca.calculateSemesterQCA();
     } 
 
     public HashMap<Module,Grade> getGrades(){
