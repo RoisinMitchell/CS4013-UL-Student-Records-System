@@ -1,12 +1,14 @@
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 public class Grade {
     private String gradeLetter; // A1, B2...
     private double percentGrade; // 81%, 60%...
     private int gradeScheme;
-    private HashMap<String, Double> conversionChart; // A1 - 80...
+    private LinkedHashMap<String, Double> conversionChart; // A1 - 80...
 
 
     public Grade(double percentGrade, Module module){
@@ -27,12 +29,12 @@ public class Grade {
         this.conversionChart = getConversionChart(gradeScheme);
     }
 
-    private HashMap<String, Double> getConversionChart(int gradeScheme){
+    private LinkedHashMap<String, Double> getConversionChart(int gradeScheme){
 
         // Functionality to pick from 3 different gradeScale Conversion table
         // If statements to chose 1, 2, or 3
         // gradeScheme will come from the Module
-        conversionChart = new HashMap<String, Double>();
+        conversionChart = new LinkedHashMap<String, Double>();
         conversionChart.put("A1", 80.0);
         conversionChart.put("A2", 72.0);
         conversionChart.put("B1", 64.0);
@@ -47,12 +49,12 @@ public class Grade {
         return conversionChart;
     }
 
-    private HashMap<String, Double> getConversionChart1(int gradeScheme){
+    private LinkedHashMap<String, Double> getConversionChart1(int gradeScheme){
 
         // Functionality to pick from 3 different gradeScale Conversion table
         // If statements to chose 1, 2, or 3
         // gradeScheme will come from the Module
-        conversionChart = new HashMap<String, Double>();
+        conversionChart = new LinkedHashMap<String, Double>();
         conversionChart.put("A1", 90.0);
         conversionChart.put("A2", 82.0);
         conversionChart.put("B1", 74.0);
@@ -67,12 +69,12 @@ public class Grade {
         return conversionChart;
     }
 
-    private HashMap<String, Double> getConversionChart2(int gradeScheme){
+    private LinkedHashMap<String, Double> getConversionChart2(int gradeScheme){
 
         // Functionality to pick from 3 different gradeScale Conversion table
         // If statements to chose 0, 1, or 2
         // gradeScheme will come from the Module
-        conversionChart = new HashMap<String, Double>();
+        conversionChart = new LinkedHashMap<String, Double>();
         conversionChart.put("A1", 70.0);
         conversionChart.put("A2", 62.0);
         conversionChart.put("B1", 54.0);
@@ -103,6 +105,7 @@ public class Grade {
         for (Map.Entry<String, Double> entry: gradeSchemeMap.entrySet()){
             if (percentGrade >= entry.getValue()) {
                 gradeLetter = entry.getKey();
+                break;
             }
         }
         return gradeLetter;
