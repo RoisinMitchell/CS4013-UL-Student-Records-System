@@ -1,18 +1,20 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 public class Student {
     private String studentID;
     private String studentName;
     private Programme programme;
     private String address;
     private int yearOfStudy;
-    private HashMap<Module, Grade> semesterGrades;
+    private LinkedHashMap<Module, Grade> semesterGrades;
 
     private ArrayList<Transcript> previousTranscripts;
 
 
     public Student(String ID, String name, String address, Programme programme){
-        this.semesterGrades = new HashMap<>();
+        this.semesterGrades = new LinkedHashMap<>();
         this.previousTranscripts = new ArrayList<>();
 
         this.studentID = ID;
@@ -24,7 +26,7 @@ public class Student {
     }
 
     public Student(String ID, String name, String address, Programme programme, int currentYearOfStudy, ArrayList<Transcript> previousTranscripts){
-        this.semesterGrades = new HashMap<>();
+        this.semesterGrades = new LinkedHashMap<>();
 
         this.studentID = ID;
         this.studentName = name;
@@ -54,7 +56,7 @@ public class Student {
         return programme;
     }
 
-    public HashMap<Module, Grade> getGrades(){
+    public LinkedHashMap<Module, Grade> getGrades(){
         return this.semesterGrades;
     }
 
