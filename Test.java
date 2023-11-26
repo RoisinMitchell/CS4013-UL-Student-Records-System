@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Test {
     public static void main(String[] args) throws IOException {
@@ -10,7 +9,7 @@ public class Test {
         ArrayList<Module> modules = system.getModules();
         ArrayList<Programme> programmes = system.getProgrammes();
         ArrayList<Student> students = system.getStudents();
-        ArrayList<Transcript> transcripts = system.getTranscripts();
+        ArrayList<Transcript> transcripts = system.getPreviousTranscripts();
 
         for(Module module : modules){
             System.out.println(module.toString());
@@ -23,16 +22,11 @@ public class Test {
         for(Student student : students){
             System.out.println(student.toString());
         }
-        /*
-        for(Transcript transcript : transcripts){
-            System.out.println(transcript.toString()+"\n");
-        }
-         */
 
-        system.setGrades("CS4012-Grades.csv");
+        system.setGrades("ET4011-Grades.csv");
         system.setGrades("CS4043-Grades.csv");
         system.setGrades("CS4141-Grades.csv");
-        system.setGrades("CS4182-Grades.csv");
+        system.setGrades("MA4111-Grades.csv");
         system.setGrades("CS4221-Grades.csv");
 
         ArrayList<Transcript> transcriptsNew = system.holdReview();
@@ -41,8 +35,7 @@ public class Test {
             System.out.println("------------\nNEW TRANSCRIPT\n" + transcript.toString() + "\n");
         }
 
-// Testing QCA calculator......
-        HashMap<Module, Grade> grades = new HashMap<>();
+        system.exportTranscripts("Transcripts.csv");
 
     }
 }

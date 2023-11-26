@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 
 public class CsvWriter {
     private String fileName;
@@ -7,13 +8,13 @@ public class CsvWriter {
         this.fileName = fileName;
     }
 
-    public void writeToCsv(Object object){
+    public void transcriptsToFile(ArrayList<Transcript> transcripts){
         try {
+            FileWriter out = new FileWriter(this.fileName);
 
-            FileWriter out = new FileWriter(fileName);
-
-            out.write(object.toString());
-
+            for(Transcript transcript : transcripts) {
+                out.write(transcript.toString() + "\n");
+            }
             out.close();
         }
         catch(IOException e){
