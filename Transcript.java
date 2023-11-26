@@ -11,16 +11,12 @@ public class Transcript {
     private double QCA;
     private HashMap<Module,Grade> grades;
 
-
-
-
     public Transcript(Student student, String semester, String academicYear, double QCA, HashMap<Module,Grade> grades) {
         this.student = student;
         this.semester = semester;
         this.academicYear = academicYear;
         this.grades = grades;
         this.QCA = QCA;
-        
     }
 
     public Transcript(Student student, String semester, String academicYear) {
@@ -57,22 +53,19 @@ public class Transcript {
 
 
     public String formatHashMap(String output){
-        
      /*  grades.forEach((module, grade) -> output += module.toString() + ", "+ ((String) grade.toString()) + "\n");
         return output;  */
      //   https://sentry.io/answers/iterate-hashmap-java/ GOT THIS CODE FROM HERE
         for ( Entry<Module, Grade> map : grades.entrySet()){
-            output += (map.getKey()).toString() + ", " + map.getValue().toString();
+            output += (map.getKey()).toString() + ", " + map.getValue().toString() + ", ";
         }
         return output;
     }
+
     public String toString(){
         String out = student.toString() + ", " + this.semester + ", " + this.academicYear + ", ";
-
-        
         out = formatHashMap(out);
         out += ", QCA = "+ this.QCA;
         return out;
     }
-
 }

@@ -21,11 +21,18 @@ public class StudentRecordSystem{
         this.transcripts = new ArrayList<Transcript>();
     }
 
+    public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile) throws IOException {
+        setModules(moduleFile);
+        setProgrammes(programmeFile);
+        setStudents(studentFile);
+        setTranscripts(transcriptFile);
+    }
+
     /*
     Module data is read on one line comma separated (Module Code, Name, Credits, Quality Hours)
     e.g. CS4013, Object Oriented Development, 6, 30
      */
-    public void setModules(String fileName) throws IOException {
+    private void setModules(String fileName) throws IOException {
         CsvReader modulesCsv = new CsvReader(fileName);
         ArrayList<String> moduleList = modulesCsv.toArrayList();
 
@@ -46,7 +53,7 @@ public class StudentRecordSystem{
     Student data is read on one line comma separated (ID, name, address, course)
     e.g. 21193762, Roisin Mitchell, 31 Limerick, LM121
      */
-    public void setStudents(String fileName) throws IOException {
+    private void setStudents(String fileName) throws IOException {
         CsvReader studentsCsv = new CsvReader(fileName);
         ArrayList<String> studentList = studentsCsv.toArrayList();
 
@@ -71,7 +78,7 @@ public class StudentRecordSystem{
     Programme data is read on one line comma separated (Programme Type, Programme Code, Name, DurationInYears, Credits, Module1, Module2, Module3...)
     e.g. BSc, LM121, Computer Science, 4, 120, CS4004, CS4013, CS4141, ET4021, CS4023
      */
-    public void setProgrammes (String fileName) throws IOException{
+    private void setProgrammes (String fileName) throws IOException{
         CsvReader underGraduateProgrammesCsv = new CsvReader(fileName);
         ArrayList<String> programmeList = underGraduateProgrammesCsv.toArrayList();
 
@@ -153,9 +160,8 @@ e.g. 21193762, 89
 
     }
 
-    // This is reading a csv of transcripts. Not the new transcripts to be generated.
-    // This will not calculate qca
-    public void setTranscripts(String fileName) throws IOException {
+    //2827379, 1, 22/23, 3.82, MA4402, A1, CS4013, A2, CS4006, C2, CS4023, A2, CS4076, B2
+    private void setTranscripts(String fileName) throws IOException {
         CsvReader transcriptsCsv = new CsvReader(fileName);
         ArrayList<String> transcriptStrings = transcriptsCsv.toArrayList();
 
@@ -213,6 +219,10 @@ e.g. 21193762, 89
         return this.programmes;
     }
 
+    public ArrayList<Transcript> getTranscripts(){
+        return  this.transcripts;
+    }
+
 
     public Module getModule(String moduleCode){
         for(Module module : modules){
@@ -228,6 +238,7 @@ e.g. 21193762, 89
     public Student getStudent(String studentID){
         for(Student student : students){
             boolean match = student.getStudentID().equalsIgnoreCase(studentID);
+
             if(match){
                 return student;
             }
@@ -243,7 +254,7 @@ e.g. 21193762, 89
                 return programme;
             }
         }
-        throw new RecordSystemException("Student not found: " + programmeCode);
+        throw new RecordSystemException("Programme not found: " + programmeCode);
     }
 
 
