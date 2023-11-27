@@ -204,7 +204,20 @@ e.g. 21193762, 89
 
         for(Student student : students){
             Transcript transcript = new Transcript(student, semester, academicYear);
+
             currentTranscripts.add(transcript);
+
+            if(student.getProgramme().calculateProgression(transcript)){
+
+                if(student.getYearOfStudy() + 1 > student.getProgramme().getDuration()){
+
+                    // GRADUATE
+                }
+                else{
+
+                    student.setYearOfStudy(student.getYearOfStudy() + 1);
+                }
+            }
         }
         return currentTranscripts;
     }

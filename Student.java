@@ -61,6 +61,10 @@ public class Student {
         return this.yearOfStudy;
     }
 
+    public void setYearOfStudy(int yearOfStudy){
+        this.yearOfStudy = yearOfStudy;
+    }
+
     public ArrayList<Transcript> getPreviousTranscripts(){
         return this.previousTranscripts;
     }
