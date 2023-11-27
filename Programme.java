@@ -49,7 +49,7 @@ public class Programme {
         String output = this.programmeCode +", " + this.programmeName;
         return output;
     }
-    public boolean progression(Transcript transcript){
+    public boolean calculateProgression(Transcript transcript){
         if(transcript.getCumulativeQCA() < 2.0){
             return false;
         }
