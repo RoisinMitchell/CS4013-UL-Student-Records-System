@@ -207,7 +207,7 @@ e.g. 21193762, 89
 
             currentTranscripts.add(transcript);
 
-            if(student.getProgramme().calculateProgression(transcript)){
+            if(student.getProgramme().calculateProgression(transcript) && (student.getPreviousTranscripts().size() % 2 == 1)){
 
                 if(student.getYearOfStudy() + 1 > student.getProgramme().getDuration()){
 
