@@ -1,6 +1,6 @@
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 // The idea behind this class is that it is like the operating system of the whole student record system.
@@ -12,20 +12,22 @@ public class StudentRecordSystem{
     private ArrayList<Module> modules;
     private ArrayList<Student> students;
     private ArrayList<Programme> programmes;
-    private ArrayList<Transcript> transcripts;
+    private ArrayList<Transcript> previousTranscripts;
+    private ArrayList<Transcript> currentTranscripts;
 
     public StudentRecordSystem(){
         this.modules = new ArrayList<>();
         this.students = new ArrayList<>();
         this.programmes = new ArrayList<>();
-        this.transcripts = new ArrayList<>();
+        this.previousTranscripts = new ArrayList<>();
+        this.currentTranscripts = new ArrayList<>();
     }
 
     public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile) throws IOException {
         setModules(moduleFile);
         setProgrammes(programmeFile);
         setStudents(studentFile);
-        //setTranscripts(transcriptFile);
+        setPreviousTranscripts(transcriptFile);
     }
 
     /*
@@ -69,9 +71,10 @@ public class StudentRecordSystem{
             String name = studentDetails[1].trim();
             String address = studentDetails[2].trim();
             Programme programme = getProgramme(studentDetails[3].trim());
+            int yearOfStudy = Integer.parseInt(studentDetails[4].trim());
 
             // Instantiating a Course object and storing in array list
-            Student studentObj = new Student(id, name, address, programme);
+            Student studentObj = new Student(id, name, address, programme, yearOfStudy);
             this.students.add(studentObj);
         }
     }
@@ -120,13 +123,43 @@ public class StudentRecordSystem{
         }
     }
 
+    // A single transcript record is read in line by line with the following details:
+    // (ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade...)
+    // e.g. 2918382, 1, 2022/2023, 4.0, 4.0, CS4043, A1, CS4141, A1, CS4221, A1, ET4011, A1, MA4111, A1
+    private void setPreviousTranscripts(String fileName) throws IOException {
+        CsvReader transcriptsCsv = new CsvReader(fileName);
+        ArrayList<String> transcriptStrings = transcriptsCsv.toArrayList();
+
+        for (String transcriptString : transcriptStrings) {
+            String[] transcriptDetails = transcriptString.split(",");
+
+            Student student = getStudent(transcriptDetails[0].trim());
+            int semester = Integer.parseInt(transcriptDetails[1].trim());
+            String academicYear = transcriptDetails[2].trim();
+            double semesterQCA = Double.parseDouble(transcriptDetails[3].trim());
+            double cumulativeQCA = Double.parseDouble(transcriptDetails[4].trim());
+
+            LinkedHashMap<Module, Grade> grades = new LinkedHashMap<>();
+
+            for (int i = 5; i < transcriptDetails.length; i++) {
+                Module module = getModule(transcriptDetails[i].trim());
+                i++;
+                Grade grade = new Grade(transcriptDetails[i].trim());
+                grades.put(module, grade);
+            }
+
+            Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, grades);
+            this.previousTranscripts.add(transcript);
+        }
+    }
+
     /*
 The first line of the csv is Module details for which the grades belong to
 e.g. CS4023, Sem1, 23/24
 
 Every line after this will contain student ID and percentage achieved in the module
 e.g. 21193762, 89
- */
+*/
     public void setGrades(String fileName) throws IOException {
 
         CsvReader gradesCsv = new CsvReader(fileName);
@@ -139,7 +172,7 @@ e.g. 21193762, 89
         String academicYear = moduleDetails[2].trim();
         Module module = getModule(moduleCode.trim());
 
-        moduleGrades.remove(0); 
+        moduleGrades.remove(0);
 
         for(String studentGrade : moduleGrades) {
             //Splitting the line of student data at every comma and stored in an array
@@ -160,50 +193,26 @@ e.g. 21193762, 89
         }
     }
 
-    // A single transcript record is read in line by line with the following details:
-    // (ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade...)
-    // e.g. 2827379, 1, 22/23, 3.82, 3.82, MA4402, A1, CS4013, A2, CS4006, C2, CS4023, A2, CS4076, B2
-    private void setTranscripts(String fileName) throws IOException {
-        CsvReader transcriptsCsv = new CsvReader(fileName);
-        ArrayList<String> transcriptStrings = transcriptsCsv.toArrayList();
-
-        for (String transcriptString : transcriptStrings) {
-            String[] transcriptDetails = transcriptString.split(",");
-
-            Student student = getStudent(transcriptDetails[0].trim());
-            String semester = transcriptDetails[1].trim();
-            String academicYear = transcriptDetails[2].trim();
-            double QCA = Double.parseDouble(transcriptDetails[3].trim());
-
-            LinkedHashMap<Module, Grade> grades = new LinkedHashMap<>();
-
-            for (int i = 4; i < transcriptDetails.length; i++) {
-                Module module = getModule(transcriptDetails[i].trim());
-                i++;
-                Grade grade = new Grade(transcriptDetails[i].trim());
-                grades.put(module, grade);
-            }
-
-            Transcript transcript = new Transcript(student, semester, academicYear, QCA, grades);
-            this.transcripts.add(transcript);
-
-        }
-    }
-
-    /* The holdReview method will be an option on the menu.
-    It will signify the end of the semester grading period and
-    should trigger the review of every student.
-    This review is the creation of the transcripts & the return of
-    those transcripts either to screen or to csv file (or both).
-     */
+    // To hold a review will accumulate all the student grades and set transcripts
     public ArrayList<Transcript> holdReview(){
-        ArrayList<Transcript> semesterTranscripts = new ArrayList<>();
+        LocalDate date = LocalDate.now();
+        int year = date.getYear();
+
+        // Getting semester from current date
+        int semester = findSemester(date);
+        String academicYear = year + "/" + (year+1); // Formatting to 2023/2024
 
         for(Student student : students){
-            Transcript transcript = new Transcript(student, "1", "23/24");  // Why is semester and year a string you are entering here??
-            semesterTranscripts.add(transcript);
+            Transcript transcript = new Transcript(student, semester, academicYear);
+            currentTranscripts.add(transcript);
         }
-        return semesterTranscripts;
+        return currentTranscripts;
+    }
+
+    public void exportTranscripts(String fileName){
+        CsvWriter writer = new CsvWriter(fileName);
+        writer.transcriptsToFile(previousTranscripts);
+        writer.transcriptsToFile(currentTranscripts);
     }
 
     public ArrayList<Module> getModules(){
@@ -218,8 +227,12 @@ e.g. 21193762, 89
         return this.programmes;
     }
 
-    public ArrayList<Transcript> getTranscripts(){
-        return  this.transcripts;
+    public ArrayList<Transcript> getPreviousTranscripts(){
+        return this.previousTranscripts;
+    }
+
+    public ArrayList<Transcript> getCurrentTranscripts(){
+        return this.currentTranscripts;
     }
 
     public Module getModule(String moduleCode){
@@ -254,7 +267,26 @@ e.g. 21193762, 89
         throw new RecordSystemException("Programme not found: " + programmeCode);
     }
 
+    private int findSemester(LocalDate date) {
 
+        int year = date.getYear();
 
+        // Semester 1 bounds for finding the current semester (Start date and Results date)
+        LocalDate sem1Start = LocalDate.of(year, 9, 20);
+        LocalDate sem1End = LocalDate.of(year+1, 1, 25);
+
+        // Semester 2 bounds for finding the current semester (Start date and Results date)
+        LocalDate sem2Start = LocalDate.of(year+1, 1, 29);
+        LocalDate sem2End = LocalDate.of(year+1, 6, 21);
+
+        int semester = 0;
+
+        if (date.isEqual(sem1Start) || (date.isAfter(sem1Start) && date.isBefore(sem1End))) {
+            semester = 1;
+        } else if (date.isEqual(sem2Start) || (date.isAfter(sem2Start) && date.isBefore(sem2End))) {
+            semester = 2;
+        }
+        return semester;
+    }
 }
 

@@ -13,26 +13,23 @@ public class Student {
     private ArrayList<Transcript> previousTranscripts;
 
 
-    public Student(String ID, String name, String address, Programme programme){
+    public Student(String ID, String name, String address, Programme programme, int yearOfStudy){
         this.semesterGrades = new LinkedHashMap<>();
         this.previousTranscripts = new ArrayList<>();
-
         this.studentID = ID;
         this.studentName = name;
         this.address = address;
         this.programme = programme;
-        this.yearOfStudy = 1;
-
+        this.yearOfStudy = yearOfStudy;
     }
 
-    public Student(String ID, String name, String address, Programme programme, int currentYearOfStudy, ArrayList<Transcript> previousTranscripts){
+    public Student(String ID, String name, String address, Programme programme, int yearOfStudy, ArrayList<Transcript> previousTranscripts){
         this.semesterGrades = new LinkedHashMap<>();
-
         this.studentID = ID;
         this.studentName = name;
         this.address = address;
         this.programme = programme;
-        this.yearOfStudy = currentYearOfStudy;
+        this.yearOfStudy = yearOfStudy;
         this.previousTranscripts = previousTranscripts;
     }
 

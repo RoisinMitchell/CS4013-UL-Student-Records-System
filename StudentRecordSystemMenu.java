@@ -19,7 +19,6 @@ public class StudentRecordSystemMenu {
         //Setting existing records for the system to run on
         try {
             recordSystem.setRecords("Modules.csv", "Programmes.csv", "Students.csv", "Transcripts.csv");
-
         } catch (IOException e){
             System.out.println("Failed to load files. Check if the files exist or check that the file follows the conventions");
             running = false;
@@ -90,10 +89,10 @@ public class StudentRecordSystemMenu {
             else if (command.equals("test")){
 
                 //FOR TESTING SET GRADES
-                    recordSystem.setGrades("CS4012-Grades.csv");
+                    recordSystem.setGrades("ET4011-Grades.csv");
                     recordSystem.setGrades("CS4043-Grades.csv");
                     recordSystem.setGrades("CS4141-Grades.csv");
-                    recordSystem.setGrades("CS4182-Grades.csv");
+                    recordSystem.setGrades("MA4111-Grades.csv");
                     recordSystem.setGrades("CS4221-Grades.csv");
 
                     ArrayList<Transcript> test = recordSystem.holdReview();
