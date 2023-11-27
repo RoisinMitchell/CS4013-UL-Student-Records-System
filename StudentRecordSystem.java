@@ -27,7 +27,7 @@ public class StudentRecordSystem{
         setModules(moduleFile);
         setProgrammes(programmeFile);
         setStudents(studentFile);
-        setPreviousTranscripts(transcriptFile);
+        //setPreviousTranscripts(transcriptFile);
     }
 
     /*
@@ -141,7 +141,7 @@ public class StudentRecordSystem{
 
             LinkedHashMap<Module, Grade> grades = new LinkedHashMap<>();
 
-            for (int i = 5; i < transcriptDetails.length; i++) {
+            for (int i = 5; i < transcriptDetails.length - 1; i++) {
                 Module module = getModule(transcriptDetails[i].trim());
                 i++;
                 Grade grade = new Grade(transcriptDetails[i].trim());

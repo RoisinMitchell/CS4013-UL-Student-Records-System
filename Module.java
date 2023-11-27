@@ -5,7 +5,7 @@ public class Module {
     private String moduleName;
     private int credits;
     private int qualityHours;
-
+    private boolean hasThesis;
     private int gradeScheme;
 
     public Module(String moduleCode,String moduleName,int credits,int qualityHours, int gradeScheme){
@@ -14,7 +14,9 @@ public class Module {
         this.credits = credits;
         this.qualityHours = qualityHours;
         this.gradeScheme = gradeScheme;
+
     }
+
 
     public String getModuleCode(){
         return moduleCode;

@@ -46,6 +46,9 @@ public class Transcript {
     public double getCumulativeQCA(){
         return this.cumulativeQCA;
     }
+    public LinkedHashMap getGrades(){
+        return grades;
+    }
 
 // 2827379, 1, 22/23, 3.82, 3.23, MA4402, A1, CS4013, A2, CS4006, C2, CS4023, A2, CS4076, B2
     public String toString(){
