@@ -219,11 +219,12 @@ e.g. 21193762, 89
                 if(student.getYearOfStudy() + 1 > student.getProgramme().getDuration()){
                     // GRADUATE ADDs an honour to the student
                     student.getProgramme().calculateHonourType(student, transcript.getCumulativeQCA());
-                    System.out.println("Graduated students: \n" + student.getStudentID() + " " +student.getHonourType());
+                    
                 }
                 else{
                     // Student progresses a year
                     student.setYearOfStudy(student.getYearOfStudy() + 1);
+                    }
                 }
             }
         }
