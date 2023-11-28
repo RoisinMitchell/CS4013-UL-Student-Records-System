@@ -84,9 +84,9 @@ public class Programme {
         return true;
     }
 
-    public void calculateHonourType(Student student){
+    public void calculateHonourType(Student student, double qca){
         // getting the QCA of the the last transcript to calculate the honour type
-        double qca = student.getPreviousTranscripts().get(student.getPreviousTranscripts().size() - 1).getCumulativeQCA();
+        
         
         if(qca >= 3.40){
             student.setHonourType("First Honours Class");

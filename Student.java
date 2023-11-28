@@ -78,8 +78,11 @@ public class Student {
         this.honourType = honourType;
     }
 
-    public String getHonourTpye(){
+    public String getHonourType(){
         return this.honourType;
+    }
+    public void addTranscript(Transcript transcript){
+        previousTranscripts.add(transcript);
     }
 
     public String toString(){
