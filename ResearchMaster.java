@@ -17,7 +17,7 @@ public class ResearchMaster extends MasterProgramme {
     }
 
     public int getEct(){
-        return ect;
+        return ectCredits;
     }
     public boolean calculateProgression(Transcript transcript){
 
