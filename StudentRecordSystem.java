@@ -130,6 +130,7 @@ public class StudentRecordSystem {
             String[] transcriptDetails = transcriptString.split(",");
 
             Student student = getStudent(transcriptDetails[0].trim());
+            
             int semester = Integer.parseInt(transcriptDetails[1].trim());
             String academicYear = transcriptDetails[2].trim();
             double semesterQCA = Double.parseDouble(transcriptDetails[3].trim());
@@ -146,6 +147,11 @@ public class StudentRecordSystem {
 
             Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, grades);
             this.previousTranscripts.add(transcript);
+            for(Student student2: students){
+                if(student.getStudentID().equals(student2.getStudentID())){
+                    student2.addTranscript(transcript);
+                } 
+            }
         }
     }
 
@@ -210,9 +216,13 @@ e.g. 21193762, 89
 
                 if (student.getYearOfStudy() + 1 > student.getProgramme().getDuration()) {
 
-                    // GRADUATE
-                } else {
-
+                if(student.getYearOfStudy() + 1 > student.getProgramme().getDuration()){
+                    // GRADUATE ADDs an honour to the student
+                    student.getProgramme().calculateHonourType(student, transcript.getCumulativeQCA());
+                    System.out.println("Graduated students: \n" + student.getStudentID() + " " +student.getHonourType());
+                }
+                else{
+                    // Student progresses a year
                     student.setYearOfStudy(student.getYearOfStudy() + 1);
                 }
             }
