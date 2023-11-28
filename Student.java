@@ -9,6 +9,7 @@ public class Student {
     private String address;
     private int yearOfStudy;
     private LinkedHashMap<Module, Grade> semesterGrades;
+    private String honourType;
 
     private ArrayList<Transcript> previousTranscripts;
 
@@ -67,6 +68,14 @@ public class Student {
 
     public ArrayList<Transcript> getPreviousTranscripts(){
         return this.previousTranscripts;
+    }
+
+    public void setHonourType(String honourType){
+        this.honourType = honourType;
+    }
+
+    public String getHonourTpye(){
+        return this.honourType;
     }
 
     public String toString(){
