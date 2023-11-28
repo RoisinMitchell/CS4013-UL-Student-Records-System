@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class Student {
@@ -10,7 +9,6 @@ public class Student {
     private int yearOfStudy;
     private LinkedHashMap<Module, Grade> semesterGrades;
     private String honourType;
-
     private ArrayList<Transcript> previousTranscripts;
 
 
@@ -66,10 +64,6 @@ public class Student {
         this.yearOfStudy = yearOfStudy;
     }
 
-    public void resetGrades(){
-        this.semesterGrades.clear();
-    }
-
     public ArrayList<Transcript> getPreviousTranscripts(){
         return this.previousTranscripts;
     }
@@ -83,6 +77,10 @@ public class Student {
     }
     public void addTranscript(Transcript transcript){
         previousTranscripts.add(transcript);
+    }
+
+    public void setPreviousTranscripts(Transcript transcript){
+        this.previousTranscripts.add(transcript);
     }
 
     public String toString(){

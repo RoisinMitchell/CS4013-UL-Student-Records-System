@@ -81,6 +81,7 @@ public class StudentRecordSystemMenu {
 
                     } else {
                         System.out.println("Invalid input");
+                        
                     }
                 }
             }// FOR TESTING TO BE REMOVED 

@@ -4,14 +4,14 @@ public class Module {
     private String moduleCode;
     private String moduleName;
     private int credits;
-    private int qualityHours;
+    private int attendedHours;
     private int gradeScheme;
 
-    public Module(String moduleCode,String moduleName,int credits,int qualityHours, int gradeScheme){
+    public Module(String moduleCode,String moduleName,int credits,int attendedHours, int gradeScheme){
         this.moduleCode = moduleCode;
         this.moduleName = moduleName;
         this.credits = credits;
-        this.qualityHours = qualityHours;
+        this.attendedHours = attendedHours;
         this.gradeScheme = gradeScheme;
 
     }
@@ -29,8 +29,8 @@ public class Module {
         return credits;
     }
 
-    public int getQualityHours(){
-        return qualityHours;
+    public int getAttendedHours(){
+        return attendedHours;
     }
 
     public int getGradeScheme(){
