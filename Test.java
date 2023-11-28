@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Test {
     public static void main(String[] args) throws IOException {
         StudentRecordSystem system = new StudentRecordSystem();
-        system.setRecords("Modules.csv", "Programmes.csv", "Students.csv", "Transcripts.csv");
+        system.setRecords("Records/Modules.csv", "Records/Programmes.csv", "Records/Students.csv", "Records/Transcripts.csv");
 
         ArrayList<Module> modules = system.getModules();
         ArrayList<Programme> programmes = system.getProgrammes();
@@ -23,11 +23,11 @@ public class Test {
             System.out.println(student.toString());
         }
 
-        system.setGrades("ET4011-Grades.csv");
-        system.setGrades("CS4043-Grades.csv");
-        system.setGrades("CS4141-Grades.csv");
-        system.setGrades("MA4111-Grades.csv");
-        system.setGrades("CS4221-Grades.csv");
+        system.setGrades("1-CS4012.csv");
+        system.setGrades("1-CS4043.csv");
+        system.setGrades("1-CS4141.csv");
+        system.setGrades("1-CS4221.csv");
+        system.setGrades("1-CS4222.csv");
 
         ArrayList<Transcript> transcriptsNew = system.holdReview();
 

@@ -1,86 +1,90 @@
-import java.util.HashMap;
-import java.util.Map;
+/*QPV (Quality Point Value) = Numerical value assigned to grades A1 to NG
+        QCS (Quality Credit Score) =(QPV Score) * (Module Credit Value)
+        Att Hrs = Attempted Hours
+        Non-Q Hours = Non-quality Hours
+
+ */
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class QCACalculator {
 
+    private LinkedHashMap<String, Double> qpvConversionChart;
+    private LinkedHashMap<Module, Grade> grades;
+    private double QCS;
     private Student student;
-    private int moduleCredits;
-    private double cumulativeQCS;
-    private double semesterQCA;
-    private double cumulativeQCA;
-    private HashMap<Module, Grade> studentGrades;
-    private HashMap<String, Double> hashMapGrade; // A1 - 4.0...
+    private int attendedHours;
 
-    public QCACalculator(HashMap<Module, Grade> studentGrades, Student student) {
-        this.studentGrades = studentGrades;
+    public QCACalculator(LinkedHashMap<Module, Grade> grades, Student student) {
+
+        //Loading QPV chart for use later
+        qpvConversionChart = new LinkedHashMap<>();
+        qpvConversionChart.put("A1", 4.00);
+        qpvConversionChart.put("A2", 3.60);
+        qpvConversionChart.put("B1", 3.20);
+        qpvConversionChart.put("B2", 3.00);
+        qpvConversionChart.put("B3", 2.80);
+        qpvConversionChart.put("C1", 2.60);
+        qpvConversionChart.put("C2", 2.40);
+        qpvConversionChart.put("C3", 2.00);
+        qpvConversionChart.put("D1", 1.60);
+        qpvConversionChart.put("D2", 1.20);
+        qpvConversionChart.put("F", 0.00);
+        qpvConversionChart.put("NG", 0.00);
+        this.grades = grades;
         this.student = student;
-        getTheGradeTable();
-    }
 
-    private HashMap<String, Double> getTheGradeTable() {
-        hashMapGrade = new HashMap<String, Double>();
-        hashMapGrade.put("A1", 4.00);
-        hashMapGrade.put("A2", 3.60);
-        hashMapGrade.put("B1", 3.20);
-        hashMapGrade.put("B2", 3.00);
-        hashMapGrade.put("B3", 2.80);
-        hashMapGrade.put("C1", 2.60);
-        hashMapGrade.put("C2", 2.40);
-        hashMapGrade.put("C3", 2.00);
-        hashMapGrade.put("D1", 1.60);
-        hashMapGrade.put("D2", 1.20);
-        hashMapGrade.put("F", 0.00);
-        hashMapGrade.put("NG", 0.00);
-        return hashMapGrade;
-    }
+        //Setting total attended hours for the semester
+        Set<Module> keys = grades.keySet();
+        int totalAH = 0;
 
-    /* 
-    private int getQualityHours(){
-        return module.getQualityHours();
-    }*/
-
-
-    // QCS(semester QCS) = QPV * Credits
-    private double calculateSemesterQCS() {
-        double semesterQCS = 0.0;
-        for (Map.Entry<Module, Grade> entry : studentGrades.entrySet()) {
-            Module module = entry.getKey();
-            Grade grade = entry.getValue();
-            semesterQCS += hashMapGrade.get(grade.getGradeLetter()) * module.getModuleCredits();
-            this.moduleCredits = module.getModuleCredits();
+        for (Module module : keys) {
+            totalAH += module.getAttendedHours();
         }
-        cumulativeQCS += semesterQCS;
-        return semesterQCS;
+        this.attendedHours = totalAH;
     }
 
-    public int calculateSemesterAH() {
-        return 30;
+    private double getTotalQCS() {
+        //QPV * Credits
+        Set<Module> keys = grades.keySet();
+        double totalQCS = 0;
+
+        for (Module key : keys) {
+            String grade = grades.get(key).getGradeLetter();
+            int credits = key.getModuleCredits();
+            double qpv = qpvConversionChart.get(grade);
+            totalQCS += qpv * credits;
+        }
+        this.QCS = totalQCS;
+        return totalQCS;
     }
 
-    public int calculateCumulativeAH() {
-        Set<Map.Entry<Module, Grade>> entrySets = studentGrades.entrySet();
-        int moduleNumber = entrySets.size();
-        int cumulativeAH = moduleNumber * this.moduleCredits;
-        return cumulativeAH;
+    public double calculateSemesterQca(){
+        return getTotalQCS() / this.attendedHours;
     }
 
-    // semester QCA = summation(QCS)/summation(AH-NQH)
-    public double calculateSemesterQCA() {
-        this.semesterQCA = calculateSemesterQCS() / calculateSemesterAH();
-        return this.semesterQCA;
+    public double calculateCumulativeQca(){
+        ArrayList<Transcript> transcripts = this.student.getPreviousTranscripts();
+        double cumulativeQCS = 0;
+        double cumulativeAH = 0;
+
+        if(transcripts.isEmpty()){
+            return 0;
+        }else{
+            for(Transcript transcript : transcripts){
+                cumulativeQCS += transcript.getQCS();
+                cumulativeAH += transcript.getAttendedHours();
+            }
+        }
+        return (cumulativeQCS + QCS) / (cumulativeAH + attendedHours);
+    }
+ 
+    public double getQCS(){
+        return this.QCS;
     }
 
-    public double calculateCumulativeQCA() {
-        this.cumulativeQCA = cumulativeQCS / calculateCumulativeAH();
-        return this.cumulativeQCA;
-    }
-
-    public double getSemesterQCA() {
-        return this.semesterQCA;
-    }
-
-    public double getCumulativeQCA() {
-        return this.cumulativeQCA;
+    public int getAttendedHours(){
+        return this.attendedHours;
     }
 }

@@ -126,11 +126,14 @@ public class StudentRecordSystem {
         CsvReader transcriptsCsv = new CsvReader(fileName);
         ArrayList<String> transcriptStrings = transcriptsCsv.toArrayList();
 
-        for (String transcriptString : transcriptStrings) {
-            String[] transcriptDetails = transcriptString.split(",");
+        for(int j=0;j<transcriptStrings.size()-1;j++){
+
+        //}
+        //for (String transcriptString : transcriptStrings) {
+            //String[] transcriptDetails = transcriptString.split(",");
+            String[] transcriptDetails = transcriptStrings.get(j).split(",");
 
             Student student = getStudent(transcriptDetails[0].trim());
-            
             int semester = Integer.parseInt(transcriptDetails[1].trim());
             String academicYear = transcriptDetails[2].trim();
             double semesterQCA = Double.parseDouble(transcriptDetails[3].trim());
@@ -147,11 +150,6 @@ public class StudentRecordSystem {
 
             Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, grades);
             this.previousTranscripts.add(transcript);
-            for(Student student2: students){
-                if(student.getStudentID().equals(student2.getStudentID())){
-                    student2.addTranscript(transcript);
-                } 
-            }
         }
     }
 
