@@ -4,12 +4,12 @@ import java.util.ArrayList;
 public class ResearchMaster extends MasterProgramme {
     
     private boolean thesisPassOrFail;
-    private int ect;
+    private int ectCredits;
 
 
-    public ResearchMaster(String programmeCode, String programmeName, int duration, int credits) {
+    public ResearchMaster(String programmeCode, String programmeName, int duration, int credits, int ectCredits) {
         super(programmeCode, programmeName, duration, credits);
-        this.ect = 180;
+        this.ectCredits = ectCredits;
     }
     
     public void setThesis(boolean thesisPassOrFail){
