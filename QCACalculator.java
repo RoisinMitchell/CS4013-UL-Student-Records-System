@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +41,19 @@ public class QCACalculator {
         return module.getQualityHours();
     }*/
 
+    public double calculateCumulativeQCS(ArrayList<Transcript> transcripts){
+        double cumulativeQCS = 0.0;
+        for(Transcript transcript: transcripts){
+            for (Map.Entry<Module, Grade> entry : transcript.getGrades().entrySet()) {
+                Module module = entry.getKey();
+                Grade grade = entry.getValue();
+                cumulativeQCS += hashMapGrade.get(grade.getGradeLetter()) * module.getModuleCredits();
+                this.moduleCredits = module.getModuleCredits();
+            }
+        }
+        return cumulativeQCS;
+
+    }
 
     // QCS(semester QCS) = QPV * Credits
     private double calculateSemesterQCS() {
@@ -50,18 +64,18 @@ public class QCACalculator {
             semesterQCS += hashMapGrade.get(grade.getGradeLetter()) * module.getModuleCredits();
             this.moduleCredits = module.getModuleCredits();
         }
-        cumulativeQCS += semesterQCS;
         return semesterQCS;
     }
 
     public int calculateSemesterAH() {
-        return 30;
+        return studentGrades.size()*moduleCredits;
     }
 
-    public int calculateCumulativeAH() {
-        Set<Map.Entry<Module, Grade>> entrySets = studentGrades.entrySet();
-        int moduleNumber = entrySets.size();
+    public int calculateCumulativeAH(ArrayList<Transcript> transcripts) {
+        int moduleNumber = transcripts.size()*5;
+         System.out.println("moduleNumber: "+moduleNumber);
         int cumulativeAH = moduleNumber * this.moduleCredits;
+        System.out.println("cumulativeAH: "+cumulativeAH);
         return cumulativeAH;
     }
 
@@ -71,8 +85,8 @@ public class QCACalculator {
         return this.semesterQCA;
     }
 
-    public double calculateCumulativeQCA() {
-        this.cumulativeQCA = cumulativeQCS / calculateCumulativeAH();
+    public double calculateCumulativeQCA(ArrayList<Transcript> transcripts) {
+        this.cumulativeQCA = calculateCumulativeQCS(transcripts) / calculateCumulativeAH(transcripts);
         return this.cumulativeQCA;
     }
 

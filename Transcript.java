@@ -30,7 +30,12 @@ public class Transcript {
 
         QCACalculator qca = new QCACalculator(this.grades, this.student);
         this.semesterQCA = qca.calculateSemesterQCA();
-        this.cumulativeQCA = qca.calculateCumulativeQCA();
+        if(student.getPreviousTranscripts().size()!=0){
+            this.cumulativeQCA = qca.calculateCumulativeQCA(student.getPreviousTranscripts());
+        }else{
+            this.cumulativeQCA=this.semesterQCA;
+        }
+        
     }
 
     public Student getStudent(){
