@@ -46,7 +46,7 @@ public class Transcript {
     public double getCumulativeQCA(){
         return this.cumulativeQCA;
     }
-    public LinkedHashMap getGrades(){
+    public LinkedHashMap<Module, Grade> getGrades(){
         return grades;
     }
 

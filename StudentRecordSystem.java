@@ -207,14 +207,15 @@ e.g. 21193762, 89
 
             currentTranscripts.add(transcript);
 
-            if(student.getProgramme().calculateProgression(transcript) && (student.getPreviousTranscripts().size() % 2 == 1)){
+            if(student.getProgramme().calculateProgression(transcript) && (student.getPreviousTranscripts().size() % 2 == 0)){
 
                 if(student.getYearOfStudy() + 1 > student.getProgramme().getDuration()){
-
-                    // GRADUATE
+                    // GRADUATE ADDs an honour to the student
+                    student.getProgramme().calculateHonourType(student);
+                
                 }
                 else{
-
+                    // Student progresses a year
                     student.setYearOfStudy(student.getYearOfStudy() + 1);
                 }
             }
