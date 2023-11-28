@@ -16,12 +16,9 @@ public class ResearchMaster extends MasterProgramme {
         this.thesisPassOrFail = thesisPassOrFail;
     }
 
-
-    public int getECTSCredits(){
+    public int getECTSCredits() {
         return ECTSCredits;
     }
-
-    public boolean calculateProgression(Transcript transcript){
 
     public boolean calculateProgression(Transcript transcript) {
 

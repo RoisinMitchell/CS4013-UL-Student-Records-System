@@ -111,12 +111,8 @@ public class StudentRecordSystem {
         CsvReader transcriptsCsv = new CsvReader(fileName);
         ArrayList<String> transcriptStrings = transcriptsCsv.toArrayList();
 
-        for(int j=0;j<transcriptStrings.size()-1;j++){
-
-        //}
-        //for (String transcriptString : transcriptStrings) {
-            //String[] transcriptDetails = transcriptString.split(",");
-            String[] transcriptDetails = transcriptStrings.get(j).split(",");
+        for (String transcriptString : transcriptStrings) {
+            String[] transcriptDetails = transcriptString.split(",");
 
             Student student = getStudent(transcriptDetails[0].trim());
             String semester = transcriptDetails[1].trim();
