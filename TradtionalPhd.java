@@ -7,37 +7,36 @@ public class TradtionalPhd extends PhdProgramme {
 
     // no modules, awarded 
     // pass/Fail
-    public TradtionalPhd(ArrayList<Module> modules, String programmeCode, String programmeName, int duration,
-            int credits, boolean thesisPassOrFail, int ECTSCredits) {
+    public TradtionalPhd(ArrayList<Module> modules, String programmeCode, String programmeName, int duration, int credits, boolean thesisPassOrFail, int ECTSCredits) {
         super(modules, programmeCode, programmeName, duration, credits);
         this.thesisPassOrFail = thesisPassOrFail;
         this.ECTSCredits = ECTSCredits;
     }
 
-    public void setThesisPassOrFail(boolean thesisPassOrFail){
+    public void setThesisPassOrFail(boolean thesisPassOrFail) {
         this.thesisPassOrFail = thesisPassOrFail;
     }
 
-    public boolean getThesisPassOrFail(){
+    public boolean getThesisPassOrFail() {
         return thesisPassOrFail;
     }
 
-    public void setECTSCredits(int ECTSCredits){
+    public void setECTSCredits(int ECTSCredits) {
         this.ECTSCredits = ECTSCredits;
     }
 
-    public int getECTSCredits(){
+    public int getECTSCredits() {
         return ECTSCredits;
     }
 
-    public boolean calculateProgression(Transcript transcript){
-        if(thesisPassOrFail){
+    public boolean calculateProgression(Transcript transcript) {
+        if (thesisPassOrFail) {
             // or setECTSCredits(270)?
             return true;
         }
         return false;
-        
+
     }
-    
-    
+
+
 }

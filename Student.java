@@ -12,7 +12,7 @@ public class Student {
     private ArrayList<Transcript> previousTranscripts;
 
 
-    public Student(String ID, String name, String address, Programme programme, int yearOfStudy){
+    public Student(String ID, String name, String address, Programme programme, int yearOfStudy) {
         this.semesterGrades = new LinkedHashMap<>();
         this.previousTranscripts = new ArrayList<>();
         this.studentID = ID;
@@ -22,7 +22,7 @@ public class Student {
         this.yearOfStudy = yearOfStudy;
     }
 
-    public Student(String ID, String name, String address, Programme programme, int yearOfStudy, ArrayList<Transcript> previousTranscripts){
+    public Student(String ID, String name, String address, Programme programme, int yearOfStudy, ArrayList<Transcript> previousTranscripts) {
         this.semesterGrades = new LinkedHashMap<>();
         this.studentID = ID;
         this.studentName = name;
@@ -32,35 +32,35 @@ public class Student {
         this.previousTranscripts = previousTranscripts;
     }
 
-    public void setGrade(Module module, Grade grade){
+    public void setGrade(Module module, Grade grade) {
         this.semesterGrades.put(module, grade);
     }
 
-    public String getStudentID(){
+    public String getStudentID() {
         return this.studentID;
     }
 
-    public String getName(){
+    public String getName() {
         return this.studentName;
     }
 
-    public String getAddress(){
+    public String getAddress() {
         return this.address;
     }
 
-    public Programme getProgramme(){
+    public Programme getProgramme() {
         return programme;
     }
 
-    public LinkedHashMap<Module, Grade> getGrades(){
+    public LinkedHashMap<Module, Grade> getGrades() {
         return this.semesterGrades;
     }
 
-    public int getYearOfStudy(){
+    public int getYearOfStudy() {
         return this.yearOfStudy;
     }
 
-    public void setYearOfStudy(int yearOfStudy){
+    public void setYearOfStudy(int yearOfStudy) {
         this.yearOfStudy = yearOfStudy;
     }
 
@@ -68,14 +68,15 @@ public class Student {
         return this.previousTranscripts;
     }
 
-    public void setHonourType(String honourType){
+    public void setHonourType(String honourType) {
         this.honourType = honourType;
     }
 
-    public String getHonourType(){
+    public String getHonourType() {
         return this.honourType;
     }
-    public void addTranscript(Transcript transcript){
+
+    public void addTranscript(Transcript transcript) {
         previousTranscripts.add(transcript);
     }
 

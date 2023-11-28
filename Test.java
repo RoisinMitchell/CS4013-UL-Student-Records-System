@@ -11,15 +11,15 @@ public class Test {
         ArrayList<Student> students = system.getStudents();
         ArrayList<Transcript> transcripts = system.getPreviousTranscripts();
 
-        for(Module module : modules){
+        for (Module module : modules) {
             System.out.println(module.toString());
         }
 
-        for(Programme programme : programmes){
+        for (Programme programme : programmes) {
             System.out.println(programme.toString());
         }
 
-        for(Student student : students){
+        for (Student student : students) {
             System.out.println(student.toString());
         }
 
@@ -31,7 +31,7 @@ public class Test {
 
         ArrayList<Transcript> transcriptsNew = system.holdReview();
 
-        for(Transcript transcript : transcriptsNew){
+        for (Transcript transcript : transcriptsNew) {
             System.out.println("------------\nNEW TRANSCRIPT\n" + transcript.toString() + "\n");
         }
 

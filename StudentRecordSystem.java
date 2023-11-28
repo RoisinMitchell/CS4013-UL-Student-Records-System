@@ -10,6 +10,8 @@ public class StudentRecordSystem {
     private ArrayList<Programme> programmes;
     private ArrayList<Transcript> previousTranscripts;
     private ArrayList<Transcript> currentTranscripts;
+    String semester;
+    private String academicYear;
 
     public StudentRecordSystem() {
         this.modules = new ArrayList<>();
@@ -26,11 +28,6 @@ public class StudentRecordSystem {
         setPreviousTranscripts(transcriptFile);
     }
 
-    /*
-    Module data is read on one line comma separated (Module Code, Name, Credits, Quality Hours, Grade Scheme(0-2))
-    The grade scheme is an offset for the percent to grade calculation that represents the different grade bands in different modules
-    e.g. CS4013, Object Oriented Development, 6, 30, 0
-     */
     private void setModules(String fileName) throws IOException {
         CsvReader modulesCsv = new CsvReader(fileName);
         ArrayList<String> moduleList = modulesCsv.toArrayList();
@@ -41,18 +38,14 @@ public class StudentRecordSystem {
             String code = moduleDetails[0].trim();
             String name = moduleDetails[1].trim();
             int credits = Integer.parseInt(moduleDetails[2].trim());
-            int qualityHours = Integer.parseInt(moduleDetails[3].trim());
+            int attendedHours = Integer.parseInt(moduleDetails[3].trim());
             int gradeScheme = Integer.parseInt(moduleDetails[4].trim());
 
-            Module moduleObj = new Module(code, name, credits, qualityHours, gradeScheme);
+            Module moduleObj = new Module(code, name, credits, attendedHours, gradeScheme);
             this.modules.add(moduleObj);
         }
     }
 
-    /*
-    Student data is read on one line comma separated (ID, name, address, course)
-    e.g. 21193762, Roisin Mitchell, 31 Limerick, LM121
-     */
     private void setStudents(String fileName) throws IOException {
         CsvReader studentsCsv = new CsvReader(fileName);
         ArrayList<String> studentList = studentsCsv.toArrayList();
@@ -75,10 +68,6 @@ public class StudentRecordSystem {
         }
     }
 
-    /*
-    Programme data is read on one line comma separated (Programme Type, Programme Code, Name, DurationInYears, Credits, Module1, Module2, Module3...)
-    e.g. BSc, LM121, Computer Science, 4, 120, CS4004, CS4013, CS4141, ET4021, CS4023
-     */
     private void setProgrammes(String fileName) throws IOException {
         CsvReader underGraduateProgrammesCsv = new CsvReader(fileName);
         ArrayList<String> programmeList = underGraduateProgrammesCsv.toArrayList();
@@ -114,52 +103,39 @@ public class StudentRecordSystem {
             } else {
                 throw new RecordSystemException("Programme type does not exist: " + programmeType);
             }
-
             programmes.add(programme);
         }
     }
 
-    // A single transcript record is read in line by line with the following details:
-    // (ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade...)
-    // e.g. 2918382, 1, 2022/2023, 4.0, 4.0, CS4043, A1, CS4141, A1, CS4221, A1, ET4011, A1, MA4111, A1
     private void setPreviousTranscripts(String fileName) throws IOException {
         CsvReader transcriptsCsv = new CsvReader(fileName);
         ArrayList<String> transcriptStrings = transcriptsCsv.toArrayList();
 
-        for(int j=0;j<transcriptStrings.size()-1;j++){
-
-        //}
-        //for (String transcriptString : transcriptStrings) {
-            //String[] transcriptDetails = transcriptString.split(",");
-            String[] transcriptDetails = transcriptStrings.get(j).split(",");
+        for (String transcriptString : transcriptStrings) {
+            String[] transcriptDetails = transcriptString.split(",");
 
             Student student = getStudent(transcriptDetails[0].trim());
-            int semester = Integer.parseInt(transcriptDetails[1].trim());
+            String semester = transcriptDetails[1].trim();
             String academicYear = transcriptDetails[2].trim();
             double semesterQCA = Double.parseDouble(transcriptDetails[3].trim());
             double cumulativeQCA = Double.parseDouble(transcriptDetails[4].trim());
+            double QCS = Double.parseDouble(transcriptDetails[5].trim());
+            int attendedHours = Integer.parseInt((transcriptDetails[6].trim()));
 
             LinkedHashMap<Module, Grade> grades = new LinkedHashMap<>();
 
-            for (int i = 5; i < transcriptDetails.length - 1; i++) {
+            for (int i = 7; i < transcriptDetails.length - 1; i++) {
                 Module module = getModule(transcriptDetails[i].trim());
                 i++;
                 Grade grade = new Grade(transcriptDetails[i].trim());
                 grades.put(module, grade);
             }
-
-            Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, grades);
+            Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, QCS, attendedHours, grades);
             this.previousTranscripts.add(transcript);
+            student.setPreviousTranscripts(transcript);
         }
     }
 
-    /*
-The first line of the csv is Module details for which the grades belong to
-e.g. CS4023, Sem1, 23/24
-
-Every line after this will contain student ID and percentage achieved in the module
-e.g. 21193762, 89
-*/
     public void setGrades(String fileName) throws IOException {
 
         CsvReader gradesCsv = new CsvReader(fileName);
@@ -168,8 +144,8 @@ e.g. 21193762, 89
         // Parsing the first index in the array list as it contains the module details
         String[] moduleDetails = moduleGrades.get(0).split(",");
         String moduleCode = moduleDetails[0].trim();
-        String semester = moduleDetails[1].trim();
-        String academicYear = moduleDetails[2].trim();
+        this.semester = moduleDetails[1].trim();
+        this.academicYear = moduleDetails[2].trim();
         Module module = getModule(moduleCode.trim());
 
         moduleGrades.remove(0);
@@ -179,49 +155,31 @@ e.g. 21193762, 89
             String[] gradeDetails = studentGrade.split(",");
             String studentId = gradeDetails[0].trim();
             double percentGrade = Double.parseDouble(gradeDetails[1].trim());
-
-            // Getting the grade scheme from the module
             int gradeScheme = getModule(moduleCode.trim()).getGradeScheme();
-
-            // Passing the grade scale to the grade class to be used in conversion
             Grade grade = new Grade(percentGrade, gradeScheme);
-
-            //Locating the student in the record system
             Student student = getStudent(studentId);
-            // Setting grade on the student object
+
             student.setGrade(module, grade);
         }
     }
 
-    // To hold a review will accumulate all the student grades and set transcripts
     public ArrayList<Transcript> holdReview() {
-        LocalDate date = LocalDate.now();
-        int year = date.getYear();
-
-        // Getting semester from current date
-        int semester = findSemester(date);
-        String academicYear = year + "/" + (year + 1); // Formatting to 2023/2024
-
-
         for (Student student : students) {
-            LinkedHashMap<Module,Grade> grades = student.getGrades();
-
-            Transcript transcript = new Transcript(student, semester, academicYear);
-
+            LinkedHashMap<Module, Grade> grades = student.getGrades();
+            Transcript transcript = new Transcript(student, this.semester, this.academicYear, grades);
             currentTranscripts.add(transcript);
 
             if (student.getProgramme().calculateProgression(transcript)) {
 
                 if (student.getYearOfStudy() + 1 > student.getProgramme().getDuration()) {
 
-                if(student.getYearOfStudy() + 1 > student.getProgramme().getDuration()){
-                    // GRADUATE ADDs an honour to the student
-                    student.getProgramme().calculateHonourType(student, transcript.getCumulativeQCA());
-                    
-                }
-                else{
-                    // Student progresses a year
-                    student.setYearOfStudy(student.getYearOfStudy() + 1);
+                    if (student.getYearOfStudy() + 1 > student.getProgramme().getDuration()) {
+                        // GRADUATE ADDs an honour to the student
+                        student.getProgramme().calculateHonourType(student, transcript.getCumulativeQCA());
+
+                    } else {
+                        // Student progresses a year
+                        student.setYearOfStudy(student.getYearOfStudy() + 1);
                     }
                 }
             }
@@ -288,34 +246,6 @@ e.g. 21193762, 89
             }
         }
         throw new RecordSystemException("Programme not found: " + programmeCode);
-    }
-
-    private int findSemester(LocalDate date) {
-
-        int year = date.getYear();
-
-        // Semester 1 bounds for finding the current semester (Start date and Results date)
-        LocalDate sem1Start = LocalDate.of(year, 9, 20);
-        LocalDate sem1End = LocalDate.of(year + 1, 1, 25);
-
-        // Semester 2 bounds for finding the current semester (Start date and Results date)
-        LocalDate sem2Start = LocalDate.of(year + 1, 1, 29);
-        LocalDate sem2End = LocalDate.of(year + 1, 6, 21);
-
-        int semester = 0;
-
-        if (date.isEqual(sem1Start) || (date.isAfter(sem1Start) && date.isBefore(sem1End))) {
-            semester = 1;
-        } else if (date.isEqual(sem2Start) || (date.isAfter(sem2Start) && date.isBefore(sem2End))) {
-            semester = 2;
-        }
-        return semester;
-    }
-
-    private void resetStudentsGrades(){
-        for(Student student : students){
-            student.resetGrades();
-        }
     }
 }
 
