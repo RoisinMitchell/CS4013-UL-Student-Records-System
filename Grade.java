@@ -7,21 +7,21 @@ public class Grade {
     private int gradeScheme;
     private LinkedHashMap<String, Double> gradeConversionChart; // A1 - 80...
 
-    public Grade(String gradeLetter){
+    public Grade(String gradeLetter) {
         this.gradeLetter = gradeLetter;
     }
 
-    public Grade(double percentGrade, int gradeScheme){
+    public Grade(double percentGrade, int gradeScheme) {
         this.gradeScheme = gradeScheme;
         setGradeConversionChart(gradeScheme);
         this.percentGrade = percentGrade;
         this.gradeLetter = convertPercentToGrade(percentGrade);
     }
 
-    private void setGradeConversionChart(int gradeScheme){
+    private void setGradeConversionChart(int gradeScheme) {
         gradeConversionChart = new LinkedHashMap<>();
 
-        if(gradeScheme == 0){
+        if (gradeScheme == 0) {
             gradeConversionChart.put("A1", 80.0);
             gradeConversionChart.put("A2", 72.0);
             gradeConversionChart.put("B1", 64.0);
@@ -34,7 +34,7 @@ public class Grade {
             gradeConversionChart.put("D2", 30.0);
             gradeConversionChart.put("F", 0.0);
 
-        }else if(gradeScheme == 1){
+        } else if (gradeScheme == 1) {
             gradeConversionChart.put("A1", 90.0);
             gradeConversionChart.put("A2", 82.0);
             gradeConversionChart.put("B1", 74.0);
@@ -47,7 +47,7 @@ public class Grade {
             gradeConversionChart.put("D2", 40.0);
             gradeConversionChart.put("F", 0.0);
 
-        }else if(gradeScheme == 2){
+        } else if (gradeScheme == 2) {
             gradeConversionChart.put("A1", 70.0);
             gradeConversionChart.put("A2", 62.0);
             gradeConversionChart.put("B1", 54.0);
@@ -62,10 +62,10 @@ public class Grade {
         }
     }
 
-    private String convertPercentToGrade(double percentGrade){
+    private String convertPercentToGrade(double percentGrade) {
         String gradeLetter = "";
 
-        for (Map.Entry<String, Double> entry: gradeConversionChart.entrySet()){
+        for (Map.Entry<String, Double> entry : gradeConversionChart.entrySet()) {
             if (percentGrade >= entry.getValue()) {
                 gradeLetter = entry.getKey();
                 break;
@@ -74,11 +74,11 @@ public class Grade {
         return gradeLetter;
     }
 
-    public String getGradeLetter(){
+    public String getGradeLetter() {
         return this.gradeLetter;
     }
 
-    public String toString(){
+    public String toString() {
         return this.gradeLetter;
     }
 }

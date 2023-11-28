@@ -6,8 +6,7 @@ public class PhdProgramme extends Programme {
     private boolean thesisPassOrFail;
     private String award;
 
-    public PhdProgramme(ArrayList<Module> modules, String programmeCode, String programmeName, int duration,
-            int credits) {
+    public PhdProgramme(ArrayList<Module> modules, String programmeCode, String programmeName, int duration, int credits) {
         super(modules, programmeCode, programmeName, duration, credits);
     }
 
@@ -36,7 +35,7 @@ public class PhdProgramme extends Programme {
     }
 
     public boolean calculateProgression(Transcript transcript) {
-        if(transcript.getCumulativeQCA() > 2.0 && transcript.getStudent().getProgramme().getCredits() == super.getCredits()) {
+        if (transcript.getCumulativeQCA() > 2.0 && transcript.getStudent().getProgramme().getCredits() == super.getCredits()) {
             return true;
         }
         return false;

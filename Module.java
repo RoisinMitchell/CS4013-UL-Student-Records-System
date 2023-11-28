@@ -13,19 +13,17 @@ public class Module {
         this.credits = credits;
         this.attendedHours = attendedHours;
         this.gradeScheme = gradeScheme;
-
     }
 
-
-    public String getModuleCode(){
+    public String getModuleCode() {
         return moduleCode;
     }
 
-    public String getModuleName(){
+    public String getModuleName() {
         return moduleName;
     }
 
-    public int getModuleCredits(){
+    public int getModuleCredits() {
         return credits;
     }
 
@@ -33,11 +31,11 @@ public class Module {
         return attendedHours;
     }
 
-    public int getGradeScheme(){
+    public int getGradeScheme() {
         return gradeScheme;
     }
 
-    public String toString(){
+    public String toString() {
         return this.moduleCode;
     }
 

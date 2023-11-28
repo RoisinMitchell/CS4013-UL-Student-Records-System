@@ -2,7 +2,7 @@
 import java.util.ArrayList;
 
 public class ResearchMaster extends MasterProgramme {
-    
+
     private boolean thesisPassOrFail;
     private int ECTSCredits;
 
@@ -11,8 +11,8 @@ public class ResearchMaster extends MasterProgramme {
         super(programmeCode, programmeName, duration, credits);
         this.ECTSCredits = ECTSCredits;
     }
-    
-    public void setThesis(boolean thesisPassOrFail){
+
+    public void setThesis(boolean thesisPassOrFail) {
         this.thesisPassOrFail = thesisPassOrFail;
     }
 
@@ -23,11 +23,11 @@ public class ResearchMaster extends MasterProgramme {
 
     public boolean calculateProgression(Transcript transcript){
 
-        if(!thesisPassOrFail){
+    public boolean calculateProgression(Transcript transcript) {
+
+        if (!thesisPassOrFail) {
             return false;
         }
-
         return true;
-
     }
 }

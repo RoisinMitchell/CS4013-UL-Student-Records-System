@@ -8,7 +8,7 @@ public class Master extends Programme {
     }
 
 
-    public void setThesis(boolean thesis){
+    public void setThesis(boolean thesis) {
         this.thesisPassOrFail = thesis;
     }
 }

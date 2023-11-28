@@ -1,12 +1,9 @@
 import java.io.IOException;
 
 public class StudentRecordSystemSim {
+    public static void main(String[] args) throws IOException {
 
-    // Initialise student record system (database)
-    // Provide Command Line Interface functionality
-   public static void main(String[] args) throws IOException{
-    
-    StudentRecordSystemMenu menu = new StudentRecordSystemMenu();
-    menu.run();
-   }
+        StudentRecordSystemMenu menu = new StudentRecordSystemMenu();
+        menu.run();
+    }
 } 

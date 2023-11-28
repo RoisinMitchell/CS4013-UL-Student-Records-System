@@ -3,16 +3,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StudentRecordSystemMenu {
-
-    private Scanner in;
-
-    private StudentRecordSystem recordSystem;
-
+    private final Scanner in;
+    private final StudentRecordSystem recordSystem;
     private ArrayList<Transcript> thisYearsTranscripts;
     private boolean running;
 
     public StudentRecordSystemMenu() {
-        // scanner
         in = new Scanner(System.in);
         running = true;
         recordSystem = new StudentRecordSystem();
@@ -44,21 +40,18 @@ public class StudentRecordSystemMenu {
                 System.out.println("1) Student transcript\n2) Current semester transcripts\n3) Back \n4) Quit");
 
                 command = in.nextLine();
-
                 this.thisYearsTranscripts = recordSystem.holdReview();
-
                 boolean secondMenu = true;
 
                 while (secondMenu) {
                     if (command.equals("1")) {
                         System.out.println("Student ID e.g. 2118737");
-
                         String student = in.nextLine();
 
                         for (Transcript transcript : thisYearsTranscripts) {
                             if ((transcript.getStudent()).getStudentID().equals(student)) {
                                 System.out.println("Student ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade,...");
-                                System.out.println(transcript.toString());
+                                System.out.println(transcript);
                             }
                         }
                     } else if (command.equals("2")) {
@@ -84,15 +77,26 @@ public class StudentRecordSystemMenu {
                         
                     }
                 }
-            }// FOR TESTING TO BE REMOVED 
-            else if (command.equals("test")) {
-
-                //FOR TESTING SET GRADES
+            } else if (command.equals("test1")) {
                 recordSystem.setGrades("Grades/1-CS4012.csv");
-                recordSystem.setGrades("Grades/1-CS4043.csv");
                 recordSystem.setGrades("Grades/1-CS4141.csv");
                 recordSystem.setGrades("Grades/1-CS4221.csv");
-                recordSystem.setGrades("Grades/1-CS4222.csv");
+                recordSystem.setGrades("Grades/1-ET4011.csv");
+                recordSystem.setGrades("Grades/1-MA4111.csv");
+
+                ArrayList<Transcript> test = recordSystem.holdReview();
+
+                for (Transcript transcript : test) {
+                    System.out.println(transcript.toString() + "\n");
+                }
+                recordSystem.exportTranscripts("Records/Transcripts.csv");
+
+            } else if (command.equals("test2")) {
+                recordSystem.setGrades("Grades/2-CS4043.csv");
+                recordSystem.setGrades("Grades/2-CS4182.csv");
+                recordSystem.setGrades("Grades/2-CS4222.csv");
+                recordSystem.setGrades("Grades/2-ET4162.csv");
+                recordSystem.setGrades("Grades/2-MA4402.csv");
 
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
@@ -102,13 +106,12 @@ public class StudentRecordSystemMenu {
 
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
 
-                //running = false;
-            }else if(command.equals("test2")){
-                recordSystem.setGrades("Grades/2-CS4182.csv");
-                recordSystem.setGrades("Grades/2-ET4011.csv");
-                recordSystem.setGrades("Grades/2-ET4162.csv");
-                recordSystem.setGrades("Grades/2-MA4111.csv");
-                recordSystem.setGrades("Grades/2-MA4402.csv");
+            } else if (command.equals("test3")) {
+                recordSystem.setGrades("Grades/3-CS4004.csv");
+                recordSystem.setGrades("Grades/3-CS4013.csv");
+                recordSystem.setGrades("Grades/3-CS4023.csv");
+                recordSystem.setGrades("Grades/3-CS4178.csv");
+                recordSystem.setGrades("Grades/3-CS4416.csv");
 
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
@@ -116,6 +119,71 @@ public class StudentRecordSystemMenu {
                     System.out.println(transcript.toString() + "\n");
                 }
 
+                recordSystem.exportTranscripts("Records/Transcripts.csv");
+
+            } else if (command.equals("test4")) {
+                recordSystem.setGrades("Grades/4-CS4006.csv");
+                recordSystem.setGrades("Grades/4-CS4076.csv");
+                recordSystem.setGrades("Grades/4-CS4115.csv");
+                recordSystem.setGrades("Grades/4-CS4815.csv");
+                recordSystem.setGrades("Grades/4-MA4413.csv");
+
+                ArrayList<Transcript> test = recordSystem.holdReview();
+
+                for (Transcript transcript : test) {
+                    System.out.println(transcript.toString() + "\n");
+                }
+                recordSystem.exportTranscripts("Records/Transcripts.csv");
+
+            } else if (command.equals("test5")) {
+                recordSystem.setGrades("Grades/5-COOP.csv");
+
+                ArrayList<Transcript> test = recordSystem.holdReview();
+
+                for (Transcript transcript : test) {
+                    System.out.println(transcript.toString() + "\n");
+                }
+                recordSystem.exportTranscripts("Records/Transcripts.csv");
+
+            } else if (command.equals("test6")) {
+                recordSystem.setGrades("Grades/6-CS4084.csv");
+                recordSystem.setGrades("Grades/6-CS4106.csv");
+                recordSystem.setGrades("Grades/6-CS4116.csv");
+                recordSystem.setGrades("Grades/6-CS4187.csv");
+                recordSystem.setGrades("Grades/6-CS4457.csv");
+
+                ArrayList<Transcript> test = recordSystem.holdReview();
+
+                for (Transcript transcript : test) {
+                    System.out.println(transcript.toString() + "\n");
+                }
+                recordSystem.exportTranscripts("Records/Transcripts.csv");
+
+            } else if (command.equals("test7")) {
+                recordSystem.setGrades("Grades/7-CS4011.csv");
+                recordSystem.setGrades("Grades/7-CS4125.csv");
+                recordSystem.setGrades("Grades/7-CS4287.csv");
+                recordSystem.setGrades("Grades/7-CS4337.csv");
+                recordSystem.setGrades("Grades/7-CS4617.csv");
+
+                ArrayList<Transcript> test = recordSystem.holdReview();
+
+                for (Transcript transcript : test) {
+                    System.out.println(transcript.toString() + "\n");
+                }
+                recordSystem.exportTranscripts("Records/Transcripts.csv");
+
+            } else if (command.equals("test8")) {
+                recordSystem.setGrades("Grades/8-CS4158.csv");
+                recordSystem.setGrades("Grades/8-CS4168.csv");
+                recordSystem.setGrades("Grades/8-CS4227.csv");
+                recordSystem.setGrades("Grades/8-CS4618.csv");
+
+                ArrayList<Transcript> test = recordSystem.holdReview();
+
+                for (Transcript transcript : test) {
+                    System.out.println(transcript.toString() + "\n");
+                }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
 
             } else if (command.equals("3")) {
