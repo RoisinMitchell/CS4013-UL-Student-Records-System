@@ -2,14 +2,39 @@ import java.util.ArrayList;
 
 public class TradtionalPhd extends PhdProgramme {
 
+    private boolean thesisPassOrFail;
+    private int ECTSCredits;
+
+    // no modules, awarded 
+    // pass/Fail
     public TradtionalPhd(ArrayList<Module> modules, String programmeCode, String programmeName, int duration,
-            int credits) {
+            int credits, boolean thesisPassOrFail, int ECTSCredits) {
         super(modules, programmeCode, programmeName, duration, credits);
-        //TODO Auto-generated constructor stub
+        this.thesisPassOrFail = thesisPassOrFail;
+        this.ECTSCredits = ECTSCredits;
     }
 
-    public boolean calculateProgression(){
-        
+    public void setThesisPassOrFail(boolean thesisPassOrFail){
+        this.thesisPassOrFail = thesisPassOrFail;
+    }
+
+    public boolean getThesisPassOrFail(){
+        return thesisPassOrFail;
+    }
+
+    public void setECTSCredits(int ECTSCredits){
+        this.ECTSCredits = ECTSCredits;
+    }
+
+    public int getECTSCredits(){
+        return ECTSCredits;
+    }
+
+    public boolean calculateProgression(Transcript transcript){
+        if(thesisPassOrFail){
+            // or setECTSCredits(270)?
+            return true;
+        }
         return false;
         
     }
