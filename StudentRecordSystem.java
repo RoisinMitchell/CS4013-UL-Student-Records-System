@@ -3,11 +3,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-// The idea behind this class is that it is like the operating system of the whole student record system.
-// It is where the functionality of the Menu option are held. It is also the place where we communicate with our records stored in csv files.
-// The records are necessary for simulating a scenario where students will progress
-
-public class StudentRecordSystem{
+public class StudentRecordSystem {
 
     private ArrayList<Module> modules;
     private ArrayList<Student> students;
@@ -15,7 +11,7 @@ public class StudentRecordSystem{
     private ArrayList<Transcript> previousTranscripts;
     private ArrayList<Transcript> currentTranscripts;
 
-    public StudentRecordSystem(){
+    public StudentRecordSystem() {
         this.modules = new ArrayList<>();
         this.students = new ArrayList<>();
         this.programmes = new ArrayList<>();
@@ -27,7 +23,7 @@ public class StudentRecordSystem{
         setModules(moduleFile);
         setProgrammes(programmeFile);
         setStudents(studentFile);
-        //setPreviousTranscripts(transcriptFile);
+        setPreviousTranscripts(transcriptFile);
     }
 
     /*
@@ -39,7 +35,7 @@ public class StudentRecordSystem{
         CsvReader modulesCsv = new CsvReader(fileName);
         ArrayList<String> moduleList = modulesCsv.toArrayList();
 
-        for(String module : moduleList){
+        for (String module : moduleList) {
             String[] moduleDetails = module.split(",");
 
             String code = moduleDetails[0].trim();
@@ -62,7 +58,7 @@ public class StudentRecordSystem{
         ArrayList<String> studentList = studentsCsv.toArrayList();
 
         // Iterating over the list of students
-        for(String student : studentList){
+        for (String student : studentList) {
             //Splitting the line of student data at every comma, stored in an array
             String[] studentDetails = student.split(",");
 
@@ -83,12 +79,12 @@ public class StudentRecordSystem{
     Programme data is read on one line comma separated (Programme Type, Programme Code, Name, DurationInYears, Credits, Module1, Module2, Module3...)
     e.g. BSc, LM121, Computer Science, 4, 120, CS4004, CS4013, CS4141, ET4021, CS4023
      */
-    private void setProgrammes (String fileName) throws IOException{
+    private void setProgrammes(String fileName) throws IOException {
         CsvReader underGraduateProgrammesCsv = new CsvReader(fileName);
         ArrayList<String> programmeList = underGraduateProgrammesCsv.toArrayList();
 
         // Iterating over the lines of programme data in the file
-        for(String programmeString : programmeList){
+        for (String programmeString : programmeList) {
             //Splitting the line of programme data at every comma, stored in an array
             String[] programmeDetails = programmeString.split(",");
 
@@ -101,7 +97,7 @@ public class StudentRecordSystem{
 
             ArrayList<Module> moduleList = new ArrayList<>();
             // Iterating over the remaining data in the array courseDetails (all the module codes associated to the course)
-            for(int i = 5; i < programmeDetails.length; i++){
+            for (int i = 5; i < programmeDetails.length; i++) {
                 // Retrieving the module information from the RecordSystem and adding the module
                 Module module = getModule(programmeDetails[i].trim());
                 moduleList.add(module);
@@ -109,13 +105,13 @@ public class StudentRecordSystem{
 
             Programme programme;
 
-            if(programmeType.equalsIgnoreCase("BSc")){
+            if (programmeType.equalsIgnoreCase("BSc")) {
                 programme = new BachelorProgramme(moduleList, programmeCode, programmeName, duration, credits);
 
-            }else if(programmeType.equalsIgnoreCase("MSc")){
+            } else if (programmeType.equalsIgnoreCase("MSc")) {
                 programme = new MasterProgramme(moduleList, programmeCode, programmeName, duration, credits);
 
-            }else{
+            } else {
                 throw new RecordSystemException("Programme type does not exist: " + programmeType);
             }
 
@@ -174,7 +170,7 @@ e.g. 21193762, 89
 
         moduleGrades.remove(0);
 
-        for(String studentGrade : moduleGrades) {
+        for (String studentGrade : moduleGrades) {
             //Splitting the line of student data at every comma and stored in an array
             String[] gradeDetails = studentGrade.split(",");
             String studentId = gradeDetails[0].trim();
@@ -194,28 +190,29 @@ e.g. 21193762, 89
     }
 
     // To hold a review will accumulate all the student grades and set transcripts
-    public ArrayList<Transcript> holdReview(){
+    public ArrayList<Transcript> holdReview() {
         LocalDate date = LocalDate.now();
         int year = date.getYear();
 
         // Getting semester from current date
         int semester = findSemester(date);
-        String academicYear = year + "/" + (year+1); // Formatting to 2023/2024
+        String academicYear = year + "/" + (year + 1); // Formatting to 2023/2024
 
-        for(Student student : students){
+
+        for (Student student : students) {
+            LinkedHashMap<Module,Grade> grades = student.getGrades();
+
             Transcript transcript = new Transcript(student, semester, academicYear);
 
             currentTranscripts.add(transcript);
 
-            if(student.getProgramme().calculateProgression(transcript) && (student.getPreviousTranscripts().size() % 2 == 0)){
+            if (student.getProgramme().calculateProgression(transcript)) {
 
-                if(student.getYearOfStudy() + 1 > student.getProgramme().getDuration()){
-                    // GRADUATE ADDs an honour to the student
-                    student.getProgramme().calculateHonourType(student);
-                
-                }
-                else{
-                    // Student progresses a year
+                if (student.getYearOfStudy() + 1 > student.getProgramme().getDuration()) {
+
+                    // GRADUATE
+                } else {
+
                     student.setYearOfStudy(student.getYearOfStudy() + 1);
                 }
             }
@@ -223,58 +220,61 @@ e.g. 21193762, 89
         return currentTranscripts;
     }
 
-    public void exportTranscripts(String fileName){
+    public void exportTranscripts(String fileName) {
+        ArrayList<Transcript> allTranscripts = new ArrayList<>();
+        allTranscripts.addAll(previousTranscripts);
+        allTranscripts.addAll(currentTranscripts);
+
         CsvWriter writer = new CsvWriter(fileName);
-        writer.transcriptsToFile(previousTranscripts);
-        writer.transcriptsToFile(currentTranscripts);
+        writer.transcriptsToFile(allTranscripts);
     }
 
-    public ArrayList<Module> getModules(){
+    public ArrayList<Module> getModules() {
         return this.modules;
     }
 
-    public ArrayList<Student> getStudents(){
+    public ArrayList<Student> getStudents() {
         return this.students;
     }
 
-    public ArrayList<Programme> getProgrammes(){
+    public ArrayList<Programme> getProgrammes() {
         return this.programmes;
     }
 
-    public ArrayList<Transcript> getPreviousTranscripts(){
+    public ArrayList<Transcript> getPreviousTranscripts() {
         return this.previousTranscripts;
     }
 
-    public ArrayList<Transcript> getCurrentTranscripts(){
+    public ArrayList<Transcript> getCurrentTranscripts() {
         return this.currentTranscripts;
     }
 
-    public Module getModule(String moduleCode){
-        for(Module module : modules){
+    public Module getModule(String moduleCode) {
+        for (Module module : modules) {
             boolean match = module.getModuleCode().equalsIgnoreCase(moduleCode);
-            if(match){
+            if (match) {
                 return module;
             }
         }
         throw new RecordSystemException("Module not found: " + moduleCode);
     }
 
-    public Student getStudent(String studentID){
-        for(Student student : students){
+    public Student getStudent(String studentID) {
+        for (Student student : students) {
             boolean match = student.getStudentID().equalsIgnoreCase(studentID);
 
-            if(match){
+            if (match) {
                 return student;
             }
         }
         throw new RecordSystemException("Student not found: " + studentID);
     }
 
-    public Programme getProgramme(String programmeCode){
-        for(Programme programme : programmes){
+    public Programme getProgramme(String programmeCode) {
+        for (Programme programme : programmes) {
             boolean match = programme.getProgrammeCode().equalsIgnoreCase(programmeCode);
 
-            if(match){
+            if (match) {
                 return programme;
             }
         }
@@ -287,11 +287,11 @@ e.g. 21193762, 89
 
         // Semester 1 bounds for finding the current semester (Start date and Results date)
         LocalDate sem1Start = LocalDate.of(year, 9, 20);
-        LocalDate sem1End = LocalDate.of(year+1, 1, 25);
+        LocalDate sem1End = LocalDate.of(year + 1, 1, 25);
 
         // Semester 2 bounds for finding the current semester (Start date and Results date)
-        LocalDate sem2Start = LocalDate.of(year+1, 1, 29);
-        LocalDate sem2End = LocalDate.of(year+1, 6, 21);
+        LocalDate sem2Start = LocalDate.of(year + 1, 1, 29);
+        LocalDate sem2End = LocalDate.of(year + 1, 6, 21);
 
         int semester = 0;
 
@@ -301,6 +301,12 @@ e.g. 21193762, 89
             semester = 2;
         }
         return semester;
+    }
+
+    private void resetStudentsGrades(){
+        for(Student student : students){
+            student.resetGrades();
+        }
     }
 }
 

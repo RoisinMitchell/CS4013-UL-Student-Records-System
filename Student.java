@@ -66,6 +66,10 @@ public class Student {
         this.yearOfStudy = yearOfStudy;
     }
 
+    public void resetGrades(){
+        this.semesterGrades.clear();
+    }
+
     public ArrayList<Transcript> getPreviousTranscripts(){
         return this.previousTranscripts;
     }

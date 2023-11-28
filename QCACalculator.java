@@ -9,16 +9,16 @@ public class QCACalculator {
     private double cumulativeQCS;
     private double semesterQCA;
     private double cumulativeQCA;
-    private HashMap<Module,Grade> studentGrades;
+    private HashMap<Module, Grade> studentGrades;
     private HashMap<String, Double> hashMapGrade; // A1 - 4.0...
 
-    public QCACalculator(HashMap<Module,Grade> studentGrades, Student student){
+    public QCACalculator(HashMap<Module, Grade> studentGrades, Student student) {
         this.studentGrades = studentGrades;
         this.student = student;
         getTheGradeTable();
     }
 
-    private HashMap<String, Double> getTheGradeTable(){
+    private HashMap<String, Double> getTheGradeTable() {
         hashMapGrade = new HashMap<String, Double>();
         hashMapGrade.put("A1", 4.00);
         hashMapGrade.put("A2", 3.60);
@@ -42,9 +42,9 @@ public class QCACalculator {
 
 
     // QCS(semester QCS) = QPV * Credits
-    private double calculateSemesterQCS(){
+    private double calculateSemesterQCS() {
         double semesterQCS = 0.0;
-        for (Map.Entry<Module, Grade> entry: studentGrades.entrySet()) {
+        for (Map.Entry<Module, Grade> entry : studentGrades.entrySet()) {
             Module module = entry.getKey();
             Grade grade = entry.getValue();
             semesterQCS += hashMapGrade.get(grade.getGradeLetter()) * module.getModuleCredits();
@@ -54,33 +54,33 @@ public class QCACalculator {
         return semesterQCS;
     }
 
-    public int calculateSemesterAH(){
+    public int calculateSemesterAH() {
         return 30;
     }
 
-    public int calculateCumulativeAH(){
-        Set<Map.Entry<Module, Grade>> entrySets =  studentGrades.entrySet();
+    public int calculateCumulativeAH() {
+        Set<Map.Entry<Module, Grade>> entrySets = studentGrades.entrySet();
         int moduleNumber = entrySets.size();
         int cumulativeAH = moduleNumber * this.moduleCredits;
         return cumulativeAH;
     }
 
     // semester QCA = summation(QCS)/summation(AH-NQH)
-    public double calculateSemesterQCA(){
-        this.semesterQCA = calculateSemesterQCS()/calculateSemesterAH();
+    public double calculateSemesterQCA() {
+        this.semesterQCA = calculateSemesterQCS() / calculateSemesterAH();
         return this.semesterQCA;
     }
 
-    public double calculateCumulativeQCA(){
-        this.cumulativeQCA = cumulativeQCS/calculateCumulativeAH();
+    public double calculateCumulativeQCA() {
+        this.cumulativeQCA = cumulativeQCS / calculateCumulativeAH();
         return this.cumulativeQCA;
     }
- 
-    public double getSemesterQCA(){
+
+    public double getSemesterQCA() {
         return this.semesterQCA;
     }
 
-    public double getCumulativeQCA(){
+    public double getCumulativeQCA() {
         return this.cumulativeQCA;
     }
 }
