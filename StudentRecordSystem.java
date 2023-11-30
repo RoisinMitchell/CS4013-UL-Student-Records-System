@@ -185,8 +185,6 @@ public class StudentRecordSystem {
         }
         return currentTranscripts;
     }
-
-
     
      public void setTheses(String filename) throws FileNotFoundException{
         CsvReader theses = new CsvReader(filename);
@@ -209,14 +207,10 @@ public class StudentRecordSystem {
                     }
                 }
             }
-
-            
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        
     }
 
 
