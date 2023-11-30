@@ -10,7 +10,10 @@ public class Student {
     private LinkedHashMap<Module, Grade> semesterGrades;
     private boolean completedCoop;
     private String honourType;
+    private String awardType;
     private ArrayList<Transcript> previousTranscripts;
+    private boolean theisPassOrFail;
+    private boolean dissertionPassOrFail;
 
 
     public Student(String ID, String name, String address, Programme programme, int yearOfStudy) {
@@ -32,6 +35,7 @@ public class Student {
         this.yearOfStudy = yearOfStudy;
         this.previousTranscripts = previousTranscripts;
         this.completedCoop = completedCoop;
+        this.awardType = "NOTPROGRESS";
     }
 
     public void setGrade(Module module, Grade grade) {
@@ -71,11 +75,11 @@ public class Student {
     }
 
     public void setHonourType(String honourType) {
-        this.honourType = honourType;
+        this.awardType = honourType;
     }
 
     public String getHonourType() {
-        return this.honourType;
+        return this.awardType;
     }
 
     public void addTranscript(Transcript transcript) {
@@ -84,6 +88,13 @@ public class Student {
 
     public void setPreviousTranscripts(Transcript transcript){
         this.previousTranscripts.add(transcript);
+    }
+    public void setThesis(boolean theis){
+        this.theisPassOrFail = theis;
+        
+    }
+    public void setDissertion(boolean dissertion){
+        this.dissertionPassOrFail = dissertion;
     }
 
     public String toString(){

@@ -73,9 +73,13 @@ public class Programme {
         // CHECKS FOR F,NG,D or D1
         LinkedHashMap<Module, Grade> currentGrades = transcript.getGrades();
         for (Map.Entry<Module, Grade> entry : currentGrades.entrySet()) {
+            // grade
+            String grade = entry.getValue().getGradeLetter();
 
-            if (entry.getValue().getGradeLetter().equals("F") || entry.getValue().getGradeLetter().equals("NG") || entry.getValue().getGradeLetter().equals("D1")
-                    || entry.getValue().getGradeLetter().equals("I") || entry.getValue().getGradeLetter().equals("D")) {
+            // returns false if grade prevents progression
+
+            if (grade.equals("F") || grade.equals("NG") || grade.equals("D1")
+                    || grade.equals("I") || grade.equals("D")) {
                 return false;
             }
         }

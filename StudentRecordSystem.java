@@ -175,7 +175,7 @@ public class StudentRecordSystem {
                     if (student.getYearOfStudy() + 1 > student.getProgramme().getDuration()) {
                         // GRADUATE ADDs an honour to the student
                         student.getProgramme().calculateHonourType(student, transcript.getCumulativeQCA());
-
+                        System.out.println(student.getStudentID() + "GRADUATED");
                     } else {
                         // Student progresses a year
                         student.setYearOfStudy(student.getYearOfStudy() + 1);
@@ -184,6 +184,60 @@ public class StudentRecordSystem {
             }
         }
         return currentTranscripts;
+    }
+
+
+    public void setTheses(String filename) throws FileNotFoundException{
+        CsvReader theses = new CsvReader(filename);
+        try {
+            ArrayList<String> thesesThatPass = theses.toArrayList();
+
+            for(String theis: thesesThatPass){
+                String[] studentIdResult = theis.split(",");
+                for(Student student : students){
+                    if(studentIdResult[1].trim().equals(student.getStudentID())){
+                        System.out.println("NOT YET IMPLEMETED");
+                    }
+                }
+            }
+
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        
+    }
+     public void set(String filename) throws FileNotFoundException{
+        CsvReader theses = new CsvReader(filename);
+        try {
+            ArrayList<String> thesesThatPass = theses.toArrayList();
+
+            for(String theis: thesesThatPass){
+                String[] studentIdResult = theis.split(",");
+                for(Student student : students){
+                    if(studentIdResult[1].trim().equals(student.getStudentID())){
+                        String programCode = student.getProgramme().getProgrammeCode();
+                        for(Programme programme : programmes){
+                            String programesProgrameCode = programme.getProgrammeCode();
+                            if(programCode.equals(programesProgrameCode)){
+                                
+                            }
+                       }
+                       
+
+                    }
+                }
+            }
+
+            
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        
     }
 
 
