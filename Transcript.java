@@ -1,9 +1,7 @@
 import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
-
 public class Transcript {
-
     private Student student;
     private String semester;
     private String academicYear;
@@ -13,7 +11,6 @@ public class Transcript {
     private boolean progression;
     private double QCS;
     private int attendedHours;
-
     public Transcript(Student student, String semester, String academicYear, double semesterQCA, double cumulativeQCA,
             double QCS, int attendedHours, LinkedHashMap<Module, Grade> grades) {
         this.student = student;
@@ -25,40 +22,32 @@ public class Transcript {
         this.attendedHours = attendedHours;
         this.QCS = QCS;
     }
-
     public Transcript(Student student, String semester, String academicYear, LinkedHashMap<Module, Grade> grades) {
         this.student = student;
         this.semester = semester;
         this.academicYear = academicYear;
         this.grades = grades;
-
         QCACalculator qcaObj = new QCACalculator(this.grades, student);
         this.attendedHours = qcaObj.getAttendedHours();
         this.semesterQCA = qcaObj.calculateSemesterQca();
         this.cumulativeQCA = qcaObj.calculateCumulativeQca();
         this.QCS = qcaObj.getQCS();
     }
-
     public Student getStudent() {
         return student;
     }
-
     public double getSemesterQCA() {
         return this.semesterQCA;
     }
-
     public double getCumulativeQCA() {
         return this.cumulativeQCA;
     }
-
     public LinkedHashMap<Module, Grade> getGrades() {
         return grades;
     }
-
     public double getQCS() {
         return this.QCS;
     }
-
     public double getAttendedHours() {
         return this.attendedHours;
     }
@@ -70,7 +59,6 @@ public class Transcript {
         String out = this.student.getStudentID() + ", " + this.semester + ", " + this.academicYear + ", "
                 + f.format(semesterQCA) + ", " + f.format(cumulativeQCA) + ", " + f.format(QCS) + ", "
                 + this.attendedHours;
-
         for (Entry<Module, Grade> map : grades.entrySet()) {
             out += ", " + (map.getKey()).getModuleCode() + ", " + map.getValue().getGradeLetter();
         }
