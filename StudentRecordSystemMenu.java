@@ -13,11 +13,13 @@ public class StudentRecordSystemMenu {
         running = true;
         recordSystem = new StudentRecordSystem();
 
-        //Setting existing records for the system to run on
+        // Setting existing records for the system to run on
         try {
-            recordSystem.setRecords("Records/Modules.csv", "Records/Programmes.csv", "Records/Students1.csv", "Records/Transcripts.csv");
+            recordSystem.setRecords("Records/Modules.csv", "Records/Programmes.csv", "Records/Students1.csv",
+                    "Records/Transcripts.csv");
         } catch (IOException e) {
-            System.out.println("Failed to load files. Check if the files exist or check that the file follows the conventions");
+            System.out.println(
+                    "Failed to load files. Check if the files exist or check that the file follows the conventions");
             running = false;
         }
     }
@@ -50,12 +52,15 @@ public class StudentRecordSystemMenu {
 
                         for (Transcript transcript : thisYearsTranscripts) {
                             if ((transcript.getStudent()).getStudentID().equals(student)) {
-                                System.out.println("Student ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade,...");
+                                System.out.println(
+                                        "Student ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade,...");
                                 System.out.println(transcript);
+
                             }
                         }
                     } else if (command.equals("2")) {
-                        System.out.println("Student ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade,...");
+                        System.out.println(
+                                "Student ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade,...");
                         for (Transcript transcript : thisYearsTranscripts) {
                             System.out.println(transcript.toString() + "");
                         }
@@ -74,7 +79,7 @@ public class StudentRecordSystemMenu {
 
                     } else {
                         System.out.println("Invalid input");
-                        
+
                     }
                 }
             } else if (command.equals("test1")) {
@@ -87,7 +92,7 @@ public class StudentRecordSystemMenu {
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
                 for (Transcript transcript : test) {
-                    System.out.println(transcript.toString() + "\n");
+                    transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
 
@@ -101,7 +106,7 @@ public class StudentRecordSystemMenu {
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
                 for (Transcript transcript : test) {
-                    System.out.println(transcript.toString() + "\n");
+                    transcript.format();
                 }
 
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
@@ -116,7 +121,7 @@ public class StudentRecordSystemMenu {
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
                 for (Transcript transcript : test) {
-                    System.out.println(transcript.toString() + "\n");
+                    transcript.format();
                 }
 
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
@@ -131,7 +136,7 @@ public class StudentRecordSystemMenu {
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
                 for (Transcript transcript : test) {
-                    System.out.println(transcript.toString() + "\n");
+                    transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
 
@@ -141,7 +146,7 @@ public class StudentRecordSystemMenu {
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
                 for (Transcript transcript : test) {
-                    System.out.println(transcript.toString() + "\n");
+                    transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
 
@@ -155,7 +160,7 @@ public class StudentRecordSystemMenu {
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
                 for (Transcript transcript : test) {
-                    System.out.println(transcript.toString() + "\n");
+                    transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
 
@@ -169,7 +174,7 @@ public class StudentRecordSystemMenu {
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
                 for (Transcript transcript : test) {
-                    System.out.println(transcript.toString() + "\n");
+                    transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
 
@@ -182,7 +187,7 @@ public class StudentRecordSystemMenu {
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
                 for (Transcript transcript : test) {
-                    System.out.println(transcript.toString() + "\n");
+                    transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
 
@@ -195,4 +200,4 @@ public class StudentRecordSystemMenu {
             }
         }
     }
-} 
+}

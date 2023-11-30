@@ -8,6 +8,7 @@ public class Student {
     private String address;
     private int yearOfStudy;
     private LinkedHashMap<Module, Grade> semesterGrades;
+    private boolean completedCoop;
     private String honourType;
     private ArrayList<Transcript> previousTranscripts;
 
@@ -22,7 +23,7 @@ public class Student {
         this.yearOfStudy = yearOfStudy;
     }
 
-    public Student(String ID, String name, String address, Programme programme, int yearOfStudy, ArrayList<Transcript> previousTranscripts) {
+    public Student(String ID, String name, String address, Programme programme, int yearOfStudy, ArrayList<Transcript> previousTranscripts, boolean completedCoop) {
         this.semesterGrades = new LinkedHashMap<>();
         this.studentID = ID;
         this.studentName = name;
@@ -30,6 +31,7 @@ public class Student {
         this.programme = programme;
         this.yearOfStudy = yearOfStudy;
         this.previousTranscripts = previousTranscripts;
+        this.completedCoop = completedCoop;
     }
 
     public void setGrade(Module module, Grade grade) {
@@ -87,5 +89,13 @@ public class Student {
     public String toString(){
         // ID, name, address, course
         return this.studentID + ", " + this.studentName + ", " + this.address + ", " + this.programme;
+    }
+
+    public boolean isCompletedCoop() {
+        return completedCoop;
+    }
+
+    public void setCompletedCoop(boolean completedCoop) {
+        this.completedCoop = completedCoop;
     }
 }
