@@ -1,10 +1,8 @@
 import java.io.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class StudentRecordSystem {
-
     private ArrayList<Module> modules;
     private ArrayList<Student> students;
     private ArrayList<Programme> programmes;
@@ -12,6 +10,7 @@ public class StudentRecordSystem {
     private ArrayList<Transcript> currentTranscripts;
     String semester;
     private String academicYear;
+    private boolean completedCoop;
 
     public StudentRecordSystem() {
         this.modules = new ArrayList<>();
@@ -92,18 +91,17 @@ public class StudentRecordSystem {
                 moduleList.add(module);
             }
 
-            Programme programme;
 
             if (programmeType.equalsIgnoreCase("BSc")) {
-                programme = new BachelorProgramme(moduleList, programmeCode, programmeName, duration, credits);
-
+                BachelorProgramme programme = new BachelorProgramme(moduleList, programmeCode, programmeName, duration, credits);
+                programmes.add(programme);
             } else if (programmeType.equalsIgnoreCase("MSc")) {
-                programme = new MasterProgramme(moduleList, programmeCode, programmeName, duration, credits);
-
+                MasterProgramme programme = new MasterProgramme(moduleList, programmeCode, programmeName, duration, credits);
+                programmes.add(programme);
             } else {
                 throw new RecordSystemException("Programme type does not exist: " + programmeType);
             }
-            programmes.add(programme);
+
         }
     }
 
@@ -150,6 +148,7 @@ public class StudentRecordSystem {
 
         moduleGrades.remove(0);
 
+        // Parsing csv for module grade
         for (String studentGrade : moduleGrades) {
             //Splitting the line of student data at every comma and stored in an array
             String[] gradeDetails = studentGrade.split(",");
@@ -186,6 +185,7 @@ public class StudentRecordSystem {
         }
         return currentTranscripts;
     }
+
 
     public void exportTranscripts(String fileName) {
         ArrayList<Transcript> allTranscripts = new ArrayList<>();

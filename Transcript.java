@@ -65,7 +65,7 @@ public class Transcript {
 
     public String toString() {
         // Using decimal format to round qca to two decimal places
-        DecimalFormat f = new DecimalFormat("##.00");
+        DecimalFormat f = new DecimalFormat("0.00");
 
         String out = this.student.getStudentID() + ", " + this.semester + ", " + this.academicYear + ", "
                 + f.format(semesterQCA) + ", " + f.format(cumulativeQCA) + ", " + f.format(QCS) + ", "
@@ -77,22 +77,4 @@ public class Transcript {
         return out;
     }
 
-    public void format() {
-        // Using decimal format to round qca to two decimal places
-        DecimalFormat f = new DecimalFormat("##.00");
-
-        System.out.println("-------------------------------------------------------------------------------------");
-        System.out.printf("|%-10s %-50s %-10s %-10s|\n", "StudentID", this.student.getStudentID(), this.academicYear,
-                this.semester);
-        System.out.printf("|%-10s %-50s %-10s %-10s|\n", "Module", "Title", "Grade", "Credits");
-        for (Entry<Module, Grade> map : grades.entrySet()) {
-            System.out.print("|");
-            System.out.printf("%-10s %-50s %-10s %-10s|\n", map.getKey().getModuleCode(), map.getKey().getModuleName(),
-                    map.getValue().getGradeLetter(), map.getKey().getModuleCredits());
-
-        }
-        System.out.printf("|%-20s %-10s %-20s %-30s|\n", "semesterQCA", f.format(semesterQCA), "cumulativeQCA",
-                f.format(cumulativeQCA));
-        System.out.println("-------------------------------------------------------------------------------------");
-    }
 }
