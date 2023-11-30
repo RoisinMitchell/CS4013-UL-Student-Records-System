@@ -54,7 +54,7 @@ public class Transcript {
 
     public String toString() {
         // Using decimal format to round qca to two decimal places
-        DecimalFormat f = new DecimalFormat("##.00");
+        DecimalFormat f = new DecimalFormat("0.00");
 
         String out = this.student.getStudentID() + ", " + this.semester + ", " + this.academicYear + ", "
                 + f.format(semesterQCA) + ", " + f.format(cumulativeQCA) + ", " + f.format(QCS) + ", "
@@ -67,7 +67,7 @@ public class Transcript {
 
     public void format() {
         // Using decimal format to round qca to two decimal places
-        DecimalFormat f = new DecimalFormat("##.00");
+        DecimalFormat f = new DecimalFormat("0.00");
 
         System.out.println("-------------------------------------------------------------------------------------");
         System.out.printf("|%-10s %-50s %-10s %-10s|\n", "StudentID", this.student.getStudentID(), this.academicYear,
