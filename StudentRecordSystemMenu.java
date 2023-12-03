@@ -50,20 +50,24 @@ public class StudentRecordSystemMenu {
             } else if (command.equals("4")) {
                 System.out.println("\nEnd of grading period. Now calculating transcripts...\n");
                 System.out.println("Choose an option:");
-                System.out.println("1) search transcripts\n2) Current Semster transcripts\n3) Back \n4) Quit");
                 //
-                command = in.nextLine();
+  
                 this.thisYearsTranscripts = recordSystem.holdReview();
                 boolean secondMenu = true;
                 boolean thirdMenu = false;
                 while (secondMenu) {
                     System.out.println("1) search transcripts\n2) Current Semster transcripts\n3) Back \n4) Quit");
+
+
+                    command = in.nextLine();
+
+
                     if (command.equals("1")) {
                        
                         thirdMenu = true;
                         while(thirdMenu){
                             
-                            System.out.println("1) By StudentID\n 2) By Module\n 3) By Program\n");
+                            System.out.println("1) By StudentID\n2) By Module\n3) By Program\n");
                             command = in.nextLine();
 
                             if(command.equals("1")){
