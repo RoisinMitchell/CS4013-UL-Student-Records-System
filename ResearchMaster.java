@@ -7,9 +7,9 @@ public class ResearchMaster extends MasterProgramme {
     private int ECTSCredits;
 
 
-    public ResearchMaster(String programmeCode, String programmeName, int duration, int credits) {
+    public ResearchMaster(String programmeCode, String programmeName, int duration, int credits, int ECTSCredits) {
         super(programmeCode, programmeName, duration, credits);
-        this.ECTSCredits = credits;
+        this.ECTSCredits = ECTSCredits;
     }
 
     public void setThesis(boolean thesisPassOrFail) {

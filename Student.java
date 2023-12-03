@@ -109,7 +109,4 @@ public class Student {
     public void setCompletedCoop(boolean completedCoop) {
         this.completedCoop = completedCoop;
     }
-    public boolean getTheisPassOrFail(){
-        return theisPassOrFail;
-    }
 }
