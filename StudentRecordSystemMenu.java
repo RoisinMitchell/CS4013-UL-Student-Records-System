@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
 
 public class StudentRecordSystemMenu {
     private final Scanner in;
@@ -28,9 +27,9 @@ public class StudentRecordSystemMenu {
 
     public void run() throws IOException {
         while (this.running) {
+
             System.out.println("\nChoose an option:");
-            System.out.println(
-                    "1) Submit module grades\n2) Hold review \n3) Reintialise Database \n4) Quit");
+            System.out.println("1) Submit Module Grades \n2) Hold Exam Review \n3) Quit");
 
             String command = in.nextLine();
 
@@ -41,21 +40,27 @@ public class StudentRecordSystemMenu {
 
             } else if (command.equals("2")) {
                 System.out.println("\nEnd of grading period. Now calculating transcripts...\n");
-                System.out.println("Choose an option:");
-                System.out.println("1) search transcripts\n2) Current Semester transcripts\n3) Back \n4) Quit");
-                //
-                command = in.nextLine();
+
                 this.transcripts = recordSystem.holdReview();
+                recordSystem.exportTranscripts("Records/Transcripts.csv");
+                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
+
+                System.out.println("Choose an option:");
+                System.out.println(
+                        "1) Search Transcripts\n2) Current Semester Transcripts\n3) Check Repeat Students\n4) Back");
+
+                command = in.nextLine();
+
                 boolean secondMenu = true;
                 boolean thirdMenu = false;
+
                 while (secondMenu) {
-                    System.out.println("1) search transcripts\n2) Current Semester transcripts\n3) Back \n4) Quit");
                     if (command.equals("1")) {
 
                         thirdMenu = true;
                         while (thirdMenu) {
-
-                            System.out.println("1) By StudentID\n 2) By Module\n 3) By Program\n");
+                            System.out.println("\nChoose an option:");
+                            System.out.println("1) By Student\n2) By Programme\n3) Back");
                             command = in.nextLine();
 
                             if (command.equals("1")) {
@@ -68,64 +73,62 @@ public class StudentRecordSystemMenu {
                                         transcript.format();
                                     }
                                 }
-                                thirdMenu = false;
+                                thirdMenu = true;
                             } else if (command.equals("2")) {
-                                System.out.println("Module Code e.g CS4012");
-
-                                command = in.nextLine();
-                                for (Transcript transcript : transcripts) {
-                                    Set<Module> keys = transcript.getGrades().keySet();
-                                    for (Module module : keys) {
-                                        if (module.getModuleCode().equals(command)) {
-                                            transcript.format();
-                                        }
-                                    }
-                                }
-                                thirdMenu = false;
-
-                            } else if (command.equals("3")) {
                                 System.out.println("Programme Code e.g LM121");
                                 command = in.nextLine();
 
                                 for (Transcript transcript : transcripts) {
-                                    if (transcript.getStudent().getProgramme().getProgrammeCode().equals(command)) {
+                                    if (transcript.getStudent().getProgramme().getProgrammeCode()
+                                            .equalsIgnoreCase(command)) {
                                         transcript.format();
                                     }
                                 }
+                                thirdMenu = true;
+                            } else if (command.equals("3")) {
                                 thirdMenu = false;
-
+                                System.out.println("\nChoose an option:");
+                                System.out.println(
+                                        "1) Search Transcripts\n2) Current Semester Transcripts\n3) Check Repeat Students\n4) Back");
+                                command = in.nextLine();
                             }
                         }
                     } else if (command.equals("2")) {
-                        System.out.println(
-                                "Student ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade,...");
                         for (Transcript transcript : transcripts) {
-                            System.out.println(transcript.toString() + "");
+                            transcript.format();
                         }
-                        // Closing the menu down
-                        secondMenu = false;
+                        secondMenu = true;
+                        System.out.println("\nChoose an option:");
+                        System.out.println(
+                                "1) Search Transcripts\n2) Current Semester Transcripts\n3) Check Repeat Students\n4) Back");
+                        command = in.nextLine();
 
                     } else if (command.equals("3")) {
-                        secondMenu = false;
-                        System.out.println("Add Grades");
+                        ArrayList<String> repeatStudents = recordSystem.getRepeatStudentStatus();
+                        System.out.println("\nRepeat Details:");
+                        for (String repeatStatus : repeatStudents) {
+                            System.out.println(repeatStatus);
+                        }
+                        secondMenu = true;
+                        System.out.println("\nChoose an option:");
+                        System.out.println(
+                                "1) Search Transcripts\n2) Current Semester Transcripts\n3) Check Repeat Students\n4) Back");
+                        command = in.nextLine();
 
                     } else if (command.equals("4")) {
-                        this.running = false;
                         secondMenu = false;
-                        System.out.println("Quiting");
 
+                        for (Student student : recordSystem.getStudents()) {
+                            student.clearSemesterGrades();
+                        }
                     } else {
                         System.out.println("Invalid input");
                         command = in.nextLine();
                     }
                 }
             } else if (command.equals("3")) {
-
-                recordSystem.setRecords("Records/Modules.csv", "Records/Programmes.csv",
-                        "Records/Students.csv",
-                        "Records/Transcripts.csv", "Records/RepeatStudents.csv");
-                // clears the old semester grades so new semster grades can be put in
-                recordSystem.resetSemsterGrades();
+                System.out.println("Quiting");
+                this.running = false;
 
             } else if (command.equals("sem1")) {
                 recordSystem.setGrades("Grades/1-CS4012.csv");
@@ -244,10 +247,6 @@ public class StudentRecordSystemMenu {
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
                 recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
-
-            } else if (command.equals("6")) {
-                System.out.println("Quiting");
-                this.running = false;
 
             } else {
                 System.out.println("Invalid Input");
