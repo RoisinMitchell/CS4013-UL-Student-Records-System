@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 public class Module {
     private String moduleCode;
     private String moduleName;
@@ -7,7 +5,7 @@ public class Module {
     private int attendedHours;
     private int gradeScheme;
 
-    public Module(String moduleCode,String moduleName,int credits,int attendedHours, int gradeScheme){
+    public Module(String moduleCode, String moduleName, int credits, int attendedHours, int gradeScheme) {
         this.moduleCode = moduleCode;
         this.moduleName = moduleName;
         this.credits = credits;
@@ -27,7 +25,7 @@ public class Module {
         return credits;
     }
 
-    public int getAttendedHours(){
+    public int getAttendedHours() {
         return attendedHours;
     }
 
@@ -36,7 +34,6 @@ public class Module {
     }
 
     public String toString() {
-        return this.moduleCode;
+        return this.moduleCode + ", " + this.moduleName;
     }
-
 }

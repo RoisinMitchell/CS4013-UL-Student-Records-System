@@ -1,13 +1,12 @@
 import java.util.ArrayList;
 
-public abstract class Programme{
+public abstract class Programme implements Review {
 
-    private ArrayList<Student> students;
-    private final ArrayList<Module> modules;
-    private final String programmeCode;
-    private final String programmeName;
-    private final int duration;
-    private final int credits;
+    private ArrayList<Module> modules;
+    private String programmeCode;
+    private String programmeName;
+    private int duration;
+    private int credits;
 
     public Programme(ArrayList<Module> modules, String programmeCode, String programmeName, int duration, int credits) {
         this.modules = modules;
@@ -17,36 +16,11 @@ public abstract class Programme{
         this.credits = credits;
     }
 
-    public void setStudents(ArrayList<Student> students){
-        this.students = students;
-    }
-
-    public ArrayList<Student> getStudents(){
-        return this.students;
-    }
-
-    public ArrayList<Module> getModules(){
-        return this.modules;
-    }
-
-    public String getProgrammeCode(){
+    public String getProgrammeCode() {
         return this.programmeCode;
     }
 
-    public int getDuration(){
-        return this.duration;
-    }
-
-    public int getCredits(){
-        return this.credits;
-    }
-
-    public String toString(){
+    public String toString() {
         return this.programmeCode + ", " + this.programmeName;
     }
-
-    public abstract boolean determineStudentProgression(Transcript transcript);
-
-    public abstract String determineRepeatStatus(Transcript transcript);
-
 }
