@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class TradtionalPhd extends PhdProgramme {
+public class TradtionalPhd extends Programme {
 
     private boolean thesisPassOrFail;
     private int ECTSCredits;
@@ -39,4 +39,13 @@ public class TradtionalPhd extends PhdProgramme {
 
     }
 
+    @Override
+    public boolean determineStudentProgression(Transcript transcript) {
+        return false;
+    }
+
+    @Override
+    public String determineRepeatStatus(Transcript transcript) {
+        return null;
+    }
 }

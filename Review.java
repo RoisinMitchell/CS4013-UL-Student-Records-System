@@ -1,12 +1,8 @@
 public interface Review {
 
-    public boolean reviewCredits(Student student);
+    public boolean determineStudentProgression(Transcript transcript);
 
-    public boolean reviewRepeat(Student student);
+    public String getAwardType(Student student);
 
-    public boolean reviewProgression(Student student);
-
-    public boolean reviewGraduate(Student student);
-
-
+    public String determineRepeatStatus(Transcript transcript);
 }

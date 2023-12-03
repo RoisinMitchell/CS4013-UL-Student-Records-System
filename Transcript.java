@@ -2,7 +2,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
-
 public class Transcript {
     private Student student;
     private String semester;
@@ -14,8 +13,9 @@ public class Transcript {
     private double QCS;
     private int attendedHours;
 
+
     public Transcript(Student student, String semester, String academicYear, double semesterQCA, double cumulativeQCA,
-            double QCS, int attendedHours, LinkedHashMap<Module, Grade> grades) {
+                      double QCS, int attendedHours, LinkedHashMap<Module, Grade> grades) {
         this.student = student;
         this.semester = semester;
         this.academicYear = academicYear;
@@ -25,7 +25,6 @@ public class Transcript {
         this.attendedHours = attendedHours;
         this.QCS = QCS;
     }
-
     public Transcript(Student student, String semester, String academicYear, LinkedHashMap<Module, Grade> grades) {
         this.student = student;
         this.semester = semester;
@@ -37,37 +36,29 @@ public class Transcript {
         this.cumulativeQCA = qcaObj.calculateCumulativeQca();
         this.QCS = qcaObj.getQCS();
     }
-
-    public void setSemesterQca() {
+    public void setSemesterQca(){
         QCACalculator qcaObj = new QCACalculator(this.grades, student);
         double qca = qcaObj.calculateSemesterQca();
         this.semesterQCA = qca;
     }
-
     public Student getStudent() {
         return student;
     }
-
-    public String getSemester() {
+    public String getSemester(){
         return this.semester;
     }
-
     public double getSemesterQCA() {
         return this.semesterQCA;
     }
-
     public double getCumulativeQCA() {
         return this.cumulativeQCA;
     }
-
     public LinkedHashMap<Module, Grade> getGrades() {
         return grades;
     }
-
     public double getQCS() {
         return this.QCS;
     }
-
     public double getAttendedHours() {
         return this.attendedHours;
     }
@@ -104,11 +95,11 @@ public class Transcript {
         System.out.println("-------------------------------------------------------------------------------------");
     }
 
-    public void setGrades(LinkedHashMap<Module, Grade> grades) {
+    public void setGrades(LinkedHashMap<Module, Grade> grades){
         this.grades = grades;
     }
 
-    public void recalculateQca() {
+    public void recalculateQca(){
         QCACalculator qcaObj = new QCACalculator(this.grades, this.student);
         this.attendedHours = qcaObj.getAttendedHours();
         this.semesterQCA = qcaObj.calculateSemesterQca();
@@ -117,11 +108,11 @@ public class Transcript {
 
     }
 
-    public String getAcademicYear() {
+    public String getAcademicYear(){
         return this.academicYear;
     }
 
-    public void setSemester(String semester) {
+    public void setSemester(String semester){
         this.semester = semester;
     }
 }

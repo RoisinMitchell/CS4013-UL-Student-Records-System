@@ -2,40 +2,39 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Student {
-    private String studentID;
-    private String studentName;
-    private Programme programme;
+    private final String studentID;
+    private final String studentName;
+    private final Programme programme;
     private String address;
     private int yearOfStudy;
     private LinkedHashMap<Module, Grade> semesterGrades;
-    private boolean completedCoop;
-    private String honourType;
+    private ArrayList<Transcript> transcripts;
+    private Transcript currentTranscript;
     private String awardType;
-    private ArrayList<Transcript> previousTranscripts;
-    private boolean theisPassOrFail;
-    private boolean dissertionPassOrFail;
+    private double cumulativeQca;
+    private double semesterQca;
+
+    private String repeatStatus;
 
 
-    public Student(String ID, String name, String address, Programme programme, int yearOfStudy) {
+    public Student(String ID, String name, String address, Programme programme) {
         this.semesterGrades = new LinkedHashMap<>();
-        this.previousTranscripts = new ArrayList<>();
+        this.transcripts = new ArrayList<>();
         this.studentID = ID;
         this.studentName = name;
         this.address = address;
         this.programme = programme;
-        this.yearOfStudy = yearOfStudy;
+        this.yearOfStudy = 1;
     }
 
-    public Student(String ID, String name, String address, Programme programme, int yearOfStudy, ArrayList<Transcript> previousTranscripts, boolean completedCoop) {
+    public Student(String ID, String name, String address, Programme programme, int yearOfStudy, ArrayList<Transcript> previousTranscripts) {
         this.semesterGrades = new LinkedHashMap<>();
         this.studentID = ID;
         this.studentName = name;
         this.address = address;
         this.programme = programme;
         this.yearOfStudy = yearOfStudy;
-        this.previousTranscripts = previousTranscripts;
-        this.completedCoop = completedCoop;
-        this.awardType = "NOTPROGRESS";
+        this.transcripts = previousTranscripts;
     }
 
     public void setGrade(Module module, Grade grade) {
@@ -70,31 +69,20 @@ public class Student {
         this.yearOfStudy = yearOfStudy;
     }
 
-    public ArrayList<Transcript> getPreviousTranscripts(){
-        return this.previousTranscripts;
+    public ArrayList<Transcript> getTranscripts(){
+        return this.transcripts;
     }
 
-    public void setHonourType(String honourType) {
-        this.awardType = honourType;
+    public void setAwardType(String awardType) {
+        this.awardType = awardType;
     }
 
-    public String getHonourType() {
+    public String getAwardType(String awardType){
         return this.awardType;
     }
 
-    public void addTranscript(Transcript transcript) {
-        previousTranscripts.add(transcript);
-    }
-
-    public void setPreviousTranscripts(Transcript transcript){
-        this.previousTranscripts.add(transcript);
-    }
-    public void setThesis(boolean theis){
-        this.theisPassOrFail = theis;
-        
-    }
-    public void setDissertion(boolean dissertion){
-        this.dissertionPassOrFail = dissertion;
+    public void setTranscripts(Transcript transcript){
+        this.transcripts.add(transcript);
     }
 
     public String toString(){
@@ -102,11 +90,20 @@ public class Student {
         return this.studentID + ", " + this.studentName + ", " + this.address + ", " + this.programme;
     }
 
-    public boolean isCompletedCoop() {
-        return completedCoop;
+    public Transcript getCurrentTranscript(){
+        return this.currentTranscript;
     }
 
-    public void setCompletedCoop(boolean completedCoop) {
-        this.completedCoop = completedCoop;
+    public void setCurrentTranscript(Transcript transcript){
+        this.currentTranscript = transcript;
     }
+
+    public void setRepeatStatus(String repeatStatus){
+        this.repeatStatus = repeatStatus;
+    }
+
+    public void clearSemesterGrades(){
+        this.semesterGrades.clear();
+    }
+
 }
