@@ -41,6 +41,8 @@ public class StudentRecordSystemMenu {
 
 
                 System.out.println("Input FileName");
+                command = in.nextLine();
+                recordSystem.setTheses(command);
 
             } else if(command.equals("3")){
               

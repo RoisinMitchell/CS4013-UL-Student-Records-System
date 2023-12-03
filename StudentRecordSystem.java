@@ -194,19 +194,23 @@ public class StudentRecordSystem {
             for(String theis: thesesThatPass){
                 String[] studentIdResult = theis.split(",");
                 for(Student student : students){
-                    if(studentIdResult[1].trim().equals(student.getStudentID())){
-                        String programCode = student.getProgramme().getProgrammeCode();
-                        for(Programme programme : programmes){
-                            String programesProgrameCode = programme.getProgrammeCode();
-                            if(programCode.equals(programesProgrameCode)){
-                                
-                            }
+                    
+                    if(studentIdResult[0].trim().equals(student.getStudentID())){
+                        boolean theisResult;
+                        if (studentIdResult[1].trim().equalsIgnoreCase("f")){
+                            theisResult = false;
+                        }else{
+                            theisResult = true;
+                        }
+
+                        student.setThesis(theisResult);
                        }
-                       
+                       // FOR TESTING TO BE REMOVEd
+
+                       System.out.println("StudentId" + student.getStudentID() + "theis" + student.getTheisPassOrFail());
 
                     }
                 }
-            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
