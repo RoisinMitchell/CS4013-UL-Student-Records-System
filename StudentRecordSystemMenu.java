@@ -6,7 +6,8 @@ import java.util.Set;
 public class StudentRecordSystemMenu {
     private final Scanner in;
     private final StudentRecordSystem recordSystem;
-    private ArrayList<Transcript> thisYearsTranscripts;
+    private ArrayList<Transcript> transcripts;
+
     private boolean running;
 
     public StudentRecordSystemMenu() {
@@ -17,19 +18,18 @@ public class StudentRecordSystemMenu {
         // Setting existing records for the system to run on
         try {
             recordSystem.setRecords("Records/Modules.csv", "Records/Programmes.csv", "Records/Students.csv",
-                    "Records/Transcripts.csv");
+                    "Records/Transcripts.csv", "Records/RepeatStudents.csv");
         } catch (IOException e) {
             System.out.println(
                     "Failed to load files. Check if the files exist or check that the file follows the conventions");
-
+            running = false;
         }
     }
 
     public void run() throws IOException {
         while (this.running) {
             System.out.println("\nChoose an option:");
-            System.out.println(
-                    "1) Submit module grades \n2) submit thesis\n3) submit dissertions\n4) Hold review \n5) Reintialise Database \n6) Quit");
+            System.out.println("1) Submit module grades \n2) Submit thesis\n3) Submit dissertations\n4) Hold review \n5) Quit"); //submit thesis / dissertations
 
             String command = in.nextLine();
 
@@ -38,45 +38,40 @@ public class StudentRecordSystemMenu {
                 command = in.nextLine();
                 recordSystem.setGrades(command);
 
-            } /*
-               * else if (command.equals("2")) {
-               * 
-               * System.out.println("Input FileName");
-               * command = in.nextLine();
-               * recordSystem.setTheses(command);
-               * 
-               * } else if (command.equals("3")) {
-               * 
-               * System.out.println("Input Filename");
-               * 
-               * }
-               */else if (command.equals("4")) {
+            } else if(command.equals("2")){
+
+
+                System.out.println("Input FileName");
+
+            } else if(command.equals("3")){
+
+                System.out.println("Input Filename");
+
+
+            } else if (command.equals("4")) {
                 System.out.println("\nEnd of grading period. Now calculating transcripts...\n");
                 System.out.println("Choose an option:");
-
+                System.out.println("1) search transcripts\n2) Current Semester transcripts\n3) Back \n4) Quit");
                 //
-                this.thisYearsTranscripts = recordSystem.holdReview();
+                command = in.nextLine();
+                this.transcripts = recordSystem.holdReview();
                 boolean secondMenu = true;
                 boolean thirdMenu = false;
                 while (secondMenu) {
-
-                    System.out.println("1) search transcripts\n2) Current Semster transcripts\n3) Quit");
-
-                    command = in.nextLine();
-
+                    System.out.println("1) search transcripts\n2) Current Semester transcripts\n3) Back \n4) Quit");
                     if (command.equals("1")) {
 
                         thirdMenu = true;
                         while (thirdMenu) {
 
-                            System.out.println("1) By StudentID\n2) By Module\n 3)By Program\n");
+                            System.out.println("1) By StudentID\n 2) By Module\n 3) By Program\n");
                             command = in.nextLine();
 
                             if (command.equals("1")) {
                                 System.out.println("Student ID e.g. 2118737");
                                 command = in.nextLine();
 
-                                for (Transcript transcript : thisYearsTranscripts) {
+                                for (Transcript transcript : transcripts) {
                                     if ((transcript.getStudent()).getStudentID().equals(command)) {
 
                                         transcript.format();
@@ -87,7 +82,7 @@ public class StudentRecordSystemMenu {
                                 System.out.println("Module Code e.g CS4012");
 
                                 command = in.nextLine();
-                                for (Transcript transcript : thisYearsTranscripts) {
+                                for (Transcript transcript : transcripts) {
                                     Set<Module> keys = transcript.getGrades().keySet();
                                     for (Module module : keys) {
                                         if (module.getModuleCode().equals(command)) {
@@ -98,25 +93,33 @@ public class StudentRecordSystemMenu {
                                 thirdMenu = false;
 
                             } else if (command.equals("3")) {
-                                System.out.println("Programme Code e.g Lm121");
+                                System.out.println("Programme Code e.g LM121");
                                 command = in.nextLine();
 
-                                for (Transcript transcript : thisYearsTranscripts) {
+                                for (Transcript transcript : transcripts) {
                                     if (transcript.getStudent().getProgramme().getProgrammeCode().equals(command)) {
                                         transcript.format();
                                     }
                                 }
                                 thirdMenu = false;
 
+
                             }
                         }
                     } else if (command.equals("2")) {
-                        for (Transcript transcript : thisYearsTranscripts) {
-                            transcript.format();
+                        System.out.println(
+                                "Student ID, Semester, Academic Year, Semester QCA, Cumulative QCA, Module, Grade, Module, Grade,...");
+                        for (Transcript transcript : transcripts) {
+                            System.out.println(transcript.toString() + "");
                         }
                         // Closing the menu down
+                        secondMenu = false;
 
                     } else if (command.equals("3")) {
+                        secondMenu = false;
+                        System.out.println("Add Grades");
+
+                    } else if (command.equals("4")) {
                         this.running = false;
                         secondMenu = false;
                         System.out.println("Quiting");
@@ -124,20 +127,9 @@ public class StudentRecordSystemMenu {
                     } else {
                         System.out.println("Invalid input");
                         command = in.nextLine();
-
                     }
                 }
-
-            } else if (command.equals("5")) {
-
-                /*
-                 * recordSystem.setRecords("Records/Modules.csv", "Records/Programmes.csv",
-                 * "Records/Students.csv",
-                 * "Records/Transcripts.csv");
-                 * recordSystem.clearDatabase();
-                 */
-
-            } else if (command.equals("test1")) {
+            } else if (command.equals("sem1")) {
                 recordSystem.setGrades("Grades/1-CS4012.csv");
                 recordSystem.setGrades("Grades/1-CS4141.csv");
                 recordSystem.setGrades("Grades/1-CS4221.csv");
@@ -150,8 +142,9 @@ public class StudentRecordSystemMenu {
                     transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
+                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
-            } else if (command.equals("test2")) {
+            } else if (command.equals("sem2")) {
                 recordSystem.setGrades("Grades/2-CS4043.csv");
                 recordSystem.setGrades("Grades/2-CS4182.csv");
                 recordSystem.setGrades("Grades/2-CS4222.csv");
@@ -165,8 +158,9 @@ public class StudentRecordSystemMenu {
                 }
 
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
+                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
-            } else if (command.equals("test3")) {
+            } else if (command.equals("sem3")) {
                 recordSystem.setGrades("Grades/3-CS4004.csv");
                 recordSystem.setGrades("Grades/3-CS4013.csv");
                 recordSystem.setGrades("Grades/3-CS4023.csv");
@@ -180,8 +174,9 @@ public class StudentRecordSystemMenu {
                 }
 
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
+                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
-            } else if (command.equals("test4")) {
+            } else if (command.equals("sem4")) {
                 recordSystem.setGrades("Grades/4-CS4006.csv");
                 recordSystem.setGrades("Grades/4-CS4076.csv");
                 recordSystem.setGrades("Grades/4-CS4115.csv");
@@ -194,9 +189,10 @@ public class StudentRecordSystemMenu {
                     transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
+                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
-            } else if (command.equals("test5")) {
-                recordSystem.setGrades("Grades/5-COOP.csv");
+            } else if (command.equals("sem5")) {
+                recordSystem.setGrades("Grades/COOP.csv");
 
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
@@ -204,8 +200,9 @@ public class StudentRecordSystemMenu {
                     transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
+                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
-            } else if (command.equals("test6")) {
+            } else if (command.equals("sem6")) {
                 recordSystem.setGrades("Grades/6-CS4084.csv");
                 recordSystem.setGrades("Grades/6-CS4106.csv");
                 recordSystem.setGrades("Grades/6-CS4116.csv");
@@ -218,8 +215,9 @@ public class StudentRecordSystemMenu {
                     transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
+                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
-            } else if (command.equals("test7")) {
+            } else if (command.equals("sem7")) {
                 recordSystem.setGrades("Grades/7-CS4011.csv");
                 recordSystem.setGrades("Grades/7-CS4125.csv");
                 recordSystem.setGrades("Grades/7-CS4287.csv");
@@ -232,12 +230,14 @@ public class StudentRecordSystemMenu {
                     transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
+                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
-            } else if (command.equals("test8")) {
+            } else if (command.equals("sem8")) {
                 recordSystem.setGrades("Grades/8-CS4158.csv");
                 recordSystem.setGrades("Grades/8-CS4168.csv");
                 recordSystem.setGrades("Grades/8-CS4227.csv");
                 recordSystem.setGrades("Grades/8-CS4618.csv");
+                recordSystem.setGrades("Grades/8-CS5705.csv");
 
                 ArrayList<Transcript> test = recordSystem.holdReview();
 
@@ -245,14 +245,16 @@ public class StudentRecordSystemMenu {
                     transcript.format();
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
+                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
-            } else if (command.equals("6")) {
+            } else if (command.equals("5")) {
                 System.out.println("Quiting");
                 this.running = false;
 
-            } else {
+            }
+            else {
                 System.out.println("Invalid Input");
-
+                command = in.nextLine();
             }
         }
     }

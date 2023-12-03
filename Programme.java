@@ -1,17 +1,13 @@
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
-public class Programme {
+public abstract class Programme{
 
     private ArrayList<Student> students;
-    private ArrayList<Module> modules;
-    private String programmeCode;
-    private String programmeName;
-    private int duration;
-    private int credits;
+    private final ArrayList<Module> modules;
+    private final String programmeCode;
+    private final String programmeName;
+    private final int duration;
+    private final int credits;
 
     public Programme(ArrayList<Module> modules, String programmeCode, String programmeName, int duration, int credits) {
         this.modules = modules;
@@ -21,84 +17,36 @@ public class Programme {
         this.credits = credits;
     }
 
-    // for the master research without module
-    public Programme(String programmeCode, String programmeName, int duration, int credits) {
-        this.programmeCode = programmeCode;
-        this.programmeName = programmeName;
-        this.duration = duration;
-        this.credits = credits;
-    }
-
-    public void setStudents(ArrayList<Student> students) {
+    public void setStudents(ArrayList<Student> students){
         this.students = students;
     }
 
-    public ArrayList<Student> getStudents() {
+    public ArrayList<Student> getStudents(){
         return this.students;
     }
 
-    public ArrayList<Module> getModules() {
+    public ArrayList<Module> getModules(){
         return this.modules;
     }
 
-    public String getProgrammeCode() {
+    public String getProgrammeCode(){
         return this.programmeCode;
     }
 
-    public String getProgrammeName() {
-        return this.programmeName;
-    }
-
-    public int getDuration() {
+    public int getDuration(){
         return this.duration;
     }
 
-    public int getCredits() {
+    public int getCredits(){
         return this.credits;
     }
 
-    public String toString() {
-
-        String output = this.programmeCode + ", " + this.programmeName;
-
-        return output;
+    public String toString(){
+        return this.programmeCode + ", " + this.programmeName;
     }
 
-    public boolean calculateProgression(Transcript transcript) {
+    public abstract boolean determineStudentProgression(Transcript transcript);
 
-        if (transcript.getCumulativeQCA() < 2.0) {
-
-            return false;
-        }
-        // CHECKS FOR F,NG,D or D1
-        LinkedHashMap<Module, Grade> currentGrades = transcript.getGrades();
-        for (Map.Entry<Module, Grade> entry : currentGrades.entrySet()) {
-            // grade
-            String grade = entry.getValue().getGradeLetter();
-
-            // returns false if grade prevents progression
-
-            if (grade.equals("F") || grade.equals("NG") || grade.equals("D1")
-                    || grade.equals("I") || grade.equals("D")) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void calculateHonourType(Student student, double qca) {
-        // getting the QCA of the the last transcript to calculate the honour type
-
-        if (qca >= 3.40) {
-            student.setHonourType("First Honours Class");
-        } else if (qca >= 3.00) {
-            student.setHonourType("Second Honours  Class 2.1");
-        } else if (qca >= 2.60) {
-            student.setHonourType("Second Honours Class 2.2");
-        } else {
-            student.setHonourType("Third Honours Class");
-        }
-    }
-
+    public abstract String determineRepeatStatus(Transcript transcript);
 
 }

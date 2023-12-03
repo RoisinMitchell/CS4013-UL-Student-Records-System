@@ -6,25 +6,25 @@ public class StudentRecordSystem {
     private ArrayList<Module> modules;
     private ArrayList<Student> students;
     private ArrayList<Programme> programmes;
-    private ArrayList<Transcript> previousTranscripts;
-    private ArrayList<Transcript> currentTranscripts;
+    private ArrayList<Transcript> transcripts;
     String semester;
     private String academicYear;
-    private boolean completedCoop;
+    private ArrayList<String> repeatStudents;
 
     public StudentRecordSystem() {
         this.modules = new ArrayList<>();
         this.students = new ArrayList<>();
         this.programmes = new ArrayList<>();
-        this.previousTranscripts = new ArrayList<>();
-        this.currentTranscripts = new ArrayList<>();
+        this.transcripts = new ArrayList<>();
+        this.repeatStudents = new ArrayList<>();
     }
 
-    public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile) throws IOException {
+    public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile, String repeatStudents) throws IOException {
         setModules(moduleFile);
         setProgrammes(programmeFile);
         setStudents(studentFile);
-        setPreviousTranscripts(transcriptFile);
+        setTranscripts(transcriptFile);
+        setRepeatStudents(repeatStudents);
     }
 
     private void setModules(String fileName) throws IOException {
@@ -59,10 +59,9 @@ public class StudentRecordSystem {
             String name = studentDetails[1].trim();
             String address = studentDetails[2].trim();
             Programme programme = getProgramme(studentDetails[3].trim());
-            int yearOfStudy = Integer.parseInt(studentDetails[4].trim());
 
             // Instantiating a Course object and storing in array list
-            Student studentObj = new Student(id, name, address, programme, yearOfStudy);
+            Student studentObj = new Student(id, name, address, programme);
             this.students.add(studentObj);
         }
     }
@@ -91,21 +90,16 @@ public class StudentRecordSystem {
                 moduleList.add(module);
             }
 
-
             if (programmeType.equalsIgnoreCase("BSc")) {
-                BachelorProgramme programme = new BachelorProgramme(moduleList, programmeCode, programmeName, duration, credits);
-                programmes.add(programme);
-            } else if (programmeType.equalsIgnoreCase("MSc")) {
-                MasterProgramme programme = new MasterProgramme(moduleList, programmeCode, programmeName, duration, credits);
+                Programme programme = new BachelorProgramme(moduleList, programmeCode, programmeName, duration, credits);
                 programmes.add(programme);
             } else {
                 throw new RecordSystemException("Programme type does not exist: " + programmeType);
             }
-
         }
     }
 
-    private void setPreviousTranscripts(String fileName) throws IOException {
+    private void setTranscripts(String fileName) throws IOException {
         CsvReader transcriptsCsv = new CsvReader(fileName);
         ArrayList<String> transcriptStrings = transcriptsCsv.toArrayList();
 
@@ -129,8 +123,8 @@ public class StudentRecordSystem {
                 grades.put(module, grade);
             }
             Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, QCS, attendedHours, grades);
-            this.previousTranscripts.add(transcript);
-            student.setPreviousTranscripts(transcript);
+            this.transcripts.add(transcript);
+            student.setTranscripts(transcript);
         }
     }
 
@@ -163,64 +157,36 @@ public class StudentRecordSystem {
     }
 
     public ArrayList<Transcript> holdReview() {
+        ArrayList<Transcript> newTranscripts = new ArrayList<>();
         for (Student student : students) {
             LinkedHashMap<Module, Grade> grades = student.getGrades();
-            Transcript transcript = new Transcript(student, this.semester, this.academicYear, grades);
-            currentTranscripts.add(transcript);
+            if (!grades.isEmpty()) {
+                Transcript transcript = new Transcript(student, this.semester, this.academicYear, grades);
+                student.setCurrentTranscript(transcript);
+                newTranscripts.add(transcript);
 
-            if (student.getProgramme().calculateProgression(transcript)) {
+                Programme programme = student.getProgramme();
 
-                if (student.getYearOfStudy() + 1 > student.getProgramme().getDuration()) {
+                boolean progresses = programme.determineStudentProgression(transcript); // Checking the programmes academic standards and determining progression
 
-                    if (student.getYearOfStudy() + 1 > student.getProgramme().getDuration()) {
-                        // GRADUATE ADDs an honour to the student
-                        student.getProgramme().calculateHonourType(student, transcript.getCumulativeQCA());
-                        System.out.println(student.getStudentID() + "GRADUATED");
-                    } else {
-                        // Student progresses a year
-                        student.setYearOfStudy(student.getYearOfStudy() + 1);
-                    }
+                if (!progresses) {
+                    String studentRepeatStatus = student.getStudentID() + ", " + programme.determineRepeatStatus(transcript);
+                    this.repeatStudents.add(studentRepeatStatus);
                 }
+                transcripts.add(transcript);
             }
         }
-        return currentTranscripts;
+        return newTranscripts;
     }
-    
-     public void setTheses(String filename) throws FileNotFoundException{
-        CsvReader theses = new CsvReader(filename);
-        try {
-            ArrayList<String> thesesThatPass = theses.toArrayList();
-
-            for(String theis: thesesThatPass){
-                String[] studentIdResult = theis.split(",");
-                for(Student student : students){
-                    if(studentIdResult[1].trim().equals(student.getStudentID())){
-                        String programCode = student.getProgramme().getProgrammeCode();
-                        for(Programme programme : programmes){
-                            String programesProgrameCode = programme.getProgrammeCode();
-                            if(programCode.equals(programesProgrameCode)){
-                                
-                            }
-                       }
-                       
-
-                    }
-                }
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
 
     public void exportTranscripts(String fileName) {
-        ArrayList<Transcript> allTranscripts = new ArrayList<>();
-        allTranscripts.addAll(previousTranscripts);
-        allTranscripts.addAll(currentTranscripts);
-
         CsvWriter writer = new CsvWriter(fileName);
-        writer.transcriptsToFile(allTranscripts);
+        writer.writeTranscriptsToFile(this.transcripts);
+    }
+
+    public void exportRepeatStudents(String fileName) {
+        CsvWriter writer = new CsvWriter(fileName);
+        writer.writeRepeatStudentsToFile(this.repeatStudents);
     }
 
     public ArrayList<Module> getModules() {
@@ -235,12 +201,8 @@ public class StudentRecordSystem {
         return this.programmes;
     }
 
-    public ArrayList<Transcript> getPreviousTranscripts() {
-        return this.previousTranscripts;
-    }
-
-    public ArrayList<Transcript> getCurrentTranscripts() {
-        return this.currentTranscripts;
+    public ArrayList<Transcript> getTranscripts() {
+        return this.transcripts;
     }
 
     public Module getModule(String moduleCode) {
@@ -273,6 +235,15 @@ public class StudentRecordSystem {
             }
         }
         throw new RecordSystemException("Programme not found: " + programmeCode);
+    }
+
+    public void setRepeatStudents(String fileName) throws IOException {
+        CsvReader repeatStudentsCsv = new CsvReader(fileName);
+        ArrayList<String> repeatStudentsList = repeatStudentsCsv.toArrayList();
+
+        if (!repeatStudentsList.isEmpty()) {
+            this.repeatStudents.addAll(repeatStudentsList);
+        }
     }
 }
 
