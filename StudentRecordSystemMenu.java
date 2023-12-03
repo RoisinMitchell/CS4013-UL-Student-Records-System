@@ -28,7 +28,11 @@ public class StudentRecordSystemMenu {
     public void run() throws IOException {
         while (this.running) {
             System.out.println("\nChoose an option:");
-            System.out.println("1) Submit module grades \n2) submit thesis\n3) submit dissertions\n4) Hold review \n5) Quit"); //submit thesis / dissertions
+            System.out.println(
+                    "1) Submit module grades \n2) submit thesis\n3) submit dissertions\n4) Hold review \n5) Reintialise Database \n6) Quit"); // submit
+                                                                                                                                              // thesis
+                                                                                                                                              // /
+                                                                                                                                              // dissertions
 
             String command = in.nextLine();
 
@@ -37,80 +41,73 @@ public class StudentRecordSystemMenu {
                 command = in.nextLine();
                 recordSystem.setGrades(command);
 
-            } else if(command.equals("2")){
-
+            } else if (command.equals("2")) {
 
                 System.out.println("Input FileName");
                 command = in.nextLine();
                 recordSystem.setTheses(command);
 
-            } else if(command.equals("3")){
-              
-                System.out.println("Input Filename");
+            } else if (command.equals("3")) {
 
+                System.out.println("Input Filename");
 
             } else if (command.equals("4")) {
                 System.out.println("\nEnd of grading period. Now calculating transcripts...\n");
                 System.out.println("Choose an option:");
                 //
-  
+
                 this.thisYearsTranscripts = recordSystem.holdReview();
                 boolean secondMenu = true;
                 boolean thirdMenu = false;
                 while (secondMenu) {
                     System.out.println("1) search transcripts\n2) Current Semster transcripts\n3) Back \n4) Quit");
 
-
                     command = in.nextLine();
 
-
                     if (command.equals("1")) {
-                       
+
                         thirdMenu = true;
-                        while(thirdMenu){
-                            
+                        while (thirdMenu) {
+
                             System.out.println("1) By StudentID\n2) By Module\n3) By Program\n");
                             command = in.nextLine();
 
-                            if(command.equals("1")){
+                            if (command.equals("1")) {
                                 System.out.println("Student ID e.g. 2118737");
                                 command = in.nextLine();
 
                                 for (Transcript transcript : thisYearsTranscripts) {
                                     if ((transcript.getStudent()).getStudentID().equals(command)) {
-                                        
+
                                         transcript.format();
                                     }
                                 }
                                 thirdMenu = false;
-                            } 
-                            else if(command.equals("2")){
+                            } else if (command.equals("2")) {
                                 System.out.println("Module Code e.g CS4012");
 
                                 command = in.nextLine();
-                                    for(Transcript transcript : thisYearsTranscripts){
-                                        Set<Module> keys = transcript.getGrades().keySet();
-                                            for(Module module : keys){
-                                                if(module.getModuleCode().equals(command)){
-                                                    transcript.format();
-                                                }
-                                            }
+                                for (Transcript transcript : thisYearsTranscripts) {
+                                    Set<Module> keys = transcript.getGrades().keySet();
+                                    for (Module module : keys) {
+                                        if (module.getModuleCode().equals(command)) {
+                                            transcript.format();
+                                        }
                                     }
+                                }
                                 thirdMenu = false;
 
-                            }
-                            else if(command.equals("3")){
+                            } else if (command.equals("3")) {
                                 System.out.println("Programme Code e.g Lm121");
                                 command = in.nextLine();
 
-                                for(Transcript transcript : thisYearsTranscripts){
-                                       if (transcript.getStudent().getProgramme().getProgrammeCode().equals(command)){
-                                            transcript.format();
-                                       }
+                                for (Transcript transcript : thisYearsTranscripts) {
+                                    if (transcript.getStudent().getProgramme().getProgrammeCode().equals(command)) {
+                                        transcript.format();
                                     }
+                                }
                                 thirdMenu = false;
-                        
-                        
+
                             }
                         }
                     } else if (command.equals("2")) {
@@ -124,7 +121,7 @@ public class StudentRecordSystemMenu {
 
                     } else if (command.equals("3")) {
                         secondMenu = false;
-                        System.out.println("Add Grades");
+                        System.out.println("Semster Ended");
 
                     } else if (command.equals("4")) {
                         this.running = false;
@@ -137,6 +134,12 @@ public class StudentRecordSystemMenu {
 
                     }
                 }
+
+            } else if (command.equals("5")) {
+
+                recordSystem.setRecords("Records/Modules.csv", "Records/Programmes.csv", "Records/Students1.csv",
+                        "Records/Transcripts.csv");
+
             } else if (command.equals("test1")) {
                 recordSystem.setGrades("Grades/1-CS4012.csv");
                 recordSystem.setGrades("Grades/1-CS4141.csv");
@@ -246,15 +249,14 @@ public class StudentRecordSystemMenu {
                 }
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
 
-            } else if (command.equals("5")) {
+            } else if (command.equals("6")) {
                 System.out.println("Quiting");
                 this.running = false;
 
-            }
-            else {
+            } else {
                 System.out.println("Invalid Input");
                 command = in.nextLine();
             }
         }
     }
-} 
+}
