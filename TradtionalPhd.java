@@ -1,16 +1,15 @@
 import java.util.ArrayList;
 
-public class TradtionalPhd extends PhdProgramme {
+public class TradtionalPhd extends PhdProgramme implements Review {
 
     private boolean thesisPassOrFail;
-    private int ECTSCredits;
 
-    // no modules, awarded 
+    // no modules, awarded
     // pass/Fail
-    public TradtionalPhd(ArrayList<Module> modules, String programmeCode, String programmeName, int duration, int credits, boolean thesisPassOrFail, int ECTSCredits) {
+    public TradtionalPhd(ArrayList<Module> modules, String programmeCode, String programmeName, int duration,
+            int credits, boolean thesisPassOrFail) {
         super(modules, programmeCode, programmeName, duration, credits);
         this.thesisPassOrFail = thesisPassOrFail;
-        this.ECTSCredits = ECTSCredits;
     }
 
     public void setThesisPassOrFail(boolean thesisPassOrFail) {
@@ -21,22 +20,53 @@ public class TradtionalPhd extends PhdProgramme {
         return thesisPassOrFail;
     }
 
-    public void setECTSCredits(int ECTSCredits) {
-        this.ECTSCredits = ECTSCredits;
-    }
-
-    public int getECTSCredits() {
-        return ECTSCredits;
-    }
-
     public boolean calculateProgression(Transcript transcript) {
         if (thesisPassOrFail) {
-            // or setECTSCredits(270)?
+            transcript.getStudent().getProgramme().setCredits(270);
+            setAward(getAward());
             return true;
         }
         return false;
 
     }
 
+    @Override
+    public boolean reviewCredits(Student student) {
+        int credits = student.getProgramme().getCredits();
+        // if ()
+        return thesisPassOrFail;
+
+    }
+
+    @Override
+    public boolean reviewRepeat(Student student) {
+        if (!student.isTheisPassOrFail()) {
+            // fail
+            // goes to repeater.csv
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean reviewProgression(Student student) {
+        boolean progression = true;
+        ArrayList<Transcript> previousTranscripts = student.getPreviousTranscripts();
+        for (Transcript transcript : previousTranscripts) {
+            if (!transcript.isProgression()) {
+                progression = false;
+            }
+        }
+        return progression;
+    }
+
+    @Override
+    public boolean reviewGraduate(Student student) {
+        if (student.getAwardType() != "NOTPROGRESS") {
+            return true;
+        }
+        return false;
+
+    }
 
 }

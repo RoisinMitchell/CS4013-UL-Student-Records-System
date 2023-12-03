@@ -57,6 +57,10 @@ public class Programme {
         return this.credits;
     }
 
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
     public String toString() {
 
         String output = this.programmeCode + ", " + this.programmeName;
@@ -99,6 +103,5 @@ public class Programme {
             student.setHonourType("Third Honours Class");
         }
     }
-
 
 }
