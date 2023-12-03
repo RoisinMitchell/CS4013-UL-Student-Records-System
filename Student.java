@@ -16,7 +16,6 @@ public class Student {
 
     private String repeatStatus;
 
-
     public Student(String ID, String name, String address, Programme programme) {
         this.semesterGrades = new LinkedHashMap<>();
         this.transcripts = new ArrayList<>();
@@ -27,7 +26,8 @@ public class Student {
         this.yearOfStudy = 1;
     }
 
-    public Student(String ID, String name, String address, Programme programme, int yearOfStudy, ArrayList<Transcript> previousTranscripts) {
+    public Student(String ID, String name, String address, Programme programme, int yearOfStudy,
+            ArrayList<Transcript> previousTranscripts) {
         this.semesterGrades = new LinkedHashMap<>();
         this.studentID = ID;
         this.studentName = name;
@@ -69,7 +69,7 @@ public class Student {
         this.yearOfStudy = yearOfStudy;
     }
 
-    public ArrayList<Transcript> getTranscripts(){
+    public ArrayList<Transcript> getTranscripts() {
         return this.transcripts;
     }
 
@@ -77,32 +77,36 @@ public class Student {
         this.awardType = awardType;
     }
 
-    public String getAwardType(String awardType){
+    public String getAwardType(String awardType) {
         return this.awardType;
     }
 
-    public void setTranscripts(Transcript transcript){
+    public void setTranscripts(Transcript transcript) {
         this.transcripts.add(transcript);
     }
 
-    public String toString(){
+    public void clearGrades() {
+        semesterGrades.clear();
+    }
+
+    public String toString() {
         // ID, name, address, course
         return this.studentID + ", " + this.studentName + ", " + this.address + ", " + this.programme;
     }
 
-    public Transcript getCurrentTranscript(){
+    public Transcript getCurrentTranscript() {
         return this.currentTranscript;
     }
 
-    public void setCurrentTranscript(Transcript transcript){
+    public void setCurrentTranscript(Transcript transcript) {
         this.currentTranscript = transcript;
     }
 
-    public void setRepeatStatus(String repeatStatus){
+    public void setRepeatStatus(String repeatStatus) {
         this.repeatStatus = repeatStatus;
     }
 
-    public void clearSemesterGrades(){
+    public void clearSemesterGrades() {
         this.semesterGrades.clear();
     }
 

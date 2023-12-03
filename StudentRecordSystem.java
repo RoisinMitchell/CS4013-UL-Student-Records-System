@@ -19,7 +19,8 @@ public class StudentRecordSystem {
         this.repeatStudents = new ArrayList<>();
     }
 
-    public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile, String repeatStudents) throws IOException {
+    public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile,
+            String repeatStudents) throws IOException {
         setModules(moduleFile);
         setProgrammes(programmeFile);
         setStudents(studentFile);
@@ -51,7 +52,7 @@ public class StudentRecordSystem {
 
         // Iterating over the list of students
         for (String student : studentList) {
-            //Splitting the line of student data at every comma, stored in an array
+            // Splitting the line of student data at every comma, stored in an array
             String[] studentDetails = student.split(",");
 
             // Creating variables to be used when instantiate a Course object
@@ -72,7 +73,7 @@ public class StudentRecordSystem {
 
         // Iterating over the lines of programme data in the file
         for (String programmeString : programmeList) {
-            //Splitting the line of programme data at every comma, stored in an array
+            // Splitting the line of programme data at every comma, stored in an array
             String[] programmeDetails = programmeString.split(",");
 
             // Creating variables to be used when instantiating a Programme object
@@ -83,7 +84,8 @@ public class StudentRecordSystem {
             int credits = Integer.parseInt(programmeDetails[4].trim());
 
             ArrayList<Module> moduleList = new ArrayList<>();
-            // Iterating over the remaining data in the array courseDetails (all the module codes associated to the course)
+            // Iterating over the remaining data in the array courseDetails (all the module
+            // codes associated to the course)
             for (int i = 5; i < programmeDetails.length; i++) {
                 // Retrieving the module information from the RecordSystem and adding the module
                 Module module = getModule(programmeDetails[i].trim());
@@ -91,7 +93,8 @@ public class StudentRecordSystem {
             }
 
             if (programmeType.equalsIgnoreCase("BSc")) {
-                Programme programme = new BachelorProgramme(moduleList, programmeCode, programmeName, duration, credits);
+                Programme programme = new BachelorProgramme(moduleList, programmeCode, programmeName, duration,
+                        credits);
                 programmes.add(programme);
             } else {
                 throw new RecordSystemException("Programme type does not exist: " + programmeType);
@@ -122,7 +125,8 @@ public class StudentRecordSystem {
                 Grade grade = new Grade(transcriptDetails[i].trim());
                 grades.put(module, grade);
             }
-            Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, QCS, attendedHours, grades);
+            Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, QCS,
+                    attendedHours, grades);
             this.transcripts.add(transcript);
             student.setTranscripts(transcript);
         }
@@ -144,7 +148,7 @@ public class StudentRecordSystem {
 
         // Parsing csv for module grade
         for (String studentGrade : moduleGrades) {
-            //Splitting the line of student data at every comma and stored in an array
+            // Splitting the line of student data at every comma and stored in an array
             String[] gradeDetails = studentGrade.split(",");
             String studentId = gradeDetails[0].trim();
             double percentGrade = Double.parseDouble(gradeDetails[1].trim());
@@ -167,10 +171,13 @@ public class StudentRecordSystem {
 
                 Programme programme = student.getProgramme();
 
-                boolean progresses = programme.determineStudentProgression(transcript); // Checking the programmes academic standards and determining progression
+                boolean progresses = programme.determineStudentProgression(transcript); // Checking the programmes
+                                                                                        // academic standards and
+                                                                                        // determining progression
 
                 if (!progresses) {
-                    String studentRepeatStatus = student.getStudentID() + ", " + programme.determineRepeatStatus(transcript);
+                    String studentRepeatStatus = student.getStudentID() + ", "
+                            + programme.determineRepeatStatus(transcript);
                     this.repeatStudents.add(studentRepeatStatus);
                 }
                 transcripts.add(transcript);
@@ -245,5 +252,22 @@ public class StudentRecordSystem {
             this.repeatStudents.addAll(repeatStudentsList);
         }
     }
-}
 
+    public void resetSemsterGrades() {
+
+        for (Student student : students) {
+            student.clearGrades();
+        }
+    }
+
+    /*
+     * public boolean studentExists(String studentId) {
+     * for (Student student : students) {
+     * if (student.getStudentID().equals(studentId)) {
+     * return true;
+     * }
+     * }
+     * return false;
+     * }
+     */
+}

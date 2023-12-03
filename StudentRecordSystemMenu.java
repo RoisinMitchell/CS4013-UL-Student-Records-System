@@ -29,7 +29,8 @@ public class StudentRecordSystemMenu {
     public void run() throws IOException {
         while (this.running) {
             System.out.println("\nChoose an option:");
-            System.out.println("1) Submit module grades \n2) Submit thesis\n3) Submit dissertations\n4) Hold review \n5) Quit"); //submit thesis / dissertations
+            System.out.println(
+                    "1) Submit module grades\n2) Hold review \n3) Reintialise Database \n4) Quit");
 
             String command = in.nextLine();
 
@@ -38,17 +39,7 @@ public class StudentRecordSystemMenu {
                 command = in.nextLine();
                 recordSystem.setGrades(command);
 
-            } else if(command.equals("2")){
-
-
-                System.out.println("Input FileName");
-
-            } else if(command.equals("3")){
-
-                System.out.println("Input Filename");
-
-
-            } else if (command.equals("4")) {
+            } else if (command.equals("2")) {
                 System.out.println("\nEnd of grading period. Now calculating transcripts...\n");
                 System.out.println("Choose an option:");
                 System.out.println("1) search transcripts\n2) Current Semester transcripts\n3) Back \n4) Quit");
@@ -103,7 +94,6 @@ public class StudentRecordSystemMenu {
                                 }
                                 thirdMenu = false;
 
-
                             }
                         }
                     } else if (command.equals("2")) {
@@ -129,6 +119,14 @@ public class StudentRecordSystemMenu {
                         command = in.nextLine();
                     }
                 }
+            } else if (command.equals("3")) {
+
+                recordSystem.setRecords("Records/Modules.csv", "Records/Programmes.csv",
+                        "Records/Students.csv",
+                        "Records/Transcripts.csv", "Records/RepeatStudents.csv");
+                // clears the old semester grades so new semster grades can be put in
+                recordSystem.resetSemsterGrades();
+
             } else if (command.equals("sem1")) {
                 recordSystem.setGrades("Grades/1-CS4012.csv");
                 recordSystem.setGrades("Grades/1-CS4141.csv");
@@ -247,12 +245,11 @@ public class StudentRecordSystemMenu {
                 recordSystem.exportTranscripts("Records/Transcripts.csv");
                 recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
-            } else if (command.equals("5")) {
+            } else if (command.equals("6")) {
                 System.out.println("Quiting");
                 this.running = false;
 
-            }
-            else {
+            } else {
                 System.out.println("Invalid Input");
                 command = in.nextLine();
             }
