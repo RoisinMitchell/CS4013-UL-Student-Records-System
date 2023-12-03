@@ -37,7 +37,6 @@ public class Transcript {
         this.cumulativeQCA = qcaObj.calculateCumulativeQca();
         this.QCS = qcaObj.getQCS();
     }
-
     public void setSemesterQca() {
         QCACalculator qcaObj = new QCACalculator(this.grades, student);
         double qca = qcaObj.calculateSemesterQca();
@@ -52,32 +51,26 @@ public class Transcript {
         return this.semester;
     }
 
-    public double getSemesterQCA() {
-        return this.semesterQCA;
-    }
 
+           
+
+    }
     public double getCumulativeQCA() {
-        return this.cumulativeQCA;
-    }
+         }
 
+    
+
+    
+
+    
     public LinkedHashMap<Module, Grade> getGrades() {
         return grades;
     }
-
     public double getQCS() {
         return this.QCS;
     }
-
     public double getAttendedHours() {
         return this.attendedHours;
-    }
-
-    public boolean isProgression() {
-        return progression;
-    }
-
-    public void setProgression(boolean progression) {
-        this.progression = progression;
     }
 
     public String toString() {

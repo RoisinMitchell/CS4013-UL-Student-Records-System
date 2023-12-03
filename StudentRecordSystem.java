@@ -20,8 +20,7 @@ public class StudentRecordSystem {
         this.currentTranscripts = new ArrayList<>();
     }
 
-    public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile)
-            throws IOException {
+    public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile) throws IOException {
         setModules(moduleFile);
         setProgrammes(programmeFile);
         setStudents(studentFile);
@@ -52,7 +51,7 @@ public class StudentRecordSystem {
 
         // Iterating over the list of students
         for (String student : studentList) {
-            // Splitting the line of student data at every comma, stored in an array
+            //Splitting the line of student data at every comma, stored in an array
             String[] studentDetails = student.split(",");
 
             // Creating variables to be used when instantiate a Course object
@@ -74,7 +73,7 @@ public class StudentRecordSystem {
 
         // Iterating over the lines of programme data in the file
         for (String programmeString : programmeList) {
-            // Splitting the line of programme data at every comma, stored in an array
+            //Splitting the line of programme data at every comma, stored in an array
             String[] programmeDetails = programmeString.split(",");
 
             // Creating variables to be used when instantiating a Programme object
@@ -85,21 +84,19 @@ public class StudentRecordSystem {
             int credits = Integer.parseInt(programmeDetails[4].trim());
 
             ArrayList<Module> moduleList = new ArrayList<>();
-            // Iterating over the remaining data in the array courseDetails (all the module
-            // codes associated to the course)
+            // Iterating over the remaining data in the array courseDetails (all the module codes associated to the course)
             for (int i = 5; i < programmeDetails.length; i++) {
                 // Retrieving the module information from the RecordSystem and adding the module
                 Module module = getModule(programmeDetails[i].trim());
                 moduleList.add(module);
             }
 
+
             if (programmeType.equalsIgnoreCase("BSc")) {
-                BachelorProgramme programme = new BachelorProgramme(moduleList, programmeCode, programmeName, duration,
-                        credits);
+                BachelorProgramme programme = new BachelorProgramme(moduleList, programmeCode, programmeName, duration, credits);
                 programmes.add(programme);
             } else if (programmeType.equalsIgnoreCase("MSc")) {
-                MasterProgramme programme = new MasterProgramme(moduleList, programmeCode, programmeName, duration,
-                        credits);
+                MasterProgramme programme = new MasterProgramme(moduleList, programmeCode, programmeName, duration, credits);
                 programmes.add(programme);
             } else {
                 throw new RecordSystemException("Programme type does not exist: " + programmeType);
@@ -131,8 +128,7 @@ public class StudentRecordSystem {
                 Grade grade = new Grade(transcriptDetails[i].trim());
                 grades.put(module, grade);
             }
-            Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, QCS,
-                    attendedHours, grades);
+            Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, QCS, attendedHours, grades);
             this.previousTranscripts.add(transcript);
             student.setPreviousTranscripts(transcript);
         }
@@ -154,7 +150,7 @@ public class StudentRecordSystem {
 
         // Parsing csv for module grade
         for (String studentGrade : moduleGrades) {
-            // Splitting the line of student data at every comma and stored in an array
+            //Splitting the line of student data at every comma and stored in an array
             String[] gradeDetails = studentGrade.split(",");
             String studentId = gradeDetails[0].trim();
             double percentGrade = Double.parseDouble(gradeDetails[1].trim());
@@ -180,13 +176,6 @@ public class StudentRecordSystem {
                         // GRADUATE ADDs an honour to the student
                         student.getProgramme().calculateHonourType(student, transcript.getCumulativeQCA());
                         System.out.println(student.getStudentID() + "GRADUATED");
-                        System.out.println("-----------------------------------------------------");
-                        System.out.printf("|%-20s %-50s %-10s %-10s|\n", "StudentID", "Program name", "Grades",
-                                "HonourType");
-                        System.out.printf("|%-20s %-50s %-10s %-10s|\n", student.getStudentID(),
-                                student.getProgramme(),
-                                student.getGrades(), student.getHonourType());
-                        System.out.println("---------------------------------------------");
                     } else {
                         // Student progresses a year
                         student.setYearOfStudy(student.getYearOfStudy() + 1);
@@ -196,23 +185,24 @@ public class StudentRecordSystem {
         }
         return currentTranscripts;
     }
-
-    public void setTheses(String filename) throws FileNotFoundException {
+    
+     public void setTheses(String filename) throws FileNotFoundException{
         CsvReader theses = new CsvReader(filename);
         try {
             ArrayList<String> thesesThatPass = theses.toArrayList();
 
-            for (String theis : thesesThatPass) {
+            for(String theis: thesesThatPass){
                 String[] studentIdResult = theis.split(",");
-                for (Student student : students) {
-                    if (studentIdResult[1].trim().equals(student.getStudentID())) {
+                for(Student student : students){
+                    if(studentIdResult[1].trim().equals(student.getStudentID())){
                         String programCode = student.getProgramme().getProgrammeCode();
-                        for (Programme programme : programmes) {
+                        for(Programme programme : programmes){
                             String programesProgrameCode = programme.getProgrammeCode();
-                            if (programCode.equals(programesProgrameCode)) {
-
+                            if(programCode.equals(programesProgrameCode)){
+                                
                             }
-                        }
+                       }
+                       
 
                     }
                 }
@@ -222,6 +212,7 @@ public class StudentRecordSystem {
             e.printStackTrace();
         }
     }
+
 
     public void exportTranscripts(String fileName) {
         ArrayList<Transcript> allTranscripts = new ArrayList<>();
@@ -284,3 +275,4 @@ public class StudentRecordSystem {
         throw new RecordSystemException("Programme not found: " + programmeCode);
     }
 }
+

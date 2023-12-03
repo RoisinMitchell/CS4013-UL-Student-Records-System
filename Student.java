@@ -15,6 +15,7 @@ public class Student {
     private boolean theisPassOrFail;
     private boolean dissertionPassOrFail;
 
+
     public Student(String ID, String name, String address, Programme programme, int yearOfStudy) {
         this.semesterGrades = new LinkedHashMap<>();
         this.previousTranscripts = new ArrayList<>();
@@ -25,8 +26,7 @@ public class Student {
         this.yearOfStudy = yearOfStudy;
     }
 
-    public Student(String ID, String name, String address, Programme programme, int yearOfStudy,
-            ArrayList<Transcript> previousTranscripts, boolean completedCoop) {
+    public Student(String ID, String name, String address, Programme programme, int yearOfStudy, ArrayList<Transcript> previousTranscripts, boolean completedCoop) {
         this.semesterGrades = new LinkedHashMap<>();
         this.studentID = ID;
         this.studentName = name;
@@ -70,7 +70,7 @@ public class Student {
         this.yearOfStudy = yearOfStudy;
     }
 
-    public ArrayList<Transcript> getPreviousTranscripts() {
+    public ArrayList<Transcript> getPreviousTranscripts(){
         return this.previousTranscripts;
     }
 
@@ -86,20 +86,18 @@ public class Student {
         previousTranscripts.add(transcript);
     }
 
-    public void setPreviousTranscripts(Transcript transcript) {
+    public void setPreviousTranscripts(Transcript transcript){
         this.previousTranscripts.add(transcript);
     }
-
-    public void setThesis(boolean theis) {
+    public void setThesis(boolean theis){
         this.theisPassOrFail = theis;
-
+        
     }
-
-    public void setDissertion(boolean dissertion) {
+    public void setDissertion(boolean dissertion){
         this.dissertionPassOrFail = dissertion;
     }
 
-    public String toString() {
+    public String toString(){
         // ID, name, address, course
         return this.studentID + ", " + this.studentName + ", " + this.address + ", " + this.programme;
     }
@@ -111,21 +109,4 @@ public class Student {
     public void setCompletedCoop(boolean completedCoop) {
         this.completedCoop = completedCoop;
     }
-
-    public boolean isTheisPassOrFail() {
-        return theisPassOrFail;
-    }
-
-    public void setTheisPassOrFail(boolean theisPassOrFail) {
-        this.theisPassOrFail = theisPassOrFail;
-    }
-
-    public String getAwardType() {
-        return awardType;
-    }
-
-    public void setAwardType(String awardType) {
-        this.awardType = awardType;
-    }
-
 }
