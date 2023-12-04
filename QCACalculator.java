@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+/**
+ * The {@code QCACalculator} class is responsible for calculating the Quality Credit
+ * Average (QCA) for a given set of grades and attended hours.
+ */
 public class QCACalculator {
 
     private LinkedHashMap<String, Double> qpvConversionChart;
@@ -10,6 +14,9 @@ public class QCACalculator {
     private Student student;
     private int attendedHours;
 
+    /**
+     * Constructs a {@code QCACalculator} object with the provided grades and student.
+     */
     public QCACalculator(LinkedHashMap<Module, Grade> grades, Student student) {
 
         // Loading QPV chart for use later
@@ -39,6 +46,9 @@ public class QCACalculator {
         this.attendedHours = totalAH;
     }
 
+    /**
+     * Constructs a {@code QCACalculator} object with the provided grades.
+     */
     public QCACalculator(LinkedHashMap<Module, Grade> grades) {
 
         // Loading QPV chart for use later
@@ -67,6 +77,11 @@ public class QCACalculator {
         this.attendedHours = totalAH;
     }
 
+    /**
+     * Calculates the total Quality Credit Score (QCS) based on the grades and credits.
+     *
+     * @return The total Quality Credit Score.
+     */
     private double getTotalQCS() {
         // QPV * Credits
         Set<Module> keys = grades.keySet();
@@ -82,10 +97,17 @@ public class QCACalculator {
         return totalQCS;
     }
 
+    /**
+     * Calculates the semester Quality Credit Average (QCA).
+     */
     public double calculateSemesterQca() {
         return getTotalQCS() / this.attendedHours;
     }
 
+
+    /**
+     * Calculates the cumulative Quality Credit Average (QCA) based on the student's transcripts.
+     */
     public double calculateCumulativeQca() {
         ArrayList<Transcript> transcripts = this.student.getTranscripts();
         double cumulativeQCS = 0;
@@ -98,10 +120,16 @@ public class QCACalculator {
         return (cumulativeQCS + QCS) / (cumulativeAH + attendedHours);
     }
 
+    /**
+     * Gets the calculated Quality Credit Score (QCS).
+     */
     public double getQCS() {
         return this.QCS;
     }
 
+    /**
+     * Gets the total attended hours for the semester.
+     */
     public int getAttendedHours() {
         return this.attendedHours;
     }

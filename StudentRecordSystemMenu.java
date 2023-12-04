@@ -2,6 +2,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Represents the menu interface for the Student Record System simulation.
+ * This class manages user interactions and serves as the main entry point for the simulation.
+ */
 public class StudentRecordSystemMenu {
     private final Scanner in;
     private final StudentRecordSystem recordSystem;
@@ -9,12 +13,15 @@ public class StudentRecordSystemMenu {
 
     private boolean running;
 
+    /**
+     * Constructs a StudentRecordSystemMenu object, initialising the scanner, system records, and running status.
+     * Loads existing records for the system to run on.
+     */
     public StudentRecordSystemMenu() {
         in = new Scanner(System.in);
         running = true;
         recordSystem = new StudentRecordSystem();
 
-        // Setting existing records for the system to run on
         try {
             recordSystem.setRecords("Records/Modules.csv", "Records/Programmes.csv", "Records/Students.csv",
                     "Records/Transcripts.csv", "Records/RepeatStudents.csv");
@@ -25,6 +32,9 @@ public class StudentRecordSystemMenu {
         }
     }
 
+    /**
+     * Runs the Student Record System simulation menu.
+     */
     public void run() throws IOException {
         while (this.running) {
 

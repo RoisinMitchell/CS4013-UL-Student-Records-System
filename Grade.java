@@ -1,15 +1,33 @@
 import java.util.*;
 
+/**
+ * Represents the academic grade of a student, including letter grade and percentage.
+ */
 public class Grade {
     private String gradeLetter; // A1, B2...
     private double percentGrade; // 81%, 60%...
     private int gradeScheme;
+    /**
+     * A mapping of grade letters to their equivalent percentage values.
+     */
     private LinkedHashMap<String, Double> gradeConversionChart; // A1 = 80...
 
+    /**
+     * Constructs a Grade object with the specified letter grade.
+     *
+     * @param gradeLetter The letter representation of the grade.
+     */
     public Grade(String gradeLetter) {
         this.gradeLetter = gradeLetter;
     }
 
+
+    /**
+     * Constructs a Grade object with the specified percentage grade and grading scheme.
+     *
+     * @param percentGrade The numerical percentage grade.
+     * @param gradeScheme  The identifier for the grading scheme.
+     */
     public Grade(double percentGrade, int gradeScheme) {
         this.gradeScheme = gradeScheme;
         setGradeConversionChart(gradeScheme);
@@ -17,6 +35,9 @@ public class Grade {
         this.gradeLetter = convertPercentToGrade(percentGrade);
     }
 
+    /**
+     * Sets the grade conversion chart based on the specified grading scheme.
+     */
     private void setGradeConversionChart(int gradeScheme) {
         gradeConversionChart = new LinkedHashMap<>();
 
@@ -61,6 +82,10 @@ public class Grade {
         }
     }
 
+    /**
+     * Converts a percentage grade to a corresponding letter grade based on the conversion chart.
+     * @return The letter representation of the grade.
+     */
     private String convertPercentToGrade(double percentGrade) {
         String gradeLetter = "";
 
@@ -73,10 +98,16 @@ public class Grade {
         return gradeLetter;
     }
 
+    /**
+     * Gets the letter representation of the grade.
+     */
     public String getGradeLetter() {
         return this.gradeLetter;
     }
 
+    /**
+     * Returns a string representation of the grade.
+     */
     public String toString() {
         return this.gradeLetter;
     }
