@@ -2,6 +2,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+/**
+ * Represents the Student Record System, managing modules, students, programmes, transcripts, and repeat student data.
+ * This class provides methods to set and retrieve records, grades, and transcripts for the simulation.
+ */
+
 public class StudentRecordSystem {
     private ArrayList<Module> modules;
     private ArrayList<Student> students;
@@ -11,6 +16,10 @@ public class StudentRecordSystem {
     private String academicYear;
     private ArrayList<String> repeatStudents;
 
+    /**
+     * Constructs a StudentRecordSystem object with empty lists for modules, students, programmes, transcripts,
+     * and repeat students.
+     */
     public StudentRecordSystem() {
         this.modules = new ArrayList<>();
         this.students = new ArrayList<>();
@@ -19,6 +28,15 @@ public class StudentRecordSystem {
         this.repeatStudents = new ArrayList<>();
     }
 
+    /**
+     * Sets records for modules, programmes, students, transcripts, and repeat students using provided CSV files.
+     *
+     * @param moduleFile      The file containing module records.
+     * @param programmeFile   The file containing programme records.
+     * @param studentFile     The file containing student records.
+     * @param transcriptFile  The file containing transcript records.
+     * @param repeatStudents  The file containing repeat student records.
+     */
     public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile,
                            String repeatStudents) throws IOException {
         setModules(moduleFile);
@@ -133,6 +151,9 @@ public class StudentRecordSystem {
         }
     }
 
+    /**
+     * Sets grades for a specific module using the provided CSV files.
+     */
     public void setGrades(String fileName) throws IOException {
 
         CsvReader gradesCsv = new CsvReader(fileName);
@@ -161,6 +182,11 @@ public class StudentRecordSystem {
         }
     }
 
+    /**
+     * Holds a review period for the simulation, determining student progression and repeat conditions.
+     *
+     * @return A list of transcripts from the review period.
+     */
     public ArrayList<Transcript> holdReview() {
         ArrayList<Transcript> newTranscripts = new ArrayList<>();
         for (Student student : students) {
@@ -189,16 +215,27 @@ public class StudentRecordSystem {
         return newTranscripts;
     }
 
+    /**
+     * Exports transcripts to a CSV file.
+     */
     public void exportTranscripts(String fileName) {
         CsvWriter writer = new CsvWriter(fileName);
         writer.writeTranscriptsToFile(this.transcripts);
     }
 
+    /**
+     * Exports repeat student data to a CSV file.
+     */
     public void exportRepeatStudents(String fileName) {
         CsvWriter writer = new CsvWriter(fileName);
         writer.writeRepeatStudentsToFile(this.repeatStudents);
     }
 
+    /**
+     * Retrieves a module based on its module code.
+     *
+     * @return The Module object
+     */
     public Module getModule(String moduleCode) {
         for (Module module : modules) {
             boolean match = module.getModuleCode().equalsIgnoreCase(moduleCode);
@@ -209,6 +246,11 @@ public class StudentRecordSystem {
         throw new RecordSystemException("Module not found: " + moduleCode);
     }
 
+    /**
+     * Retrieves a student based on their student ID.
+     *
+     * @return The Student object.
+     */
     public Student getStudent(String studentID) {
         for (Student student : students) {
             boolean match = student.getStudentID().equalsIgnoreCase(studentID);
@@ -220,6 +262,11 @@ public class StudentRecordSystem {
         throw new RecordSystemException("Student not found: " + studentID);
     }
 
+    /**
+     * Retrieves a programme based on its programme code.
+     *
+     * @return The Programme object.
+     */
     public Programme getProgramme(String programmeCode) {
         for (Programme programme : programmes) {
             boolean match = programme.getProgrammeCode().equalsIgnoreCase(programmeCode);
@@ -231,6 +278,9 @@ public class StudentRecordSystem {
         throw new RecordSystemException("Programme not found: " + programmeCode);
     }
 
+    /**
+     * Sets repeat student data using the provided CSV file.
+     */
     public void setRepeatStudents(String fileName) throws IOException {
         CsvReader repeatStudentsCsv = new CsvReader(fileName);
         ArrayList<String> repeatStudentsList = repeatStudentsCsv.toArrayList();
@@ -240,10 +290,16 @@ public class StudentRecordSystem {
         }
     }
 
+    /**
+     * Retrieves the list of repeat student status.
+     */
     public ArrayList<String> getRepeatStudentStatus() {
         return this.repeatStudents;
     }
 
+    /**
+     * Retrieves the list of students.
+     */
     public ArrayList<Student> getStudents() {
         return students;
     }

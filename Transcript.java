@@ -12,6 +12,9 @@ public class Transcript {
     private double QCS;
     private int attendedHours;
 
+    /**
+     * Represents a student's academic transcript, including information about courses, grades, and calculated metrics.
+     */
     public Transcript(Student student, String semester, String academicYear, double semesterQCA, double cumulativeQCA,
                       double QCS, int attendedHours, LinkedHashMap<Module, Grade> grades) {
         this.student = student;
@@ -24,6 +27,9 @@ public class Transcript {
         this.QCS = QCS;
     }
 
+    /**
+     * Represents a student's academic transcript, including information about courses, grades, and calculated metrics.
+     */
     public Transcript(Student student, String semester, String academicYear, LinkedHashMap<Module, Grade> grades) {
         this.student = student;
         this.semester = semester;
@@ -36,36 +42,67 @@ public class Transcript {
         this.QCS = qcaObj.getQCS();
     }
 
-    public void setSemesterQca() {
-        QCACalculator qcaObj = new QCACalculator(this.grades, student);
-        double qca = qcaObj.calculateSemesterQca();
-        this.semesterQCA = qca;
-    }
-
+    /**
+     * Retrieves the student associated with the transcript.
+     *
+     * @return The student object.
+     */
     public Student getStudent() {
         return student;
     }
 
+    /**
+     * Retrieves the semester of the transcript.
+     *
+     * @return The semester string.
+     */
     public String getSemester() {
         return this.semester;
     }
 
+
+    /**
+     * Retrieves the semester Quality Credit Average (QCA).
+     *
+     * @return The semester QCA value.
+     */
     public double getSemesterQCA() {
         return this.semesterQCA;
     }
 
+    /**
+     * Retrieves the LinkedHashMap containing modules and their corresponding grades.
+     *
+     * @return The grades map.
+     */
     public LinkedHashMap<Module, Grade> getGrades() {
         return grades;
     }
 
+    /**
+     * Retrieves the Quality Credit Score (QCS).
+     *
+     * @return The QCS value.
+     */
     public double getQCS() {
         return this.QCS;
     }
 
+    /**
+     * Retrieves the total attended hours.
+     *
+     * @return The total attended hours.
+     */
     public double getAttendedHours() {
         return this.attendedHours;
     }
 
+
+    /**
+     * Generates a formatted string representation of the transcript.
+     *
+     * @return The formatted string.
+     */
     public String toString() {
         // Using decimal format to round qca to two decimal places
         DecimalFormat f = new DecimalFormat("0.00");
@@ -81,6 +118,9 @@ public class Transcript {
         return out;
     }
 
+    /**
+     * Prints a formatted representation of the transcript to the console.
+     */
     public void format() {
         // Using decimal format to round qca to two decimal places
         DecimalFormat f = new DecimalFormat("0.00");

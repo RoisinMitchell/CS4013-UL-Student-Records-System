@@ -2,11 +2,25 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+/**
+ * The BachelorProgramme class represents a bachelor's degree program.
+ * It extends the Programme abstract class and implements the Review interface.
+ */
 public class BachelorProgramme extends Programme{
+
+    /**
+     * Constructs a BachelorProgramme object with the specified parameters.
+     */
     public BachelorProgramme(ArrayList<Module> modules, String programmeCode, String programmeName, int duration, int credits) {
         super(modules, programmeCode, programmeName, duration, credits);
     }
 
+    /**
+     * Determines whether a student can progress to the next semester based on the provided transcript.
+     *
+     * @param transcript The transcript of the student.
+     * @return True if the student can progress; false otherwise.
+     */
     @Override
     public boolean determineStudentProgression(Transcript transcript) {
         Student student = transcript.getStudent();
@@ -34,6 +48,12 @@ public class BachelorProgramme extends Programme{
         return true;
     }
 
+    /**
+     * Determines the repeat status of a student based on the provided transcript.
+     *
+     * @param transcript The transcript of the student.
+     * @return The repeat status as a string.
+     */
     @Override
     public String determineRepeatStatus(Transcript transcript) {
         String repeatStatus;
