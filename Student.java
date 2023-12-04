@@ -11,9 +11,6 @@ public class Student {
     private ArrayList<Transcript> transcripts;
     private Transcript currentTranscript;
     private String awardType;
-    private double cumulativeQca;
-    private double semesterQca;
-
     private String repeatStatus;
 
     public Student(String ID, String name, String address, Programme programme) {
@@ -73,20 +70,16 @@ public class Student {
         return this.transcripts;
     }
 
-    public void setAwardType(String awardType) {
-        this.awardType = awardType;
-    }
-
-    public String getAwardType(String awardType) {
-        return this.awardType;
-    }
-
     public void setTranscripts(Transcript transcript) {
         this.transcripts.add(transcript);
     }
 
-    public void clearGrades() {
-        semesterGrades.clear();
+    public void setCurrentTranscript(Transcript transcript) {
+        this.currentTranscript = transcript;
+    }
+
+    public void clearSemesterGrades() {
+        this.semesterGrades.clear();
     }
 
     public String toString() {
@@ -94,20 +87,5 @@ public class Student {
         return this.studentID + ", " + this.studentName + ", " + this.address + ", " + this.programme;
     }
 
-    public Transcript getCurrentTranscript() {
-        return this.currentTranscript;
-    }
-
-    public void setCurrentTranscript(Transcript transcript) {
-        this.currentTranscript = transcript;
-    }
-
-    public void setRepeatStatus(String repeatStatus) {
-        this.repeatStatus = repeatStatus;
-    }
-
-    public void clearSemesterGrades() {
-        this.semesterGrades.clear();
-    }
 
 }

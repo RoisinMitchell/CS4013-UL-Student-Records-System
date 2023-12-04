@@ -20,7 +20,7 @@ public class StudentRecordSystem {
     }
 
     public void setRecords(String moduleFile, String programmeFile, String studentFile, String transcriptFile,
-            String repeatStudents) throws IOException {
+                           String repeatStudents) throws IOException {
         setModules(moduleFile);
         setProgrammes(programmeFile);
         setStudents(studentFile);
@@ -68,8 +68,8 @@ public class StudentRecordSystem {
     }
 
     private void setProgrammes(String fileName) throws IOException {
-        CsvReader underGraduateProgrammesCsv = new CsvReader(fileName);
-        ArrayList<String> programmeList = underGraduateProgrammesCsv.toArrayList();
+        CsvReader programmesCsv = new CsvReader(fileName);
+        ArrayList<String> programmeList = programmesCsv.toArrayList();
 
         // Iterating over the lines of programme data in the file
         for (String programmeString : programmeList) {
@@ -125,6 +125,7 @@ public class StudentRecordSystem {
                 Grade grade = new Grade(transcriptDetails[i].trim());
                 grades.put(module, grade);
             }
+
             Transcript transcript = new Transcript(student, semester, academicYear, semesterQCA, cumulativeQCA, QCS,
                     attendedHours, grades);
             this.transcripts.add(transcript);
@@ -171,18 +172,20 @@ public class StudentRecordSystem {
 
                 Programme programme = student.getProgramme();
 
-                boolean progresses = programme.determineStudentProgression(transcript); // Checking the programmes
-                                                                                        // academic standards and
-                                                                                        // determining progression
+                // Checking if the student progresses to the next semester without deficient grades or QCA
+                boolean progresses = programme.determineStudentProgression(transcript);
 
+                // If the student has deficiencies we determine the repeat conditions
                 if (!progresses) {
                     String studentRepeatStatus = student.getStudentID() + ", "
                             + programme.determineRepeatStatus(transcript);
                     this.repeatStudents.add(studentRepeatStatus);
                 }
+
                 transcripts.add(transcript);
             }
         }
+        // Returning the transcripts from the review period only
         return newTranscripts;
     }
 
@@ -194,22 +197,6 @@ public class StudentRecordSystem {
     public void exportRepeatStudents(String fileName) {
         CsvWriter writer = new CsvWriter(fileName);
         writer.writeRepeatStudentsToFile(this.repeatStudents);
-    }
-
-    public ArrayList<Module> getModules() {
-        return this.modules;
-    }
-
-    public ArrayList<Student> getStudents() {
-        return this.students;
-    }
-
-    public ArrayList<Programme> getProgrammes() {
-        return this.programmes;
-    }
-
-    public ArrayList<Transcript> getTranscripts() {
-        return this.transcripts;
     }
 
     public Module getModule(String moduleCode) {
@@ -253,21 +240,11 @@ public class StudentRecordSystem {
         }
     }
 
-    public void resetSemsterGrades() {
-
-        for (Student student : students) {
-            student.clearGrades();
-        }
+    public ArrayList<String> getRepeatStudentStatus() {
+        return this.repeatStudents;
     }
 
-    /*
-     * public boolean studentExists(String studentId) {
-     * for (Student student : students) {
-     * if (student.getStudentID().equals(studentId)) {
-     * return true;
-     * }
-     * }
-     * return false;
-     * }
-     */
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
 }

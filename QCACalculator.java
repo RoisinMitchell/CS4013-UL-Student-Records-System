@@ -10,8 +10,6 @@ public class QCACalculator {
     private Student student;
     private int attendedHours;
 
-    private double semesterQca;
-
     public QCACalculator(LinkedHashMap<Module, Grade> grades, Student student) {
 
         // Loading QPV chart for use later
@@ -107,5 +105,4 @@ public class QCACalculator {
     public int getAttendedHours() {
         return this.attendedHours;
     }
-
 }
