@@ -303,4 +303,8 @@ public class StudentRecordSystem {
     public ArrayList<Student> getStudents() {
         return students;
     }
+
+    public void clearRepeatStudents(){
+        repeatStudents.clear();
+    }
 }
