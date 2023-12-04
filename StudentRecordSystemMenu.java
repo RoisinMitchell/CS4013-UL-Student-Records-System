@@ -134,6 +134,7 @@ public class StudentRecordSystemMenu {
                             student.clearSemesterGrades();
                             student.clearTranscript();
                         }
+                        recordSystem.clearRepeatStudents();
 
                         recordSystem.setRecords("Records/Modules.csv", "Records/Programmes.csv", "Records/Students.csv",
                                 "Records/Transcripts.csv", "Records/RepeatStudents.csv");
