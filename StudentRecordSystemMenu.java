@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 /**
  * Represents the menu interface for the Student Record System simulation.
- * This class manages user interactions and serves as the main entry point for the simulation.
+ * This class manages user interactions and serves as the main entry point for
+ * the simulation.
  */
 public class StudentRecordSystemMenu {
     private final Scanner in;
@@ -14,7 +15,8 @@ public class StudentRecordSystemMenu {
     private boolean running;
 
     /**
-     * Constructs a StudentRecordSystemMenu object, initialising the scanner, system records, and running status.
+     * Constructs a StudentRecordSystemMenu object, initialising the scanner, system
+     * records, and running status.
      * Loads existing records for the system to run on.
      */
     public StudentRecordSystemMenu() {
@@ -44,7 +46,7 @@ public class StudentRecordSystemMenu {
             String command = in.nextLine();
 
             if (command.equals("1")) {
-                System.out.println("Input Filename e.g. ModuleGrade.csv");
+                System.out.println("Input Filename e.g Grades/1-CS4012.csv");
                 command = in.nextLine();
                 recordSystem.setGrades(command);
 
