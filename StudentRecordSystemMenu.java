@@ -132,7 +132,12 @@ public class StudentRecordSystemMenu {
 
                         for (Student student : recordSystem.getStudents()) {
                             student.clearSemesterGrades();
+                            student.clearTranscript();
                         }
+
+                        recordSystem.setRecords("Records/Modules.csv", "Records/Programmes.csv", "Records/Students.csv",
+                                "Records/Transcripts.csv", "Records/RepeatStudents.csv");
+
                     } else {
                         System.out.println("Invalid input");
                         command = in.nextLine();
@@ -149,29 +154,12 @@ public class StudentRecordSystemMenu {
                 recordSystem.setGrades("Grades/1-ET4011.csv");
                 recordSystem.setGrades("Grades/1-MA4111.csv");
 
-                ArrayList<Transcript> test = recordSystem.holdReview();
-
-                for (Transcript transcript : test) {
-                    transcript.format();
-                }
-                recordSystem.exportTranscripts("Records/Transcripts.csv");
-                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
-
             } else if (command.equals("sem2")) {
                 recordSystem.setGrades("Grades/2-CS4043.csv");
                 recordSystem.setGrades("Grades/2-CS4182.csv");
                 recordSystem.setGrades("Grades/2-CS4222.csv");
                 recordSystem.setGrades("Grades/2-ET4162.csv");
                 recordSystem.setGrades("Grades/2-MA4402.csv");
-
-                ArrayList<Transcript> test = recordSystem.holdReview();
-
-                for (Transcript transcript : test) {
-                    transcript.format();
-                }
-
-                recordSystem.exportTranscripts("Records/Transcripts.csv");
-                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
             } else if (command.equals("sem3")) {
                 recordSystem.setGrades("Grades/3-CS4004.csv");
@@ -180,40 +168,12 @@ public class StudentRecordSystemMenu {
                 recordSystem.setGrades("Grades/3-CS4178.csv");
                 recordSystem.setGrades("Grades/3-CS4416.csv");
 
-                ArrayList<Transcript> test = recordSystem.holdReview();
-
-                for (Transcript transcript : test) {
-                    transcript.format();
-                }
-
-                recordSystem.exportTranscripts("Records/Transcripts.csv");
-                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
-
             } else if (command.equals("sem4")) {
                 recordSystem.setGrades("Grades/4-CS4006.csv");
                 recordSystem.setGrades("Grades/4-CS4076.csv");
                 recordSystem.setGrades("Grades/4-CS4115.csv");
                 recordSystem.setGrades("Grades/4-CS4815.csv");
                 recordSystem.setGrades("Grades/4-MA4413.csv");
-
-                ArrayList<Transcript> test = recordSystem.holdReview();
-
-                for (Transcript transcript : test) {
-                    transcript.format();
-                }
-                recordSystem.exportTranscripts("Records/Transcripts.csv");
-                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
-
-            } else if (command.equals("sem5")) {
-                recordSystem.setGrades("Grades/COOP.csv");
-
-                ArrayList<Transcript> test = recordSystem.holdReview();
-
-                for (Transcript transcript : test) {
-                    transcript.format();
-                }
-                recordSystem.exportTranscripts("Records/Transcripts.csv");
-                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
             } else if (command.equals("sem6")) {
                 recordSystem.setGrades("Grades/6-CS4084.csv");
@@ -222,14 +182,6 @@ public class StudentRecordSystemMenu {
                 recordSystem.setGrades("Grades/6-CS4187.csv");
                 recordSystem.setGrades("Grades/6-CS4457.csv");
 
-                ArrayList<Transcript> test = recordSystem.holdReview();
-
-                for (Transcript transcript : test) {
-                    transcript.format();
-                }
-                recordSystem.exportTranscripts("Records/Transcripts.csv");
-                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
-
             } else if (command.equals("sem7")) {
                 recordSystem.setGrades("Grades/7-CS4011.csv");
                 recordSystem.setGrades("Grades/7-CS4125.csv");
@@ -237,28 +189,12 @@ public class StudentRecordSystemMenu {
                 recordSystem.setGrades("Grades/7-CS4337.csv");
                 recordSystem.setGrades("Grades/7-CS4617.csv");
 
-                ArrayList<Transcript> test = recordSystem.holdReview();
-
-                for (Transcript transcript : test) {
-                    transcript.format();
-                }
-                recordSystem.exportTranscripts("Records/Transcripts.csv");
-                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
-
             } else if (command.equals("sem8")) {
                 recordSystem.setGrades("Grades/8-CS4158.csv");
                 recordSystem.setGrades("Grades/8-CS4168.csv");
                 recordSystem.setGrades("Grades/8-CS4227.csv");
                 recordSystem.setGrades("Grades/8-CS4618.csv");
                 recordSystem.setGrades("Grades/8-CS5705.csv");
-
-                ArrayList<Transcript> test = recordSystem.holdReview();
-
-                for (Transcript transcript : test) {
-                    transcript.format();
-                }
-                recordSystem.exportTranscripts("Records/Transcripts.csv");
-                recordSystem.exportRepeatStudents("Records/RepeatStudents.csv");
 
             } else {
                 System.out.println("Invalid Input");
