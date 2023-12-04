@@ -176,6 +176,13 @@ public class StudentRecordSystemMenu {
                 recordSystem.setGrades("Grades/4-CS4815.csv");
                 recordSystem.setGrades("Grades/4-MA4413.csv");
 
+            } else if (command.equals("sem5")) {
+                recordSystem.setGrades("Grades/5-CS4337.csv");
+                recordSystem.setGrades("Grades/5-CS5707.csv");
+                recordSystem.setGrades("Grades/5-CS5721.csv");
+                recordSystem.setGrades("Grades/5-CS5741.csv");
+                recordSystem.setGrades("Grades/5-CS6081.csv");
+
             } else if (command.equals("sem6")) {
                 recordSystem.setGrades("Grades/6-CS4084.csv");
                 recordSystem.setGrades("Grades/6-CS4106.csv");
