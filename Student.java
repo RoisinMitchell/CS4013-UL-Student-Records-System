@@ -111,6 +111,9 @@ public class Student {
     public void clearSemesterGrades() {
         this.semesterGrades.clear();
     }
+    public void clearTranscript(){
+        this.transcripts.clear();
+    }
 
     /**
      * Provides a string representation of the student, including ID, name, address, and program.
